@@ -1,10 +1,10 @@
 
 namespace FlockBuddy
 {
-	enum ESummingMethod 
+	public enum ESummingMethod
 	{
-		weighted_average, 
-		prioritized, 
-		dithered 
+		weighted_average,
+		prioritized,
+		dithered
 	};
 }

@@ -1,11 +1,11 @@
+using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
 {
 	/// <summary>
-	/// This is the Evade steering class
-	/// This behavior tries to avoid a "pursuer"
+	/// this behavior attempts to evade a pursuer
 	/// </summary>
-	public class Evade
+	public class Evade : BaseBehavior
 	{
 		#region Members
 
@@ -16,8 +16,19 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public Evade()
+		public Evade(Boid dude)
+			: base(dude, EBehaviorType.evade)
 		{
+		}
+
+		/// <summary>
+		/// Called every fram to get the steering direction from this behavior
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		public override Vector2 GetSteering(GameTime time)
+		{
+			return Vector2.Zero;
 		}
 
 		#endregion //Methods

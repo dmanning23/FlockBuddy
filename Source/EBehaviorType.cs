@@ -2,25 +2,26 @@ using System;
 
 namespace FlockBuddy
 {
-	[Flags]
+	/// <summary>
+	/// All teh different types of steering behaviors in the flock buddy!
+	/// </summary>
 	public enum EBehaviorType
 	{
-		none,
-		seek,
-		flee,
+		alignment,
 		arrive,
-		wander,
 		cohesion,
-		separation,
-		allignment,
-		obstacle_avoidance,
-		wall_avoidance,
-		follow_path,
-		pursuit,
 		evade,
-		interpose,
-		hide,
+		flee,
 		flock,
-		offset_pursuit
+		follow_path,
+		hide,
+		interpose,
+		obstacle_avoidance,
+		offset_pursuit,
+		pursuit,
+		seek,
+		separation,
+		wall_avoidance,
+		wander
 	};
 }

@@ -32,6 +32,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Source\BaseBehavior.cs">
+      <Link>BaseBehavior.cs</Link>
+    </Compile>
     <Compile Include="..\Source\BaseEntity.cs">
       <Link>BaseEntity.cs</Link>
     </Compile>
@@ -41,11 +44,65 @@
     <Compile Include="..\Source\ESummingMethod.cs">
       <Link>ESummingMethod.cs</Link>
     </Compile>
+    <Compile Include="..\Source\IGroupBehavior.cs">
+      <Link>IGroupBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\IObstaclesBehavior.cs">
+      <Link>IObstaclesBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\IPointBehavior.cs">
+      <Link>IPointBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\IPredatorBehavior.cs">
+      <Link>IPredatorBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\IPreyBehavior.cs">
+      <Link>IPreyBehavior.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\IWallsBehavior.cs">
+      <Link>IWallsBehavior.cs</Link>
+    </Compile>
     <Compile Include="..\Source\Mover.cs">
       <Link>Mover.cs</Link>
     </Compile>
-    <Compile Include="..\Source\SteeringBehaviors\BaseBehavior.cs">
-      <Link>SteeringBehaviors\BaseBehavior.cs</Link>
+    <Compile Include="..\Source\Smoother.cs">
+      <Link>Smoother.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors.cs">
+      <Link>SteeringBehaviors.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\Alignment.cs">
+      <Link>SteeringBehaviors\Alignment.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\Arrive.cs">
+      <Link>SteeringBehaviors\Arrive.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\Cohesion.cs">
+      <Link>SteeringBehaviors\Cohesion.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\Flock.cs">
+      <Link>SteeringBehaviors\Flock.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\FollowPath.cs">
+      <Link>SteeringBehaviors\FollowPath.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\Interpose.cs">
+      <Link>SteeringBehaviors\Interpose.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\OffsetPursuit.cs">
+      <Link>SteeringBehaviors\OffsetPursuit.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\Separation.cs">
+      <Link>SteeringBehaviors\Separation.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\WallAvoidance.cs">
+      <Link>SteeringBehaviors\WallAvoidance.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\SteeringBehaviors\Wander.cs">
+      <Link>SteeringBehaviors\Wander.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\Wall2.cs">
+      <Link>Wall2.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\Source\Boid.cs">
@@ -72,6 +129,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\externals\GameTimer\Windows\GameTimer.Windows.csproj">
+      <Project>{6b6d4188-5c03-4e16-923b-96fdbc85b91a}</Project>
+      <Name>GameTimer.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\MatrixExtensions\Windows\MatrixExtensions.Windows.csproj">
+      <Project>{e2c50d0b-a1c1-4f67-92cb-be0e587a3ce6}</Project>
+      <Name>MatrixExtensions.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\externals\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Windows.csproj">
       <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
       <Name>Lidgren.Network.Windows</Name>

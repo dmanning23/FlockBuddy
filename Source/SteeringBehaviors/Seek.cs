@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 namespace FlockBuddy
 {
 	/// <summary>
-	/// This is the Seek steering class
 	/// this behavior moves the agent towards a target position
 	/// </summary>
 	public class Seek : BaseBehavior
@@ -24,6 +23,16 @@ namespace FlockBuddy
 		/// </summary>
 		public Seek() : base(EBehaviorType.seek)
 		{
+		}
+
+		/// <summary>
+		/// Called every fram to get the steering direction from this behavior
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		public override Vector2 GetSteering(GameTime time)
+		{
+			return Vector2.Zero;
 		}
 
 		#endregion //Methods

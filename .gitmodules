@@ -13,3 +13,6 @@
 [submodule "externals/MatrixExtensions"]
 	path = externals/MatrixExtensions
 	url = git@github.com:dmanning23/MatrixExtensions.git
+[submodule "externals/GameTimer"]
+	path = externals/GameTimer
+	url = git@github.com:dmanning23/GameTimer.git

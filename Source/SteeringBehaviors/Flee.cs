@@ -1,11 +1,11 @@
+using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
 {
 	/// <summary>
-	/// This is the Flee steering class
-	/// This behavior moves away from a point
+	/// this behavior returns a vector that moves the agent away from a target position
 	/// </summary>
-	public class Flee
+	public class Flee : BaseBehavior
 	{
 		#region Members
 
@@ -16,8 +16,18 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Flee"/> class.
 		/// </summary>
-		public Flee()
+		public Flee(Boid dude):base(dude, EBehaviorType.flee)
 		{
+		}
+
+		/// <summary>
+		/// Called every fram to get the steering direction from this behavior
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		public override Vector2 GetSteering(GameTime time)
+		{
+			return Vector2.Zero;
 		}
 
 		#endregion //Methods

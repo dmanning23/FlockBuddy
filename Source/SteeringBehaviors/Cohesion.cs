@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 namespace FlockBuddy
 {
 	/// <summary>
-	/// Tthis behavior predicts where an agent will be in time T and seeks towards that point to intercept it.
+	/// Group behavior to move boids together
 	/// </summary>
-	public class Pursuit : BaseBehavior
+	public class Cohesion : BaseBehavior
 	{
 		#region Members
 
@@ -14,10 +14,9 @@ namespace FlockBuddy
 		#region Methods
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FlockBuddy.Pursuit"/> class.
+		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public Pursuit(Boid dude)
-			: base(dude, EBehaviorType.pursuit)
+		public Cohesion(Boid dude) : base(dude, EBehaviorType.cohesion)
 		{
 		}
 

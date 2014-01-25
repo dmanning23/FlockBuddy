@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using GameTimer;
 
 namespace FlockBuddy
 {
@@ -41,7 +42,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// this is a generic flag. 
 		/// </summary>
-		public bool Tag { get; set; }
+		public bool Tagged { get; set; }
 
 		/// <summary>
 		/// its location in the environment
@@ -102,7 +103,7 @@ namespace FlockBuddy
 			_position = Vector2.Zero;
 			_scale = new Vector2(1.0f, 1.0f);
 			EntityType = -1;
-			Tag = false;
+			Tagged = false;
 		}
 
 		/// <summary>
@@ -116,7 +117,7 @@ namespace FlockBuddy
 			_position = Vector2.Zero;
 			_scale = new Vector2(1.0f, 1.0f);
 			EntityType = entity_type;
-			Tag = false;
+			Tagged = false;
 		}
 
 		/// <summary>
@@ -132,7 +133,7 @@ namespace FlockBuddy
 			_position = pos;
 			_scale = new Vector2(1.0f, 1.0f);
 			EntityType = entity_type;
-			Tag = false;
+			Tagged = false;
 		}
 
 		//this can be used to create an entity with a 'forced' ID. It can be used
@@ -147,14 +148,14 @@ namespace FlockBuddy
 			_position = Vector2.Zero;
 			_scale = new Vector2(1.0f, 1.0f);
 			EntityType = entity_type;
-			Tag = false;
+			Tagged = false;
 		}
 
 		/// <summary>
 		/// Called every frame to update this thing
 		/// </summary>
 		/// <param name="time_elapsed"></param>
-		public virtual void Update(GameTime curTime) 
+		public virtual void Update(GameClock curTime)
 		{
 		}
 
@@ -162,7 +163,7 @@ namespace FlockBuddy
 		/// called every frame to draw this thing
 		/// </summary>
 		/// <param name="curTime"></param>
-		public virtual void Render(GameTime curTime) 
+		public virtual void Render(GameClock curTime)
 		{
 		}
 
@@ -172,7 +173,7 @@ namespace FlockBuddy
 		/// <param name="val"></param>
 		void SetScale(Vector2 val)
 		{
-			BoundingRadius *= MathHelper.Max(val.X, val.Y) / MathHelper.Max(Scale.X, Scale.Y); 
+			BoundingRadius *= MathHelper.Max(val.X, val.Y) / MathHelper.Max(Scale.X, Scale.Y);
 			_scale = val;
 		}
 
@@ -182,7 +183,7 @@ namespace FlockBuddy
 		/// <param name="val"></param>
 		void SetScale(float val)
 		{
-			BoundingRadius = (val / MathHelper.Max(Scale.X, Scale.Y)); 
+			BoundingRadius = (val / MathHelper.Max(Scale.X, Scale.Y));
 			_scale = new Vector2(val, val);
 		}
 

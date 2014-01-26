@@ -68,11 +68,11 @@ namespace FlockBuddy
 				//the agent being examined  is close enough 
 				//***also make sure it doesn't include any evade target ***
 				if ((Buddies[i].ID != Owner.ID) && 
-					Buddies[i].Tag && 
+					Buddies[i].Tagged && 
 					(Buddies[i].ID != Enemy1.ID) &&
 					(Buddies[i].ID != Enemy2.ID))
 				{
-					AverageHeading += Buddies[i]->Heading;
+					AverageHeading += Buddies[i].Heading;
 					++NeighborCount;
 				}
 			}

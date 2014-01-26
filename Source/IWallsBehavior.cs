@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CollisionBuddy;
 
 namespace FlockBuddy
 {
@@ -7,6 +8,6 @@ namespace FlockBuddy
 	/// </summary>
 	public interface IWallsBehavior
 	{
-		void SetWalls(List<Wall2> walls);
+		void SetWalls(List<Line> walls);
 	}
 }

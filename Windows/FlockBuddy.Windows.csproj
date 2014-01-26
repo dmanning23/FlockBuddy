@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>FlockBuddy.Windows</RootNamespace>
     <AssemblyName>FlockBuddy.Windows</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -27,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,9 +69,6 @@
     <Compile Include="..\Source\Mover.cs">
       <Link>Mover.cs</Link>
     </Compile>
-    <Compile Include="..\Source\Smoother.cs">
-      <Link>Smoother.cs</Link>
-    </Compile>
     <Compile Include="..\Source\SteeringBehaviors.cs">
       <Link>SteeringBehaviors.cs</Link>
     </Compile>
@@ -101,9 +102,6 @@
     <Compile Include="..\Source\SteeringBehaviors\Wander.cs">
       <Link>SteeringBehaviors\Wander.cs</Link>
     </Compile>
-    <Compile Include="..\Source\Wall2.cs">
-      <Link>Wall2.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\Source\Boid.cs">
       <Link>Boid.cs</Link>
@@ -129,6 +127,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\externals\AverageBuddy\Windows\AverageBuddy.Windows.csproj">
+      <Project>{5c824c4d-746c-4b13-9b71-ceeba37c3b6f}</Project>
+      <Name>AverageBuddy.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\CollisionBuddy\Windows\CollisionBuddy.Windows.csproj">
+      <Project>{e032cf52-88bc-4d76-8e93-3798f5ee5cd2}</Project>
+      <Name>CollisionBuddy.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\externals\GameTimer\Windows\GameTimer.Windows.csproj">
       <Project>{6b6d4188-5c03-4e16-923b-96fdbc85b91a}</Project>
       <Name>GameTimer.Windows</Name>

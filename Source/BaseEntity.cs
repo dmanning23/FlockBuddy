@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using GameTimer;
+using CollisionBuddy;
 
 namespace FlockBuddy
 {
@@ -8,20 +9,6 @@ namespace FlockBuddy
 	/// </summary>
 	public class BaseEntity
 	{
-		#region Members
-
-		/// <summary>
-		/// its location in the environment
-		/// </summary>
-		protected Vector2 _position;
-
-		/// <summary>
-		/// the size of the thing
-		/// </summary>
-		protected Vector2 _scale;
-
-		#endregion //Members
-
 		#region Properties
 
 		/// <summary>
@@ -47,33 +34,29 @@ namespace FlockBuddy
 		/// <summary>
 		/// its location in the environment
 		/// </summary>
+		public Circle Physics { get; protected set; }
+
+		/// <summary>
+		/// its location in the environment
+		/// </summary>
 		public Vector2 Position
 		{
 			get
 			{
-				return _position;
-			}
-			set
-			{
-				_position = value;
-			}
-		}
-
-		/// <summary>
-		/// the size of the thing
-		/// </summary>
-		public Vector2 Scale
-		{
-			get
-			{
-				return _scale;
+				return Physics.Pos;
 			}
 		}
 
 		/// <summary>
 		/// the length of this object's bounding radius
 		/// </summary>
-		public float BoundingRadius { get; set; }
+		public float BoundingRadius
+		{
+			get
+			{
+				return Physics.Radius;
+			}
+		}
 
 		#endregion //Properties
 
@@ -99,9 +82,7 @@ namespace FlockBuddy
 		public BaseEntity()
 		{
 			ID = NextValidID();
-			BoundingRadius = 0.0f;
-			_position = Vector2.Zero;
-			_scale = new Vector2(1.0f, 1.0f);
+			Physics = new Circle();
 			EntityType = -1;
 			Tagged = false;
 		}
@@ -113,9 +94,7 @@ namespace FlockBuddy
 		public BaseEntity(int entity_type)
 		{
 			ID = NextValidID();
-			BoundingRadius = 0.0f;
-			_position = Vector2.Zero;
-			_scale = new Vector2(1.0f, 1.0f);
+			Physics = new Circle();
 			EntityType = entity_type;
 			Tagged = false;
 		}
@@ -129,9 +108,20 @@ namespace FlockBuddy
 		public BaseEntity(int entity_type, Vector2 pos, float r)
 		{
 			ID = NextValidID();
-			BoundingRadius = r;
-			_position = pos;
-			_scale = new Vector2(1.0f, 1.0f);
+			Physics = new Circle(pos, r);
+			EntityType = entity_type;
+			Tagged = false;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="entity_type"></param>
+		/// <param name="physics"></param>
+		public BaseEntity(int entity_type, Circle physics)
+		{
+			ID = NextValidID();
+			Physics = physics;
 			EntityType = entity_type;
 			Tagged = false;
 		}
@@ -144,9 +134,7 @@ namespace FlockBuddy
 		public BaseEntity(int entity_type, int ForcedID)
 		{
 			ID = ForcedID;
-			BoundingRadius = 0.0f;
-			_position = Vector2.Zero;
-			_scale = new Vector2(1.0f, 1.0f);
+			Physics = new CollisionBuddy.Circle();
 			EntityType = entity_type;
 			Tagged = false;
 		}
@@ -165,26 +153,6 @@ namespace FlockBuddy
 		/// <param name="curTime"></param>
 		public virtual void Render(GameClock curTime)
 		{
-		}
-
-		/// <summary>
-		/// Set the scale via a vector
-		/// </summary>
-		/// <param name="val"></param>
-		void SetScale(Vector2 val)
-		{
-			BoundingRadius *= MathHelper.Max(val.X, val.Y) / MathHelper.Max(Scale.X, Scale.Y);
-			_scale = val;
-		}
-
-		/// <summary>
-		/// Set teh scale via a scalar value
-		/// </summary>
-		/// <param name="val"></param>
-		void SetScale(float val)
-		{
-			BoundingRadius = (val / MathHelper.Max(Scale.X, Scale.Y));
-			_scale = new Vector2(val, val);
 		}
 
 		#endregion //Methods

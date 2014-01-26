@@ -25,6 +25,11 @@ namespace FlockBuddy
 		/// </summary>
 		public ESummingMethod SumMethod { get; set; }
 
+		/// <summary>
+		/// The boid who owns this dude.
+		/// </summary>
+		protected Boid Owner { get; private set; }
+
 		#endregion //Members
 
 		/// <summary>
@@ -32,6 +37,8 @@ namespace FlockBuddy
 		/// </summary>
 		public SteeringBehaviors(Boid owner)
 		{
+			Owner = owner;
+
 			//add all the steering behaviors
 			Behaviors.Add(new Alignment(owner));
 			//Behaviors.Add(new Arrive(owner));
@@ -56,55 +63,58 @@ namespace FlockBuddy
 		}
 
 		//calculates and sums the steering forces from any active behaviors
-		private Vector2 CalculateWeightedSum();
+		private Vector2 CalculateWeightedSum()
+		{
+			return Vector2.Zero;
+		}
 		//private Vector2 CalculatePrioritized();
 		//private Vector2 CalculateDithered();
 
 		//calculates and sums the steering forces from any active behaviors
 		public Vector2 Calculate()
 		{
-			//reset the steering force
-			SteeringForce = Vector2.Zero;
+			////reset the steering force
+			//SteeringForce = Vector2.Zero;
 
-			//use space partitioning to calculate the neighbours of this vehicle if switched on. 
-			//If not, use the standard tagging system
-			if (!isSpacePartitioningOn())
-			{
-				//tag neighbors if any of the following 3 group behaviors are switched on
-				if (On(separation) || On(allignment) || On(cohesion))
-				{
-					m_pVehicle->World()->TagVehiclesWithinViewRange(m_pVehicle, m_dViewDistance);
-				}
-			}
-			//else
+			////use space partitioning to calculate the neighbours of this vehicle if switched on. 
+			////If not, use the standard tagging system
+			//if (!isSpacePartitioningOn())
 			//{
-			//	//calculate neighbours in cell-space if any of the following 3 group
-			//	//behaviors are switched on
+			//	//tag neighbors if any of the following 3 group behaviors are switched on
 			//	if (On(separation) || On(allignment) || On(cohesion))
 			//	{
-			//		m_pVehicle->World()->CellSpace()->CalculateNeighbors(m_pVehicle->Pos(), m_dViewDistance);
+			//		m_pVehicle->World()->TagVehiclesWithinViewRange(m_pVehicle, m_dViewDistance);
 			//	}
 			//}
+			////else
+			////{
+			////	//calculate neighbours in cell-space if any of the following 3 group
+			////	//behaviors are switched on
+			////	if (On(separation) || On(allignment) || On(cohesion))
+			////	{
+			////		m_pVehicle->World()->CellSpace()->CalculateNeighbors(m_pVehicle->Pos(), m_dViewDistance);
+			////	}
+			////}
 
-			switch (m_SummingMethod)
-			{
-				case weighted_average:
+			//switch (m_SummingMethod)
+			//{
+			//	case weighted_average:
 
-				m_vSteeringForce = CalculateWeightedSum(); break;
+			//	m_vSteeringForce = CalculateWeightedSum(); break;
 
-				case prioritized:
+			//	case prioritized:
 
-				m_vSteeringForce = CalculatePrioritized(); break;
+			//	m_vSteeringForce = CalculatePrioritized(); break;
 
-				case dithered:
+			//	case dithered:
 
-				m_vSteeringForce = CalculateDithered(); break;
+			//	m_vSteeringForce = CalculateDithered(); break;
 
-				default: m_vSteeringForce = Vector2D(0, 0);
+			//	default: m_vSteeringForce = Vector2D(0, 0);
 
-			}//end switch
+			//}//end switch
 
-			return m_vSteeringForce;
+			return SteeringForce;
 		}
 
 		//calculates the component of the steering force that is parallel

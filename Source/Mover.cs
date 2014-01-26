@@ -82,7 +82,6 @@ namespace FlockBuddy
 					float max_speed,
 					Vector2 heading,
 					float mass,
-					Vector2 scale,
 					float turn_rate,
 					float max_force)
 			: base(0, position, radius)
@@ -94,7 +93,6 @@ namespace FlockBuddy
 			MaxSpeed = max_speed;
 			MaxTurnRate = turn_rate;
 			MaxForce = max_force;
-			_scale = scale;
 		}
 
 		bool IsSpeedMaxedOut()

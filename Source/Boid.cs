@@ -1,6 +1,9 @@
 using GameTimer;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using AverageBuddy;
+using System;
+using Vector2Extensions;
 
 namespace FlockBuddy
 {
@@ -24,7 +27,7 @@ namespace FlockBuddy
 		/// some steering behaviors give jerky looking movement. 
 		/// The following members are used to smooth the vehicle's heading
 		/// </summary>
-		public Smoother<Vector2> HeadingSmoother { get; private set; }
+		public Averager<Vector2> HeadingSmoother { get; private set; }
 
 		/// <summary>
 		/// this vector represents the average of the vehicle's heading
@@ -55,28 +58,26 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Boid"/> class.
 		/// </summary>
-		public Boid(
-			 Vector2 position,
-			 float rotation,
-			 Vector2 velocity,
-			 float mass,
-			 float max_force,
-			 float max_speed,
-			 float max_turn_rate,
-			 float scale)
-			: base(position,
-				scale,
-				velocity,
-				max_speed,
-				Vector2D(sin(rotation), -cos(rotation)),
-				mass,
-				Vector2D(scale, scale),
-				max_turn_rate,
+		public Boid(Vector2 position,
+			float radius,
+			float rotation,
+			Vector2 velocity,
+			float mass,
+			float max_force,
+			float max_speed,
+			float max_turn_rate)
+				: base(position, 
+				radius, 
+				velocity, 
+				max_speed, 
+				new Vector2((float)Math.Sin(rotation), (float)-Math.Cos(rotation)), 
+				mass, 
+				max_turn_rate, 
 				max_force)
 		{
+			VehicleShape = new List<Vector2>();
 			SmoothedHeading = Vector2.Zero;
 			SmoothingOn = false;
-			TimeElapsed = 0.0;
 			InitializeBuffer();
 			BoidTimer = new GameClock();
 			BoidTimer.Start();
@@ -85,7 +86,7 @@ namespace FlockBuddy
 			Behaviors = new SteeringBehaviors(this);
 
 			//set up the smoother
-			HeadingSmoother = new Smoother<Vector2>(10, Vector2.Zero);
+			HeadingSmoother = new Averager<Vector2>(10, Vector2.Zero);
 		}
 
 		/// <summary>
@@ -93,9 +94,9 @@ namespace FlockBuddy
 		/// </summary>
 		protected virtual void InitializeBuffer()
 		{
-			VehicleShape.Add(new Vector2D(-1.0f, 0.6f));
-			VehicleShape.Add(new Vector2D(1.0f, 0.0f));
-			VehicleShape.Add(new Vector2D(-1.0f, -0.6f));
+			VehicleShape.Add(new Vector2(-1.0f, 0.6f));
+			VehicleShape.Add(new Vector2(1.0f, 0.0f));
+			VehicleShape.Add(new Vector2(-1.0f, -0.6f));
 		}
 
 		/// <summary>
@@ -118,16 +119,16 @@ namespace FlockBuddy
 			Vector2 acceleration = SteeringForce / Mass;
 
 			//update velocity
-			_velocity += (acceleration * time_elapsed);
+			_velocity += (acceleration * time_elapsed.TimeDelta);
 
 			//make sure vehicle does not exceed maximum velocity
-			_velocity.Truncate(m_dMaxSpeed);
+			_velocity = _velocity.Truncate(MaxSpeed);
 
 			//update the position
-			_position += Velocity * BoidTimer.TimeDelta;
+			Physics.Translate(Velocity * BoidTimer.TimeDelta);
 
 			//update the heading if the vehicle has a non zero velocity
-			if (Velocity.LengthSq() > 0.00000001)
+			if (Velocity.LengthSquared() > 0.00000001)
 			{
 				_heading.Normalize();
 				_side = _heading.Perp();
@@ -146,7 +147,7 @@ namespace FlockBuddy
 
 			if (SmoothingOn)
 			{
-				SmoothedHeading = Smoother->Update(Heading);
+				SmoothedHeading = HeadingSmoother.Update(Heading);
 			}
 		}
 

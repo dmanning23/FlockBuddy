@@ -16,3 +16,6 @@
 [submodule "externals/GameTimer"]
 	path = externals/GameTimer
 	url = git@github.com:dmanning23/GameTimer.git
+[submodule "externals/AverageBuddy"]
+	path = externals/AverageBuddy
+	url = git@github.com:dmanning23/AverageBuddy.git

@@ -19,3 +19,9 @@
 [submodule "externals/AverageBuddy"]
 	path = externals/AverageBuddy
 	url = git@github.com:dmanning23/AverageBuddy.git
+[submodule "externals/RectangleF"]
+	path = externals/RectangleF
+	url = git@github.com:dmanning23/RectangleF.git
+[submodule "externals/CellSpacePartition"]
+	path = externals/CellSpacePartition
+	url = git@github.com:dmanning23/CellSpacePartition.git

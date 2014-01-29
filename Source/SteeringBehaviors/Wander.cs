@@ -1,24 +1,25 @@
 
 namespace FlockBuddy
 {
-	///// <summary>
-	///// this behavior makes the agent wander about randomly
-	///// </summary>
-	//public class Evade : BaseBehavior
-	//{
-	//	#region Members
+	/// <summary>
+	/// this behavior makes the agent wander about randomly
+	/// </summary>
+	public class Wander : BaseBehavior
+	{
+		#region Members
 
-	//	#endregion //Members
+		#endregion //Members
 
-	//	#region Methods
+		#region Methods
 
-	//	/// <summary>
-	//	/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
-	//	/// </summary>
-	//	public Evade()
-	//	{
-	//	}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
+		/// </summary>
+		public Wander(Boid dude)
+			: base(dude, EBehaviorType.wander)
+		{
+		}
 
-	//	#endregion //Methods
-	//}
+		#endregion //Methods
+	}
 }

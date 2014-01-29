@@ -47,9 +47,9 @@ namespace FlockBuddy
 		public GameClock BoidTimer { get; set; }
 
 		/// <summary>
-		/// /buffer for the vehicle shape
+		/// the flock that owns this dude
 		/// </summary>
-		List<Vector2> VehicleShape;
+		public Flock Flock { get; private set; }
 
 		#endregion //Properties
 
@@ -58,7 +58,8 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Boid"/> class.
 		/// </summary>
-		public Boid(Vector2 position,
+		public Boid(Flock owner,
+			Vector2 position,
 			float radius,
 			float rotation,
 			Vector2 velocity,
@@ -75,10 +76,9 @@ namespace FlockBuddy
 				max_turn_rate, 
 				max_force)
 		{
-			VehicleShape = new List<Vector2>();
+			Flock = owner;
 			SmoothedHeading = Vector2.Zero;
 			SmoothingOn = false;
-			InitializeBuffer();
 			BoidTimer = new GameClock();
 			BoidTimer.Start();
 
@@ -90,16 +90,6 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// fills the vehicle's shape buffer with its vertices
-		/// </summary>
-		protected virtual void InitializeBuffer()
-		{
-			VehicleShape.Add(new Vector2(-1.0f, 0.6f));
-			VehicleShape.Add(new Vector2(1.0f, 0.0f));
-			VehicleShape.Add(new Vector2(-1.0f, -0.6f));
-		}
-
-		/// <summary>
 		/// Updates the vehicle's position from a series of steering behaviors
 		/// </summary>
 		/// <param name="time_elapsed"></param>
@@ -108,9 +98,16 @@ namespace FlockBuddy
 			//update the time elapsed
 			BoidTimer.Update(time_elapsed);
 
-			//keep a record of its old position so we can update its cell later
-			//in this method
-			Vector2 OldPos = Position;
+			//grab this for later so we can update the cell position
+			Vector2 oldPos = Position; 
+
+			//TODO
+
+			//Update the flock
+
+			//update the enemies
+
+			//update the target dudes
 
 			//calculate the combined force from each steering behavior in the vehicle's list
 			Vector2 SteeringForce = Behaviors.Calculate();

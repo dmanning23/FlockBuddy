@@ -6,7 +6,7 @@ namespace FlockBuddy
 	/// <summary>
 	/// Group behavior to move boids in the same direction as each other
 	/// </summary>
-	public class Alignment : BaseBehavior, IGroupBehavior, IPreyBehavior
+	public class Alignment : BaseBehavior
 	{
 		#region Members
 
@@ -37,23 +37,28 @@ namespace FlockBuddy
 		{
 		}
 
-		public void SetGroup(List<Boid> group)
+		/// <summary>
+		/// Called every frame to get the steering direction from this behavior
+		/// </summary>
+		/// <param name="time">current time</param>
+		/// <param name="group">the group of this dude's buddies to align with</param>
+		/// <param name="badGuy1">a possible bad guy chasing this dude</param>
+		/// <param name="badGuy2">a second possible bad guy chasing this dude</param>
+		/// <returns></returns>
+		public Vector2 GetSteering(GameTime time, List<Boid> group, Boid badGuy1, Boid badGuy2)
 		{
 			Buddies = group;
-		}
-
-		public void SetBadGuys(Boid badGuy1, Boid badGuy2)
-		{
 			Enemy1 = badGuy1;
 			Enemy2 = badGuy2;
+			return GetSteering(time);
 		}
 
 		/// <summary>
-		/// Called every fram to get the steering direction from this behavior
+		/// Called every frame to get the steering direction from this behavior
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		public override Vector2 GetSteering(GameTime time)
+		protected override Vector2 GetSteering(GameTime time)
 		{
 			//used to record the average heading of the neighbors
 			Vector2 AverageHeading = Vector2.Zero;

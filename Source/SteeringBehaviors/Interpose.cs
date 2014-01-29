@@ -1,24 +1,25 @@
 
 namespace FlockBuddy
 {
-	///// <summary>
-	///// this results in a steering force that attempts to steer the vehicle to the center of the vector connecting two moving agents.
-	///// </summary>
-	//public class Evade : BaseBehavior
-	//{
-	//	#region Members
+	/// <summary>
+	/// this results in a steering force that attempts to steer the vehicle to the center of the vector connecting two moving agents.
+	/// </summary>
+	public class Interpose : BaseBehavior
+	{
+		#region Members
 
-	//	#endregion //Members
+		#endregion //Members
 
-	//	#region Methods
+		#region Methods
 
-	//	/// <summary>
-	//	/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
-	//	/// </summary>
-	//	public Evade()
-	//	{
-	//	}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
+		/// </summary>
+		public Interpose(Boid dude)
+			: base(dude, EBehaviorType.interpose)
+		{
+		}
 
-	//	#endregion //Methods
-	//}
+		#endregion //Methods
+	}
 }

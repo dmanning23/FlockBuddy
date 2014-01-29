@@ -12,7 +12,6 @@ namespace FlockBuddy
 		cohesion,
 		evade,
 		flee,
-		flock,
 		follow_path,
 		hide,
 		interpose,

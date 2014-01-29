@@ -48,23 +48,8 @@
     <Compile Include="..\Source\ESummingMethod.cs">
       <Link>ESummingMethod.cs</Link>
     </Compile>
-    <Compile Include="..\Source\IGroupBehavior.cs">
-      <Link>IGroupBehavior.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\IObstaclesBehavior.cs">
-      <Link>IObstaclesBehavior.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\IPointBehavior.cs">
-      <Link>IPointBehavior.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\IPredatorBehavior.cs">
-      <Link>IPredatorBehavior.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\IPreyBehavior.cs">
-      <Link>IPreyBehavior.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\IWallsBehavior.cs">
-      <Link>IWallsBehavior.cs</Link>
+    <Compile Include="..\Source\Flock.cs">
+      <Link>Flock.cs</Link>
     </Compile>
     <Compile Include="..\Source\Mover.cs">
       <Link>Mover.cs</Link>
@@ -80,9 +65,6 @@
     </Compile>
     <Compile Include="..\Source\SteeringBehaviors\Cohesion.cs">
       <Link>SteeringBehaviors\Cohesion.cs</Link>
-    </Compile>
-    <Compile Include="..\Source\SteeringBehaviors\Flock.cs">
-      <Link>SteeringBehaviors\Flock.cs</Link>
     </Compile>
     <Compile Include="..\Source\SteeringBehaviors\FollowPath.cs">
       <Link>SteeringBehaviors\FollowPath.cs</Link>
@@ -131,6 +113,10 @@
       <Project>{5c824c4d-746c-4b13-9b71-ceeba37c3b6f}</Project>
       <Name>AverageBuddy.Windows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\externals\CellSpacePartition\Windows\CellSpacePartition.Windows.csproj">
+      <Project>{ed4cab1a-5436-4f45-aea4-6ced6f4364ef}</Project>
+      <Name>CellSpacePartition.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\externals\CollisionBuddy\Windows\CollisionBuddy.Windows.csproj">
       <Project>{e032cf52-88bc-4d76-8e93-3798f5ee5cd2}</Project>
       <Name>CollisionBuddy.Windows</Name>
@@ -150,6 +136,10 @@
     <ProjectReference Include="..\externals\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
       <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
       <Name>MonoGame.Framework.WindowsGL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\RectangleF\Windows\RectangleF.Windows.csproj">
+      <Project>{ac266a3a-2c6a-491f-9044-918d7b0a41bf}</Project>
+      <Name>RectangleF.Windows</Name>
     </ProjectReference>
     <ProjectReference Include="..\externals\Vector2Extensions\Windows\Vector2Extensions.Windows.csproj">
       <Project>{2c5acada-d15a-4193-ba0a-d36a362075f4}</Project>

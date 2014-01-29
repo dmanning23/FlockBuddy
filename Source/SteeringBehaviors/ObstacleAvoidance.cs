@@ -26,7 +26,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		public override Vector2 GetSteering(GameTime time)
+		protected override Vector2 GetSteering(GameTime time)
 		{
 			return Vector2.Zero;
 		}

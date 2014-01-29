@@ -1,13 +1,15 @@
 using Microsoft.Xna.Framework;
 using GameTimer;
 using CollisionBuddy;
+using System.Collections.Generic;
+using CellSpacePartitionLib;
 
 namespace FlockBuddy
 {
 	/// <summary>
 	/// Base class to define a common interface for all game entities
 	/// </summary>
-	public class BaseEntity
+	public class BaseEntity : IMovingEntity
 	{
 		#region Properties
 
@@ -22,11 +24,6 @@ namespace FlockBuddy
 		public int ID { get; set; }
 
 		/// <summary>
-		/// every entity has a type associated with it (health, troll, ammo etc)
-		/// </summary>
-		public int EntityType { get; set; }
-
-		/// <summary>
 		/// this is a generic flag. 
 		/// </summary>
 		public bool Tagged { get; set; }
@@ -38,12 +35,25 @@ namespace FlockBuddy
 
 		/// <summary>
 		/// its location in the environment
+		/// Used by the cell space IMovingEntity thing
 		/// </summary>
 		public Vector2 Position
 		{
 			get
 			{
 				return Physics.Pos;
+			}
+		}
+
+		/// <summary>
+		/// its location in the environment
+		/// Used by the cell space IMovingEntity thing
+		/// </summary>
+		public Vector2 OldPosition
+		{
+			get
+			{
+				return Physics.OldPos;
 			}
 		}
 
@@ -83,19 +93,6 @@ namespace FlockBuddy
 		{
 			ID = NextValidID();
 			Physics = new Circle();
-			EntityType = -1;
-			Tagged = false;
-		}
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="entity_type">the entity type to use</param>
-		public BaseEntity(int entity_type)
-		{
-			ID = NextValidID();
-			Physics = new Circle();
-			EntityType = entity_type;
 			Tagged = false;
 		}
 
@@ -105,37 +102,10 @@ namespace FlockBuddy
 		/// <param name="entity_type"></param>
 		/// <param name="pos"></param>
 		/// <param name="r"></param>
-		public BaseEntity(int entity_type, Vector2 pos, float r)
+		public BaseEntity(Vector2 pos, float r)
 		{
 			ID = NextValidID();
 			Physics = new Circle(pos, r);
-			EntityType = entity_type;
-			Tagged = false;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="entity_type"></param>
-		/// <param name="physics"></param>
-		public BaseEntity(int entity_type, Circle physics)
-		{
-			ID = NextValidID();
-			Physics = physics;
-			EntityType = entity_type;
-			Tagged = false;
-		}
-
-		//this can be used to create an entity with a 'forced' ID. It can be used
-		//when a previously created entity has been removed and deleted from the
-		//game for some reason. For example, The Raven map editor uses this ctor 
-		//in its undo/redo operations. 
-		//USE WITH CAUTION!
-		public BaseEntity(int entity_type, int ForcedID)
-		{
-			ID = ForcedID;
-			Physics = new CollisionBuddy.Circle();
-			EntityType = entity_type;
 			Tagged = false;
 		}
 
@@ -153,6 +123,33 @@ namespace FlockBuddy
 		/// <param name="curTime"></param>
 		public virtual void Render(GameClock curTime)
 		{
+		}
+
+		/// <summary>
+		/// tags any entities contained in a container that are within the radius of the single entity parameter
+		/// </summary>
+		/// <param name="containerOfEntities"></param>
+		/// <param name="radius"></param>
+		public void TagNeighbors(List<BaseEntity> dudes, float radius)
+		{
+			//iterate through all entities checking for range
+			for (int i = 0; i < dudes.Count; i++)
+			{
+				//first clear any current tag
+				dudes[i].Tagged = false;
+
+				Vector2 to = dudes[i].Position - Position;
+
+				//the bounding radius of the other is taken into account by adding it to the range
+				double range = BoundingRadius + dudes[i].BoundingRadius;
+
+				//if entity within range, tag for further consideration. 
+				//(working in distance-squared space to avoid sqrts)
+				if ((to.LengthSquared() < (range * range)) && (dudes[i].ID != ID))
+				{
+					dudes[i].Tagged = true;
+				}
+			}
 		}
 
 		#endregion //Methods

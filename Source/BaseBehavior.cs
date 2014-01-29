@@ -56,7 +56,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		public abstract Vector2 GetSteering(GameTime time);
+		protected abstract Vector2 GetSteering(GameTime time);
 
 		#endregion //Methods
 	}

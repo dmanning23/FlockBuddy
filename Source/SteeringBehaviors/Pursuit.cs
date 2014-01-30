@@ -24,7 +24,6 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
-		/// <param name="time"></param>
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{

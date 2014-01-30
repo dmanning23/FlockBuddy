@@ -44,7 +44,6 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
-		/// <param name="time"></param>
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{
@@ -54,8 +53,8 @@ namespace FlockBuddy
 				return Vector2.Zero;
 			}
 
-			Vector2 DesiredVelocity = Vector2.Normalize(Owner.Position - TargetPos) * Owner.MaxSpeed;
-			return (DesiredVelocity - Owner.Velocity);
+			Vector2 desiredVelocity = Vector2.Normalize(Owner.Position - TargetPos) * Owner.MaxSpeed;
+			return (desiredVelocity - Owner.Velocity) * Weight;
 		}
 
 		#endregion //Methods

@@ -28,7 +28,6 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
-		/// <param name="time"></param>
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{
@@ -127,7 +126,7 @@ namespace FlockBuddy
 			//finally, convert the steering vector from local to world space
 			return VectorToWorldSpace(steeringForce,
 									  Owner.Heading,
-									  Owner.Side);
+									  Owner.Side) * Weight;
 		}
 
 		#endregion //Methods

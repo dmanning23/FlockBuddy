@@ -103,7 +103,7 @@ namespace FlockBuddy
 				}
 			}
 
-			return SteeringForce;
+			return SteeringForce * Weight;
 		}
 
 		/// <summary>

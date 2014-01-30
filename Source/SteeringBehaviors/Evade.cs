@@ -77,7 +77,7 @@ namespace FlockBuddy
 								   (Owner.MaxSpeed + Pursuer.Speed());
 
 			//now flee away from predicted future position of the pursuer
-			return FleeAction.GetSteering(Pursuer.Position + (Pursuer.Velocity * lookAheadTime));
+			return FleeAction.GetSteering(Pursuer.Position + (Pursuer.Velocity * lookAheadTime)) * Weight;
 		}
 
 		#endregion //Methods

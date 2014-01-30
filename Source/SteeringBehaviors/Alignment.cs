@@ -30,10 +30,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every frame to get the steering direction from this behavior
 		/// </summary>
-		/// <param name="time">current time</param>
 		/// <param name="group">the group of this dude's buddies to align with</param>
-		/// <param name="badGuy1">a possible bad guy chasing this dude</param>
-		/// <param name="badGuy2">a second possible bad guy chasing this dude</param>
 		/// <returns></returns>
 		public Vector2 GetSteering(List<Boid> group)
 		{

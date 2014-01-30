@@ -27,12 +27,30 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
+		/// run towards a point
+		/// </summary>
+		/// <param name="target"></param>
+		/// <returns></returns>
+		public Vector2 GetSteering(Vector2 target)
+		{
+			TargetPos = target;
+			return GetSteering();
+		}
+
+		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{
-			return Vector2.Zero * Weight;
+			//get the direction to the target position
+			Vector2 desiredVelocity = (TargetPos - Owner.Position);
+			desiredVelocity.Normalize();
+
+			//move towards the target as fast as possible
+			desiredVelocity *= Owner.MaxSpeed;
+
+			return (desiredVelocity - Owner.Velocity) * Weight;
 		}
 
 		#endregion //Methods

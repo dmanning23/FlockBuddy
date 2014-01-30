@@ -15,6 +15,8 @@ namespace FlockBuddy
 		/// </summary>
 		private List<Boid> Buddies { get; set; }
 
+		private Seek SeekBehavior { get; set; }
+
 		#endregion //Members
 
 		#region Methods
@@ -25,6 +27,7 @@ namespace FlockBuddy
 		public Cohesion(Boid dude)
 			: base(dude, EBehaviorType.cohesion)
 		{
+			SeekBehavior = new Seek(dude);
 		}
 
 		/// <summary>
@@ -69,7 +72,7 @@ namespace FlockBuddy
 				centerOfMass /= neighborCount;
 
 				//now seek towards that position
-				steeringForce = Seek(centerOfMass);
+				steeringForce = SeekBehavior.GetSteering(centerOfMass);
 			}
 
 			//the magnitude of cohesion is usually much larger than separation or

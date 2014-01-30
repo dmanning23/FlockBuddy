@@ -25,6 +25,11 @@ namespace FlockBuddy
 		{
 		}
 
+		public Vector2 GetSteering2()
+		{
+			return GetSteering();
+		}
+
 		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>

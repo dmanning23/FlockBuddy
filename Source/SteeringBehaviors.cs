@@ -103,15 +103,16 @@ namespace FlockBuddy
 		}
 
 		public Vector2 CalcArrive()
-		{//TODO
+		{
+			//TODO
 			Arrive behavior = Behaviors[(int)EBehaviorType.arrive] as Arrive;
 			return Vector2.Zero;
 		}
 
 		public Vector2 CalcCohesion()
-		{//TODO
+		{
 			Cohesion behavior = Behaviors[(int)EBehaviorType.cohesion] as Cohesion;
-			return Vector2.Zero;
+			return behavior.GetSteering(Neighbors);
 		}
 
 		public Vector2 CalcEvade()
@@ -127,51 +128,56 @@ namespace FlockBuddy
 		}
 
 		public Vector2 CalcFollowPath()
-		{//TODO
+		{
+			//TODO
 			FollowPath behavior = Behaviors[(int)EBehaviorType.follow_path] as FollowPath;
 			return Vector2.Zero;
 		}
 
 		public Vector2 CalcHide()
-		{//TODO
+		{
+			//TODO
 			Hide behavior = Behaviors[(int)EBehaviorType.hide] as Hide;
 			return Vector2.Zero;
 		}
 
 		public Vector2 CalcInterpose()
-		{//TODO
+		{
+			//TODO
 			Interpose behavior = Behaviors[(int)EBehaviorType.interpose] as Interpose;
 			return Vector2.Zero;
 		}
 
 		public Vector2 CalcObstacleAvoidance()
-		{//TODO
+		{
 			ObstacleAvoidance behavior = Behaviors[(int)EBehaviorType.obstacle_avoidance] as ObstacleAvoidance;
-			return Vector2.Zero;
+			return behavior.GetSteering2();
 		}
 
 		public Vector2 CalcOffsetPursuit()
-		{//TODO
+		{
+			//TODO
 			OffsetPursuit behavior = Behaviors[(int)EBehaviorType.offset_pursuit] as OffsetPursuit;
 			return Vector2.Zero;
 		}
 
 		public Vector2 CalcPursuit()
-		{//TODO
+		{
+			//TODO
 			Pursuit behavior = Behaviors[(int)EBehaviorType.pursuit] as Pursuit;
 			return Vector2.Zero;
 		}
 
 		public Vector2 CalcSeek()
-		{//TODO
+		{
 			Seek behavior = Behaviors[(int)EBehaviorType.seek] as Seek;
-			return Vector2.Zero;
+			return behavior.GetSteering(Target);
 		}
 
 		public Vector2 CalcSeparation()
-		{//TODO
+		{
 			Separation behavior = Behaviors[(int)EBehaviorType.separation] as Separation;
-			return Vector2.Zero;
+			return behavior.GetSteering(Neighbors);
 		}
 
 		public Vector2 CalcWallAvoidance()

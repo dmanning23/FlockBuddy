@@ -40,7 +40,6 @@ namespace FlockBuddy
 		/// <summary>
 		/// similar to pursuit except the agent Flees from the estimated future position of the pursuer
 		/// </summary>
-		/// <param name="time"></param>
 		/// <param name="pursuer"></param>
 		/// <returns></returns>
 		public Vector2 GetSteering(Boid pursuer)
@@ -59,27 +58,26 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
-		/// <param name="time"></param>
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{
 			/* Not necessary to include the check for facing direction this time */
 
-			Vector2 ToPursuer = Pursuer.Position - Owner.Position;
+			Vector2 toPursuer = Pursuer.Position - Owner.Position;
 
 			//uncomment the following two lines to have Evade only consider pursuers within a 'threat range'
-			if (ToPursuer.LengthSquared() > (ThreatRange * ThreatRange))
+			if (toPursuer.LengthSquared() > (ThreatRange * ThreatRange))
 			{
 				return Vector2.Zero;
 			}
 
 			//the lookahead time is propotional to the distance between the pursuer and the pursuer; 
 			//and is inversely proportional to the sum of the agents' velocities
-			float LookAheadTime = ToPursuer.Length() / 
+			float lookAheadTime = toPursuer.Length() / 
 								   (Owner.MaxSpeed + Pursuer.Speed());
 
 			//now flee away from predicted future position of the pursuer
-			return FleeAction.GetSteering(Pursuer.Position + (Pursuer.Velocity * LookAheadTime));
+			return FleeAction.GetSteering(Pursuer.Position + (Pursuer.Velocity * lookAheadTime));
 		}
 
 		#endregion //Methods

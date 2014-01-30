@@ -186,7 +186,12 @@ namespace FlockBuddy
 		//	dude.TagNeighbors(Dudes, range);
 		//}
 
-		void TagObstaclesWithinViewRange(Boid dude, float range)
+		/// <summary>
+		/// Tag all the obstacles that a dude can see.
+		/// </summary>
+		/// <param name="dude"></param>
+		/// <param name="range"></param>
+		public void TagObstacles(Boid dude, float range)
 		{
 			dude.TagObjects(Obstacles, range);
 		}

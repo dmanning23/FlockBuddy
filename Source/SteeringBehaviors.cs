@@ -31,7 +31,7 @@ namespace FlockBuddy
 
 		private GameClock Timer { get; set; }
 
-		Random rand = new Random();
+		Random _rand = new Random();
 
 		#endregion //Members
 
@@ -115,15 +115,15 @@ namespace FlockBuddy
 		}
 
 		public Vector2 CalcEvade()
-		{//TODO
+		{
 			Evade behavior = Behaviors[(int)EBehaviorType.evade] as Evade;
-			return Vector2.Zero;
+			return behavior.GetSteering(Enemy1);
 		}
 
 		public Vector2 CalcFlee()
 		{
 			Flee behavior = Behaviors[(int)EBehaviorType.flee] as Flee;
-			return behavior.GetSteering(target);
+			return behavior.GetSteering(Target);
 		}
 
 		public Vector2 CalcFollowPath()

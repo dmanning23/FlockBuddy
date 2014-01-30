@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
 {
@@ -18,6 +19,16 @@ namespace FlockBuddy
 		public FollowPath(Boid dude)
 			: base(dude, EBehaviorType.follow_path)
 		{
+		}
+
+		/// <summary>
+		/// Called every fram to get the steering direction from this behavior
+		/// </summary>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		protected override Vector2 GetSteering()
+		{
+			return Vector2.Zero * Weight;
 		}
 
 		#endregion //Methods

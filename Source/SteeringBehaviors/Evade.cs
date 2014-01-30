@@ -9,6 +9,21 @@ namespace FlockBuddy
 	{
 		#region Members
 
+		/// <summary>
+		/// A dude chasing this dude
+		/// </summary>
+		Boid Pursuer { get; set; }
+
+		/// <summary>
+		/// How far to look out for bad guys
+		/// </summary>
+		const double ThreatRange = 100.0;
+
+		/// <summary>
+		/// Used to run away from bad guys
+		/// </summary>
+		Flee FleeAction { get; set; }
+
 		#endregion //Members
 
 		#region Methods
@@ -19,6 +34,26 @@ namespace FlockBuddy
 		public Evade(Boid dude)
 			: base(dude, EBehaviorType.evade)
 		{
+			FleeAction = new Flee(dude);
+		}
+
+		/// <summary>
+		/// similar to pursuit except the agent Flees from the estimated future position of the pursuer
+		/// </summary>
+		/// <param name="time"></param>
+		/// <param name="pursuer"></param>
+		/// <returns></returns>
+		public Vector2 GetSteering(Boid pursuer)
+		{
+			Pursuer = pursuer;
+			if (null == Pursuer)
+			{
+				return Vector2.Zero;
+			}
+			else
+			{
+				return GetSteering();
+			}
 		}
 
 		/// <summary>
@@ -26,9 +61,25 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		protected override Vector2 GetSteering(GameTime time)
+		protected override Vector2 GetSteering()
 		{
-			return Vector2.Zero;
+			/* Not necessary to include the check for facing direction this time */
+
+			Vector2 ToPursuer = Pursuer.Position - Owner.Position;
+
+			//uncomment the following two lines to have Evade only consider pursuers within a 'threat range'
+			if (ToPursuer.LengthSquared() > (ThreatRange * ThreatRange))
+			{
+				return Vector2.Zero;
+			}
+
+			//the lookahead time is propotional to the distance between the pursuer and the pursuer; 
+			//and is inversely proportional to the sum of the agents' velocities
+			float LookAheadTime = ToPursuer.Length() / 
+								   (Owner.MaxSpeed + Pursuer.Velocity.Length());
+
+			//now flee away from predicted future position of the pursuer
+			return FleeAction.GetSteering(Pursuer.Position + (Pursuer.Velocity * LookAheadTime));
 		}
 
 		#endregion //Methods

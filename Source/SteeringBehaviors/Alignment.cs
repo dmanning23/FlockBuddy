@@ -15,16 +15,6 @@ namespace FlockBuddy
 		/// </summary>
 		private List<Boid> Buddies { get; set; }
 
-		/// <summary>
-		/// a bad guy, don't align with him
-		/// </summary>
-		private Boid Enemy1 { get; set; }
-
-		/// <summary>
-		/// a bad guy, don't align with him
-		/// </summary>
-		private Boid Enemy2 { get; set; }
-
 		#endregion //Members
 
 		#region Methods
@@ -45,12 +35,10 @@ namespace FlockBuddy
 		/// <param name="badGuy1">a possible bad guy chasing this dude</param>
 		/// <param name="badGuy2">a second possible bad guy chasing this dude</param>
 		/// <returns></returns>
-		public Vector2 GetSteering(GameTime time, List<Boid> group, Boid badGuy1, Boid badGuy2)
+		public Vector2 GetSteering(List<Boid> group)
 		{
 			Buddies = group;
-			Enemy1 = badGuy1;
-			Enemy2 = badGuy2;
-			return GetSteering(time);
+			return GetSteering();
 		}
 
 		/// <summary>
@@ -58,7 +46,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		protected override Vector2 GetSteering(GameTime time)
+		protected override Vector2 GetSteering()
 		{
 			//used to record the average heading of the neighbors
 			Vector2 AverageHeading = Vector2.Zero;
@@ -69,13 +57,9 @@ namespace FlockBuddy
 			//iterate through all the tagged vehicles and sum their heading vectors  
 			for (int i = 0; i < Buddies.Count; i++)
 			{
-				//make sure *this* agent isn't included in the calculations and that
-				//the agent being examined  is close enough 
-				//***also make sure it doesn't include any evade target ***
-				if ((Buddies[i].ID != Owner.ID) && 
-					Buddies[i].Tagged && 
-					(Buddies[i].ID != Enemy1.ID) &&
-					(Buddies[i].ID != Enemy2.ID))
+				//make sure *this* agent isn't included in the calculations 
+				//and that the agent being examined  is close enough 
+				if (Buddies[i].Tagged && (Buddies[i].ID != Owner.ID))
 				{
 					AverageHeading += Buddies[i].Heading;
 					++NeighborCount;
@@ -89,7 +73,8 @@ namespace FlockBuddy
 				AverageHeading -= Owner.Heading;
 			}
 
-			return AverageHeading;
+			//always multiply the return value by the weight
+			return AverageHeading * Weight;
 		}
 
 		#endregion //Methods

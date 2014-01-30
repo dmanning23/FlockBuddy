@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameTimer;
 using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
@@ -54,9 +55,8 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// Dont call this for inactive behaviors
 		/// </summary>
-		/// <param name="time"></param>
 		/// <returns></returns>
-		protected abstract Vector2 GetSteering(GameTime time);
+		protected abstract Vector2 GetSteering();
 
 		#endregion //Methods
 	}

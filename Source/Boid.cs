@@ -49,7 +49,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// the flock that owns this dude
 		/// </summary>
-		public Flock Flock { get; private set; }
+		public Flock MyFlock { get; private set; }
 
 		#endregion //Properties
 
@@ -76,7 +76,7 @@ namespace FlockBuddy
 				max_turn_rate, 
 				max_force)
 		{
-			Flock = owner;
+			MyFlock = owner;
 			SmoothedHeading = Vector2.Zero;
 			SmoothingOn = false;
 			BoidTimer = new GameClock();
@@ -99,18 +99,9 @@ namespace FlockBuddy
 			BoidTimer.Update(time_elapsed);
 
 			//grab this for later so we can update the cell position
-			Vector2 oldPos = Position; 
+			Vector2 oldPos = Position;
 
-			//TODO
-
-			//Update the flock
-
-			//update the enemies
-
-			//update the target dudes
-
-			//calculate the combined force from each steering behavior in the vehicle's list
-			Vector2 SteeringForce = Behaviors.Calculate();
+			Vector2 SteeringForce = GetSteeringForce();
 
 			//Acceleration = Force/Mass
 			Vector2 acceleration = SteeringForce / Mass;
@@ -146,6 +137,34 @@ namespace FlockBuddy
 			{
 				SmoothedHeading = HeadingSmoother.Update(Heading);
 			}
+		}
+
+		/// <summary>
+		/// Update all the behaviors and calculate the steering force
+		/// </summary>
+		/// <returns></returns>
+		public Vector2 GetSteeringForce()
+		{
+			//Update the flock
+			List<Boid> neighbors = MyFlock.TagNeighbors(this);
+
+			//update the enemies
+			Boid enemy1;
+			Boid enemy2;
+			MyFlock.FindEnemies(this, out enemy1, out enemy2);
+
+			//update the target dudes
+			Boid target;
+			MyFlock.FindTarget(this, out target);
+
+			//Update the steering behaviors
+			Behaviors.Neighbors = neighbors;
+			Behaviors.Enemy1 = enemy1;
+			Behaviors.Enemy2 = enemy2;
+			Behaviors.Prey = target;
+
+			//calculate the combined force from each steering behavior in the vehicle's list
+			return Behaviors.Calculate(BoidTimer);
 		}
 
 		#endregion //Methods

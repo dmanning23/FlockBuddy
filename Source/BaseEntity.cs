@@ -130,7 +130,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="containerOfEntities"></param>
 		/// <param name="radius"></param>
-		public void TagNeighbors(List<BaseEntity> dudes, float radius)
+		public void TagNeighbors(List<Boid> dudes, float radius)
 		{
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)

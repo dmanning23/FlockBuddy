@@ -84,7 +84,7 @@ namespace FlockBuddy
 					float mass,
 					float turn_rate,
 					float max_force)
-			: base(0, position, radius)
+			: base(position, radius)
 		{
 			_heading = heading;
 			_velocity = velocity;

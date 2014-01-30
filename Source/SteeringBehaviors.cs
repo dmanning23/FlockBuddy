@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using GameTimer;
 using Vector2Extensions;
+using RandomExtensions;
+using System;
 
 namespace FlockBuddy
 {
@@ -28,6 +30,8 @@ namespace FlockBuddy
 		protected Boid Owner { get; private set; }
 
 		private GameClock Timer { get; set; }
+
+		Random rand = new Random();
 
 		#endregion //Members
 
@@ -117,9 +121,9 @@ namespace FlockBuddy
 		}
 
 		public Vector2 CalcFlee()
-		{//TODO
+		{
 			Flee behavior = Behaviors[(int)EBehaviorType.flee] as Flee;
-			return Vector2.Zero;
+			return behavior.GetSteering(target);
 		}
 
 		public Vector2 CalcFollowPath()
@@ -413,7 +417,6 @@ namespace FlockBuddy
 				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
 			}
 
-
 			if (IsActive(EBehaviorType.follow_path))
 			{
 				force = CalcFollowPath();
@@ -423,156 +426,156 @@ namespace FlockBuddy
 			return steeringForce;
 		}
 
-		//---------------------- CalculateDithered ----------------------------
-		//
-		//  this method sums up the active behaviors by assigning a probabilty
-		//  of being calculated to each behavior. It then tests the first priority
-		//  to see if it should be calcukated this simulation-step. If so, it
-		//  calculates the steering force resulting from this behavior. If it is
-		//  more than zero it returns the force. If zero, or if the behavior is
-		//  skipped it continues onto the next priority, and so on.
-		//
-		//  NOTE: Not all of the behaviors have been implemented in this method,
-		//        just a few, so you get the general idea
-		//------------------------------------------------------------------------
+		/// <summary>
+		/// this method sums up the active behaviors by assigning a probabilty
+		///  of being calculated to each behavior. It then tests the first priority
+		///  to see if it should be calcukated this simulation-step. If so, it
+		///  calculates the steering force resulting from this behavior. If it is
+		///  more than zero it returns the force. If zero, or if the behavior is
+		///  skipped it continues onto the next priority, and so on.
+		///
+		///  NOTE: Not all of the behaviors have been implemented in this method,
+		///        just a few, so you get the general idea
+		/// </summary>
+		/// <returns></returns>
 		Vector2 CalculateDithered()
 		{
 			//reset the steering force
 			Vector2 steeringForce = Vector2.Zero;
 
-			if (IsActive(EBehaviorType.wall_avoidance) && RandFloat() < Prm.prWallAvoidance)
-			{
-				steeringForce = WallAvoidance(m_pVehicle->World()->Walls()) *
-									 m_dWeightWallAvoidance / Prm.prWallAvoidance;
+			//if (IsActive(EBehaviorType.wall_avoidance) && RandFloat() < Prm.prWallAvoidance)
+			//{
+			//	steeringForce = WallAvoidance(m_pVehicle->World()->Walls()) *
+			//						 m_dWeightWallAvoidance / Prm.prWallAvoidance;
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
 
-					return steeringForce;
-				}
-			}
+			//		return steeringForce;
+			//	}
+			//}
 
-			if (IsActive(EBehaviorType.obstacle_avoidance) && RandFloat() < Prm.prObstacleAvoidance)
-			{
-				steeringForce += ObstacleAvoidance(m_pVehicle->World()->Obstacles()) *
-						m_dWeightObstacleAvoidance / Prm.prObstacleAvoidance;
+			//if (IsActive(EBehaviorType.obstacle_avoidance) && RandFloat() < Prm.prObstacleAvoidance)
+			//{
+			//	steeringForce += ObstacleAvoidance(m_pVehicle->World()->Obstacles()) *
+			//			m_dWeightObstacleAvoidance / Prm.prObstacleAvoidance;
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
 
-					return steeringForce;
-				}
-			}
-
-
-			if (IsActive(EBehaviorType.separation) && RandFloat() < Prm.prSeparation)
-			{
-				steeringForce += SeparationPlus(m_pVehicle->World()->Agents()) *
-									m_dWeightSeparation / Prm.prSeparation;
-
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
-
-					return steeringForce;
-				}
-			}
+			//		return steeringForce;
+			//	}
+			//}
 
 
+			//if (IsActive(EBehaviorType.separation) && RandFloat() < Prm.prSeparation)
+			//{
+			//	steeringForce += SeparationPlus(m_pVehicle->World()->Agents()) *
+			//						m_dWeightSeparation / Prm.prSeparation;
 
-			if (IsActive(EBehaviorType.flee) && RandFloat() < Prm.prFlee)
-			{
-				steeringForce += Flee(m_pVehicle->World()->Crosshair()) * m_dWeightFlee / Prm.prFlee;
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
-
-					return steeringForce;
-				}
-			}
-
-			if (IsActive(EBehaviorType.evade) && RandFloat() < Prm.prEvade)
-			{
-				assert(m_pTargetAgent1 && "Evade target not assigned");
-
-				steeringForce += Evade(m_pTargetAgent1) * m_dWeightEvade / Prm.prEvade;
-
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
-
-					return steeringForce;
-				}
-			}
+			//		return steeringForce;
+			//	}
+			//}
 
 
 
-			if (IsActive(EBehaviorType.allignment) && RandFloat() < Prm.prAlignment)
-			{
-				steeringForce += AlignmentPlus(m_pVehicle->World()->Agents()) *
-									m_dWeightAlignment / Prm.prAlignment;
+			//if (IsActive(EBehaviorType.flee) && RandFloat() < Prm.prFlee)
+			//{
+			//	steeringForce += Flee(m_pVehicle->World()->Crosshair()) * m_dWeightFlee / Prm.prFlee;
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
 
-					return steeringForce;
-				}
-			}
+			//		return steeringForce;
+			//	}
+			//}
 
-			if (IsActive(EBehaviorType.cohesion) && RandFloat() < Prm.prCohesion)
-			{
-				steeringForce += CohesionPlus(m_pVehicle->World()->Agents()) *
-									m_dWeightCohesion / Prm.prCohesion;
+			//if (IsActive(EBehaviorType.evade) && RandFloat() < Prm.prEvade)
+			//{
+			//	assert(m_pTargetAgent1 && "Evade target not assigned");
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
+			//	steeringForce += Evade(m_pTargetAgent1) * m_dWeightEvade / Prm.prEvade;
 
-					return steeringForce;
-				}
-			}
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
+
+			//		return steeringForce;
+			//	}
+			//}
 
 
-			if (IsActive(EBehaviorType.wander) && RandFloat() < Prm.prWander)
-			{
-				steeringForce += Wander() * m_dWeightWander / Prm.prWander;
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
+			//if (IsActive(EBehaviorType.allignment) && RandFloat() < Prm.prAlignment)
+			//{
+			//	steeringForce += AlignmentPlus(m_pVehicle->World()->Agents()) *
+			//						m_dWeightAlignment / Prm.prAlignment;
 
-					return steeringForce;
-				}
-			}
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
 
-			if (IsActive(EBehaviorType.seek) && RandFloat() < Prm.prSeek)
-			{
-				steeringForce += Seek(m_pVehicle->World()->Crosshair()) * m_dWeightSeek / Prm.prSeek;
+			//		return steeringForce;
+			//	}
+			//}
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
+			//if (IsActive(EBehaviorType.cohesion) && RandFloat() < Prm.prCohesion)
+			//{
+			//	steeringForce += CohesionPlus(m_pVehicle->World()->Agents()) *
+			//						m_dWeightCohesion / Prm.prCohesion;
 
-					return steeringForce;
-				}
-			}
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
 
-			if (IsActive(EBehaviorType.arrive) && RandFloat() < Prm.prArrive)
-			{
-				steeringForce += Arrive(m_pVehicle->World()->Crosshair(), m_Deceleration) *
-									m_dWeightArrive / Prm.prArrive;
+			//		return steeringForce;
+			//	}
+			//}
 
-				if (!steeringForce.isZero())
-				{
-					steeringForce.Truncate(m_pVehicle->MaxForce());
 
-					return steeringForce;
-				}
-			}
+			//if (IsActive(EBehaviorType.wander) && RandFloat() < Prm.prWander)
+			//{
+			//	steeringForce += Wander() * m_dWeightWander / Prm.prWander;
+
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
+
+			//		return steeringForce;
+			//	}
+			//}
+
+			//if (IsActive(EBehaviorType.seek) && RandFloat() < Prm.prSeek)
+			//{
+			//	steeringForce += Seek(m_pVehicle->World()->Crosshair()) * m_dWeightSeek / Prm.prSeek;
+
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
+
+			//		return steeringForce;
+			//	}
+			//}
+
+			//if (IsActive(EBehaviorType.arrive) && RandFloat() < Prm.prArrive)
+			//{
+			//	steeringForce += Arrive(m_pVehicle->World()->Crosshair(), m_Deceleration) *
+			//						m_dWeightArrive / Prm.prArrive;
+
+			//	if (!steeringForce.isZero())
+			//	{
+			//		steeringForce.Truncate(m_pVehicle->MaxForce());
+
+			//		return steeringForce;
+			//	}
+			//}
 
 			return steeringForce;
 		}

@@ -95,17 +95,17 @@ namespace FlockBuddy
 			MaxForce = max_force;
 		}
 
-		bool IsSpeedMaxedOut()
+		public bool IsSpeedMaxedOut()
 		{
 			return MaxSpeed * MaxSpeed >= Velocity.LengthSquared();
 		}
 
-		float Speed()
+		public float Speed()
 		{
 			return Velocity.Length();
 		}
 
-		float SpeedSq()
+		public float SpeedSq()
 		{
 			return Velocity.LengthSquared();
 		}

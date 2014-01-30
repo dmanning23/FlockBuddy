@@ -186,9 +186,9 @@ namespace FlockBuddy
 		//	dude.TagNeighbors(Dudes, range);
 		//}
 
-		//void TagObstaclesWithinViewRange(Boid dude, double range)
-		//{
-		//	dude.TagNeighbors(Obstacles, range);
-		//}
+		void TagObstaclesWithinViewRange(Boid dude, float range)
+		{
+			dude.TagObjects(Obstacles, range);
+		}
 	}
 }

@@ -135,20 +135,44 @@ namespace FlockBuddy
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)
 			{
-				//first clear any current tag
-				dudes[i].Tagged = false;
+				TagObject(dudes[i], radius);
+			}
+		}
 
-				Vector2 to = dudes[i].Position - Position;
+		/// <summary>
+		/// check if some non-boid dudes are in range
+		/// </summary>
+		/// <param name="dudes"></param>
+		/// <param name="radius"></param>
+		public void TagObjects(List<BaseEntity> dudes, float radius)
+		{
+			//iterate through all entities checking for range
+			for (int i = 0; i < dudes.Count; i++)
+			{
+				TagObject(dudes[i], radius);
+			}
+		}
 
-				//the bounding radius of the other is taken into account by adding it to the range
-				double range = BoundingRadius + dudes[i].BoundingRadius;
+		/// <summary>
+		/// check if a dude is in range
+		/// </summary>
+		/// <param name="dude"></param>
+		/// <param name="radius"></param>
+		private void TagObject(BaseEntity dude, float radius)
+		{
+			//first clear any current tag
+			dude.Tagged = false;
 
-				//if entity within range, tag for further consideration. 
-				//(working in distance-squared space to avoid sqrts)
-				if ((to.LengthSquared() < (range * range)) && (dudes[i].ID != ID))
-				{
-					dudes[i].Tagged = true;
-				}
+			Vector2 to = dude.Position - Position;
+
+			//the bounding radius of the other is taken into account by adding it to the range
+			double range = BoundingRadius + dude.BoundingRadius;
+
+			//if entity within range, tag for further consideration. 
+			//(working in distance-squared space to avoid sqrts)
+			if ((to.LengthSquared() < (range * range)) && (dude.ID != ID))
+			{
+				dude.Tagged = true;
 			}
 		}
 

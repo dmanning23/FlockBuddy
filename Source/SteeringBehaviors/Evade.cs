@@ -17,7 +17,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// How far to look out for bad guys
 		/// </summary>
-		const double ThreatRange = 100.0;
+		const float ThreatRange = 100.0f;
 
 		/// <summary>
 		/// Used to run away from bad guys
@@ -76,7 +76,7 @@ namespace FlockBuddy
 			//the lookahead time is propotional to the distance between the pursuer and the pursuer; 
 			//and is inversely proportional to the sum of the agents' velocities
 			float LookAheadTime = ToPursuer.Length() / 
-								   (Owner.MaxSpeed + Pursuer.Velocity.Length());
+								   (Owner.MaxSpeed + Pursuer.Speed());
 
 			//now flee away from predicted future position of the pursuer
 			return FleeAction.GetSteering(Pursuer.Position + (Pursuer.Velocity * LookAheadTime));

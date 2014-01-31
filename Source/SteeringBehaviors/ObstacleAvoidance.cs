@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using MatrixExtensions;
 
 namespace FlockBuddy
 {
@@ -59,10 +60,7 @@ namespace FlockBuddy
 				if (curOb.Tagged)
 				{
 					//calculate this obstacle's position in local space
-					Vector2 localPos = PointToLocalSpace(curOb.Position,
-														   Owner.Heading,
-														   Owner.Side,
-														   Owner.Position);
+					Vector2 localPos = curOb.Position.ToLocalSpace(Owner.Heading, Owner.Side, Owner.Position);
 
 					//if the local position has a negative x value then it must lay
 					//behind the agent. (in which case it can be ignored)
@@ -129,9 +127,7 @@ namespace FlockBuddy
 			}
 
 			//finally, convert the steering vector from local to world space
-			return VectorToWorldSpace(steeringForce,
-									  Owner.Heading,
-									  Owner.Side) * Weight;
+			return steeringForce.ToWorldSpace(Owner.Heading, Owner.Side) * Weight;
 		}
 
 		#endregion //Methods

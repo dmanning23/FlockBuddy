@@ -20,7 +20,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// a container of all the moving entities this dude is managing
 		/// </summary>
-		public List<Boid> Dudes { get; private set; }
+		private List<Boid> Dudes { get; set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
@@ -79,6 +79,20 @@ namespace FlockBuddy
 			Dudes = new List<Boid>();
 			FlockTimer = new GameClock();
 			CellSpace = new CellSpacePartition<Boid>(WorldSize, NumCells, NumCells);
+		}
+
+		/// <summary>
+		/// add a dude to the flock.
+		/// This is the only way that dudes should be added to ensure they go in the cell space corerctly.
+		/// </summary>
+		/// <param name="dude"></param>
+		public void AddDude(Boid dude)
+		{
+			Dudes.Add(dude);
+			if (UseCellSpace)
+			{
+				CellSpace.Add(dude);
+			}
 		}
 
 		/// <summary>

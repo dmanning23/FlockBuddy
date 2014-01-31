@@ -101,10 +101,8 @@ namespace FlockBuddy
 			//grab this for later so we can update the cell position
 			Vector2 oldPos = Position;
 
-			Vector2 SteeringForce = GetSteeringForce();
-
 			//Acceleration = Force/Mass
-			Vector2 acceleration = SteeringForce / Mass;
+			Vector2 acceleration = GetSteeringForce() / Mass;
 
 			//update velocity
 			_velocity += (acceleration * time_elapsed.TimeDelta);

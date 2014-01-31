@@ -594,36 +594,36 @@ namespace FlockBuddy
 		/// <param name="RunningTot"></param>
 		/// <param name="ForceToAdd"></param>
 		/// <returns></returns>
-		bool AccumulateForce(ref Vector2 RunningTot, Vector2 ForceToAdd)
+		bool AccumulateForce(ref Vector2 runningTot, Vector2 forceToAdd)
 		{
 			//calculate how much steering force the vehicle has used so far
-			float MagnitudeSoFar = RunningTot.Length();
+			float magnitudeSoFar = runningTot.Length();
 
 			//calculate how much steering force remains to be used by this vehicle
-			float MagnitudeRemaining = Owner.MaxForce - MagnitudeSoFar;
+			float magnitudeRemaining = Owner.MaxForce - magnitudeSoFar;
 
 			//return false if there is no more force left to use
-			if (MagnitudeRemaining <= 0.0f)
+			if (magnitudeRemaining <= 0.0f)
 			{
 				return false;
 			}
 
 			//calculate the magnitude of the force we want to add
-			float MagnitudeToAdd = ForceToAdd.Length();
+			float MagnitudeToAdd = forceToAdd.Length();
 
 			//if the magnitude of the sum of ForceToAdd and the running total
 			//does not exceed the maximum force available to this vehicle, just
 			//add together. Otherwise add as much of the ForceToAdd vector is
 			//possible without going over the max.
-			if (MagnitudeToAdd < MagnitudeRemaining)
+			if (MagnitudeToAdd < magnitudeRemaining)
 			{
-				RunningTot += ForceToAdd;
+				runningTot += forceToAdd;
 			}
 			else
 			{
 				//add it to the steering force
-				Vector2.Normalize(ForceToAdd);
-				RunningTot += (ForceToAdd * MagnitudeRemaining);
+				Vector2.Normalize(forceToAdd);
+				runningTot += (forceToAdd * magnitudeRemaining);
 			}
 
 			return true;

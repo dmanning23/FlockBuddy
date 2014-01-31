@@ -9,6 +9,16 @@ namespace FlockBuddy
 	{
 		#region Members
 
+		/// <summary>
+		/// A dude we are chasing
+		/// </summary>
+		Boid Prey { get; set; }
+
+		/// <summary>
+		/// Used to chase dudes
+		/// </summary>
+		Seek SeekAction { get; set; }
+
 		#endregion //Members
 
 		#region Methods
@@ -19,6 +29,25 @@ namespace FlockBuddy
 		public Pursuit(Boid dude)
 			: base(dude, EBehaviorType.pursuit)
 		{
+			SeekAction = new Seek(dude);
+		}
+
+		/// <summary>
+		/// this behavior creates a force that steers the agent towards the evader
+		/// </summary>
+		/// <param name="prey"></param>
+		/// <returns></returns>
+		public Vector2 GetSteering(Boid prey)
+		{
+			Prey = prey;
+			if (null == Prey)
+			{
+				return Vector2.Zero;
+			}
+			else
+			{
+				return GetSteering();
+			}
 		}
 
 		/// <summary>
@@ -27,7 +56,26 @@ namespace FlockBuddy
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{
-			return Vector2.Zero * Weight;
+			//if the evader is ahead and facing the agent then we can just seek for the evader's current position.
+			Vector2 toEvader = Prey.Position - Owner.Position;
+
+			float relativeHeading = Vector2.Dot(Owner.Heading, Prey.Heading);
+
+			if ((Vector2.Dot(toEvader, Owner.Heading) > 0.0f) &&
+				 (relativeHeading < -0.95f))  //acos(0.95)=18 degs
+			{
+				return SeekAction.GetSteering(Prey.Position);
+			}
+
+			//Not considered ahead so we predict where the evader will be.
+
+			//the lookahead time is propotional to the distance between the evader
+			//and the pursuer; and is inversely proportional to the sum of the
+			//agent's velocities
+			float lookAheadTime = toEvader.Length() / (Owner.MaxSpeed + Prey.Speed());
+
+			//now seek to the predicted future position of the evader
+			return SeekAction.GetSteering(Prey.Position + Prey.Velocity * lookAheadTime);
 		}
 
 		#endregion //Methods

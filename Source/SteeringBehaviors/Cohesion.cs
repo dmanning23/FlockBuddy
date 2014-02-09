@@ -77,7 +77,10 @@ namespace FlockBuddy
 
 			//the magnitude of cohesion is usually much larger than separation or
 			//allignment so it usually helps to normalize it.
-			steeringForce.Normalize();
+			if (steeringForce.LengthSquared() > 0.0f)
+			{
+				steeringForce.Normalize();
+			}
 			return steeringForce * Weight;
 		}
 

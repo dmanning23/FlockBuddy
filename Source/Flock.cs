@@ -20,7 +20,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// a container of all the moving entities this dude is managing
 		/// </summary>
-		private List<Boid> Dudes { get; set; }
+		public List<Boid> Dudes { get; private set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
@@ -58,16 +58,22 @@ namespace FlockBuddy
 		/// <summary>
 		/// whether or not to use the cell space partitioning
 		/// </summary>
-		public bool UseCellSpace { get; set; }
+		private bool UseCellSpace { get; set; }
+
+		/// <summary>
+		/// Whether or not to constrian  boids to within toroid world
+		/// </summary>
+		private bool UseWorldWrap { get; set; }
 
 		/// <summary>
 		/// how far to do a query to calculate neightbors
 		/// </summary>
-		const float QueryRadius = 50.0f;
+		private const float QueryRadius = 100.0f;
 
-		//stuff for th cell space
-		const int NumCells = 20;
-		Vector2 WorldSize = new Vector2(1024.0f, 768.0f);
+		/// <summary>
+		/// The size of the world!
+		/// </summary>
+		private Vector2 WorldSize = new Vector2(1024.0f, 768.0f);
 
 		#endregion //Members
 
@@ -78,7 +84,30 @@ namespace FlockBuddy
 		{
 			Dudes = new List<Boid>();
 			FlockTimer = new GameClock();
-			CellSpace = new CellSpacePartition<Boid>(WorldSize, NumCells, NumCells);
+			CellSpace = new CellSpacePartition<Boid>(WorldSize, 20, 20);
+
+			//set this stuff here, but will prolly be overridden right away 
+			Obstacles = new List<BaseEntity>();
+			Enemies = new List<Boid>();
+			Walls = new List<Line>();
+			Targets = new List<Boid>();
+		}
+
+		/// <summary>
+		/// Setup the world for this flock
+		/// Do this BEFORE adding any boids, or you will fuck it up!!!
+		/// </summary>
+		/// <param name="worldSize"></param>
+		/// <param name="useWorldWrap"></param>
+		/// <param name="useCellSpace"></param>
+		/// <param name="cellsX"></param>
+		/// <param name="cellsY"></param>
+		public void SetWorldSize(Vector2 worldSize, bool useWorldWrap, bool useCellSpace, int cellsX, int cellsY)
+		{
+			this.WorldSize = worldSize;
+			this.UseWorldWrap = useWorldWrap;
+			this.UseCellSpace = useCellSpace;
+			CellSpace = new CellSpacePartition<Boid>(WorldSize, cellsX, cellsY);
 		}
 
 		/// <summary>
@@ -109,6 +138,41 @@ namespace FlockBuddy
 			for (int i = 0; i < Dudes.Count; i++)
 			{
 				Dudes[i].Update(FlockTimer);
+
+				//update the vehicle's current cell if space partitioning is turned on
+				if (UseCellSpace)
+				{
+					CellSpace.Update(Dudes[i]);
+				}
+			}
+		}
+
+		/// <summary>
+		/// given a position, wrap them around the screen
+		/// </summary>
+		public void WrapWorldPosition(ref Vector2 pos)
+		{
+			if (UseWorldWrap)
+			{
+				//wrap aroud the edge
+				if (pos.X > WorldSize.X)
+				{
+					pos.X = 0.0f;
+				}
+				else if (pos.X < 0.0f)
+				{
+					pos.X = WorldSize.X;
+				}
+
+				//wrap around the floor/ceiling
+				if (pos.Y > WorldSize.Y)
+				{
+					pos.Y = 0.0f;
+				}
+				else if (pos.Y < 0.0f)
+				{
+					pos.Y = WorldSize.Y;
+				}
 			}
 		}
 

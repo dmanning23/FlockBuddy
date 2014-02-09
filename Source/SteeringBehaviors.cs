@@ -73,6 +73,7 @@ namespace FlockBuddy
 		{
 			Owner = owner;
 			Timer = new GameClock();
+			Behaviors = new List<BaseBehavior>();
 
 			//add all the steering behaviors
 			Behaviors.Add(new Alignment(owner));
@@ -194,6 +195,20 @@ namespace FlockBuddy
 		}
 
 		#endregion //Run Behaviors
+
+		/// <summary>
+		/// Given a list of behaviors, activate only the ones that are specified
+		/// This needs to be called once the behavior thing is created.
+		/// If you call this more than once, this does NOT deactivate any of the behaviors that are not specified!
+		/// </summary>
+		/// <param name="behaviors">a list of all the behaviors we want this dude to use</param>
+		public void ActivateBehaviors(EBehaviorType[] behaviors)
+		{
+			foreach (EBehaviorType behavior in behaviors)
+			{
+				this.Behaviors[(int)behavior].Active = true;
+			}
+		}
 
 		/// <summary>
 		/// Check if a particular steering behavior is active
@@ -320,7 +335,6 @@ namespace FlockBuddy
 				steeringForce += CalcFollowPath();
 			}
 
-			steeringForce = Vector2Ext.Truncate(steeringForce, Owner.MaxForce);
 			return steeringForce;
 		}
 

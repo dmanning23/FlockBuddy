@@ -25,6 +25,7 @@ namespace FlockBuddy
 		public Separation(Boid dude)
 			: base(dude, EBehaviorType.separation)
 		{
+			Weight = 50.0f;
 		}
 
 		/// <summary>
@@ -61,7 +62,7 @@ namespace FlockBuddy
 				}
 			}
 
-			return steeringForce;
+			return steeringForce * Weight;
 		}
 
 		#endregion //Methods

@@ -25,6 +25,7 @@ namespace FlockBuddy
 		public Alignment(Boid dude)
 			: base(dude, EBehaviorType.alignment)
 		{
+			Weight = 1.0f;
 		}
 
 		/// <summary>
@@ -58,7 +59,7 @@ namespace FlockBuddy
 				//and that the agent being examined  is close enough 
 				if (Buddies[i].Tagged && (Buddies[i].ID != Owner.ID))
 				{
-					AverageHeading += Buddies[i].Heading;
+					AverageHeading += Buddies[i].Velocity;
 					++NeighborCount;
 				}
 			}
@@ -67,7 +68,7 @@ namespace FlockBuddy
 			if (NeighborCount > 0)
 			{
 				AverageHeading /= NeighborCount;
-				AverageHeading -= Owner.Heading;
+				AverageHeading -= Owner.Velocity;
 			}
 
 			//always multiply the return value by the weight

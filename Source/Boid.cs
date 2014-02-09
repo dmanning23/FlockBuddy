@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using AverageBuddy;
 using System;
 using Vector2Extensions;
+using System.Diagnostics;
 
 namespace FlockBuddy
 {
@@ -27,7 +28,7 @@ namespace FlockBuddy
 		/// some steering behaviors give jerky looking movement. 
 		/// The following members are used to smooth the vehicle's heading
 		/// </summary>
-		public Averager<Vector2> HeadingSmoother { get; private set; }
+		protected Averager<Vector2> HeadingSmoother { get; private set; }
 
 		/// <summary>
 		/// this vector represents the average of the vehicle's heading
@@ -44,12 +45,24 @@ namespace FlockBuddy
 		/// keeps a track of the most recent update time. 
 		/// (some of the steering behaviors make use of this - see Wander)
 		/// </summary>
-		public GameClock BoidTimer { get; set; }
+		protected GameClock BoidTimer { get; set; }
 
 		/// <summary>
 		/// the flock that owns this dude
 		/// </summary>
 		public Flock MyFlock { get; private set; }
+
+		/// <summary>
+		/// Get the direction this dude is facing.
+		/// Does some ,ath, so don't go crazy with this.  Use for drawing only!
+		/// </summary>
+		public float Rotation
+		{
+			get
+			{
+				return (float)(SmoothingOn ? Math.Atan2(SmoothedHeading.X, SmoothedHeading.Y) : Math.Atan2(Heading.X, Heading.Y));
+			}
+		}
 
 		#endregion //Properties
 
@@ -78,7 +91,7 @@ namespace FlockBuddy
 		{
 			MyFlock = owner;
 			SmoothedHeading = Vector2.Zero;
-			SmoothingOn = false;
+			SmoothingOn = true;
 			BoidTimer = new GameClock();
 			BoidTimer.Start();
 
@@ -99,23 +112,24 @@ namespace FlockBuddy
 			BoidTimer.Update(time_elapsed);
 
 			//grab this for later so we can update the cell position
-			Vector2 oldPos = Position;
+			Vector2 currentPosition = Position;
 
 			//Acceleration = Force/Mass
 			Vector2 acceleration = GetSteeringForce() / Mass;
 
 			//update velocity
-			_velocity += (acceleration * time_elapsed.TimeDelta);
+			_velocity += Vector2Ext.Truncate((acceleration * time_elapsed.TimeDelta), MaxForce);
 
 			//make sure vehicle does not exceed maximum velocity
 			_velocity = _velocity.Truncate(MaxSpeed);
 
 			//update the position
-			Physics.Translate(Velocity * BoidTimer.TimeDelta);
+			currentPosition += (Velocity * BoidTimer.TimeDelta);
 
 			//update the heading if the vehicle has a non zero velocity
 			if (Velocity.LengthSquared() > 0.00000001)
 			{
+				_heading = Velocity;
 				_heading.Normalize();
 				_side = _heading.Perp();
 			}
@@ -123,13 +137,12 @@ namespace FlockBuddy
 			//EnforceNonPenetrationConstraint(this, World()->Agents());
 
 			//treat the screen as a toroid
-			//WrapAround(m_vPos, m_pWorld->cxClient(), m_pWorld->cyClient());
+			MyFlock.WrapWorldPosition(ref currentPosition);
 
-			////update the vehicle's current cell if space partitioning is turned on
-			//if (Steering()->isSpacePartitioningOn())
-			//{
-			//	World()->CellSpace()->UpdateEntity(this, OldPos);
-			//}
+			//Update the position
+			Physics.Pos = currentPosition;
+			Debug.Assert(!float.IsNaN(Physics.Pos.X));
+			Debug.Assert(!float.IsNaN(Physics.Pos.Y));
 
 			if (SmoothingOn)
 			{

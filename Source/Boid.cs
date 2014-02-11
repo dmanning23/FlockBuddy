@@ -15,6 +15,8 @@ namespace FlockBuddy
 	{
 		#region Members
 
+		private Vector2 _smootherHeading = Vector2.UnitX;
+
 		#endregion Members
 
 		#region Properties
@@ -31,10 +33,20 @@ namespace FlockBuddy
 		protected Averager<Vector2> HeadingSmoother { get; private set; }
 
 		/// <summary>
-		/// this vector represents the average of the vehicle's heading
-		/// vector smoothed over the last few frames
+		/// this vector represents the average of the vehicle's heading vector smoothed over the last few frames
 		/// </summary>
-		public Vector2 SmoothedHeading { get; set; }
+		public Vector2 SmoothedHeading 
+		{
+			get
+			{
+				return _smootherHeading;
+			}
+			set
+			{
+				_smootherHeading = value;
+				_smootherHeading.Normalize();
+			}
+		}
 
 		/// <summary>
 		/// when true, smoothing is active
@@ -74,18 +86,18 @@ namespace FlockBuddy
 		public Boid(Flock owner,
 			Vector2 position,
 			float radius,
-			float rotation,
-			Vector2 velocity,
+			Vector2 heading,
+			float speed,
 			float mass,
-			float max_force,
 			float max_speed,
-			float max_turn_rate)
+			float max_turn_rate,
+			float max_force)
 				: base(position, 
-				radius, 
-				velocity, 
+				radius,
+				heading, 
+				speed,
+				mass,
 				max_speed, 
-				new Vector2((float)Math.Sin(rotation), (float)-Math.Cos(rotation)), 
-				mass, 
 				max_turn_rate, 
 				max_force)
 		{
@@ -116,23 +128,39 @@ namespace FlockBuddy
 
 			//Acceleration = Force/Mass
 			Vector2 acceleration = GetSteeringForce() / Mass;
+			acceleration.Truncate(MaxForce);//TODO: do need this? prioritixzed shoudl already do it
 
-			//update velocity
-			_velocity += Vector2Ext.Truncate((acceleration * time_elapsed.TimeDelta), MaxForce);
+			//get the speed
+			float speed = Speed();
+
+			//add the acceleration to the position
+			Vector2 desiredPoint = currentPosition + (speed * acceleration);
+
+			//turn towards that point if the vehicle has a non zero velocity
+			if (acceleration != Vector2.Zero)
+			{
+				//RotateHeadingToFacePosition(desiredPoint);
+				Heading = desiredPoint - currentPosition;
+			}
+
+			_heading.Normalize();
+
+			//Set the velocity
+			if (SmoothingOn)
+			{
+				SmoothedHeading = HeadingSmoother.Update(Heading);
+				_velocity = (SmoothedHeading * speed);
+			}
+			else
+			{
+				_velocity = (Heading * speed);
+			}
 
 			//make sure vehicle does not exceed maximum velocity
-			_velocity = _velocity.Truncate(MaxSpeed);
+			_velocity.Truncate(MaxSpeed);
 
 			//update the position
 			currentPosition += (Velocity * BoidTimer.TimeDelta);
-
-			//update the heading if the vehicle has a non zero velocity
-			if (Velocity.LengthSquared() > 0.00000001)
-			{
-				_heading = Velocity;
-				_heading.Normalize();
-				_side = _heading.Perp();
-			}
 
 			//EnforceNonPenetrationConstraint(this, World()->Agents());
 
@@ -143,11 +171,6 @@ namespace FlockBuddy
 			Physics.Pos = currentPosition;
 			Debug.Assert(!float.IsNaN(Physics.Pos.X));
 			Debug.Assert(!float.IsNaN(Physics.Pos.Y));
-
-			if (SmoothingOn)
-			{
-				SmoothedHeading = HeadingSmoother.Update(Heading);
-			}
 		}
 
 		/// <summary>

@@ -1,10 +1,13 @@
 using GameTimer;
+using CellSpacePartitionLib;
+using RectangleFLib;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using AverageBuddy;
 using System;
 using Vector2Extensions;
 using System.Diagnostics;
+using BasicPrimitiveBuddy;
 
 namespace FlockBuddy
 {
@@ -16,6 +19,11 @@ namespace FlockBuddy
 		#region Members
 
 		private Vector2 _smootherHeading = Vector2.UnitX;
+
+		/// <summary>
+		/// how far to do a query to calculate neightbors
+		/// </summary>
+		private const float QueryRadius = 100.0f;
 
 		#endregion Members
 
@@ -172,7 +180,7 @@ namespace FlockBuddy
 		public Vector2 GetSteeringForce()
 		{
 			//Update the flock
-			List<Boid> neighbors = MyFlock.TagNeighbors(this);
+			List<Boid> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
 
 			//update the enemies
 			Boid enemy1;
@@ -191,6 +199,30 @@ namespace FlockBuddy
 
 			//calculate the combined force from each steering behavior in the vehicle's list
 			return Behaviors.Calculate(BoidTimer);
+		}
+
+		/// <summary>
+		/// Draw the detection circle and point out all the neighbors
+		/// </summary>
+		/// <param name="curTime"></param>
+		public void DrawNeigbors(IBasicPrimitive prim)
+		{
+			//draw the query cells
+			MyFlock.CellSpace.RenderCellIntersections(prim, Position, QueryRadius, Color.Green);
+
+			//get the query rectangle
+			RectangleF queryRect = CellSpacePartition<Boid>.CreateQueryBox(Position, QueryRadius);
+			prim.Rectangle(queryRect, Color.White);
+
+			//get the query circle
+			prim.Circle(Position, QueryRadius, Color.White);
+
+			//draw the neighbor dudes
+			List<Boid> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
+			foreach (Boid neighbor in neighbors)
+			{
+				prim.Circle(neighbor.Position, neighbor.Physics.Radius, Color.Red);
+			}
 		}
 
 		#endregion //Methods

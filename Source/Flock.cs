@@ -3,6 +3,7 @@ using CollisionBuddy;
 using CellSpacePartitionLib;
 using Microsoft.Xna.Framework;
 using GameTimer;
+using BasicPrimitiveBuddy;
 
 namespace FlockBuddy
 {
@@ -65,10 +66,7 @@ namespace FlockBuddy
 		/// </summary>
 		private bool UseWorldWrap { get; set; }
 
-		/// <summary>
-		/// how far to do a query to calculate neightbors
-		/// </summary>
-		private const float QueryRadius = 50.0f;
+		
 
 		/// <summary>
 		/// The size of the world!
@@ -180,12 +178,12 @@ namespace FlockBuddy
 		/// Tag all the guys inteh flock that are neightbors of a dude.
 		/// </summary>
 		/// <param name="dude"></param>
-		public List<Boid> TagNeighbors(Boid dude)
+		public List<Boid> TagNeighbors(Boid dude, float queryRadius)
 		{
 			if (UseCellSpace)
 			{
 				//Update the cell space to find all the dudes neighbors
-				CellSpace.CalculateNeighbors(dude.Position, QueryRadius);
+				CellSpace.CalculateNeighbors(dude.Position, queryRadius);
 
 				//tag & return all the dudes it found
 				for (int i = 0; i < CellSpace.Neighbors.Count; i++)
@@ -197,7 +195,7 @@ namespace FlockBuddy
 			else
 			{
 				//go through all the dudes and tag them up
-				dude.TagNeighbors(Dudes, QueryRadius);
+				dude.TagNeighbors(Dudes, queryRadius);
 				return Dudes;
 			}
 		}
@@ -250,8 +248,17 @@ namespace FlockBuddy
 			}
 		}
 
-		void Render()
+		/// <summary>
+		/// draw a bunch of debug info
+		/// </summary>
+		/// <param name="prim"></param>
+		/// <param name="drawCells"></param>
+		public void Render(IBasicPrimitive prim, bool drawCells)
 		{
+			if (drawCells)
+			{
+				CellSpace.RenderCells(prim);
+			}
 		}
 
 		//void NonPenetrationContraint(Boid dude)

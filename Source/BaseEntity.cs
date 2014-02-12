@@ -3,6 +3,7 @@ using GameTimer;
 using CollisionBuddy;
 using System.Collections.Generic;
 using CellSpacePartitionLib;
+using BasicPrimitiveBuddy;
 
 namespace FlockBuddy
 {
@@ -118,14 +119,6 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// called every frame to draw this thing
-		/// </summary>
-		/// <param name="curTime"></param>
-		public virtual void Render(GameClock curTime)
-		{
-		}
-
-		/// <summary>
 		/// tags any entities contained in a container that are within the radius of the single entity parameter
 		/// </summary>
 		/// <param name="containerOfEntities"></param>
@@ -174,6 +167,15 @@ namespace FlockBuddy
 			{
 				dude.Tagged = true;
 			}
+		}
+
+		/// <summary>
+		/// Draw the physics info for this entity
+		/// </summary>
+		/// <param name="curTime"></param>
+		public void DrawPhysics(IBasicPrimitive prim, Color color)
+		{
+			prim.Circle(Physics.Pos, Physics.Radius, color);
 		}
 
 		#endregion //Methods

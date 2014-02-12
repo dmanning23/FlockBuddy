@@ -68,7 +68,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// how far to do a query to calculate neightbors
 		/// </summary>
-		private const float QueryRadius = 100.0f;
+		private const float QueryRadius = 50.0f;
 
 		/// <summary>
 		/// The size of the world!

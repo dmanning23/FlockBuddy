@@ -145,14 +145,12 @@ namespace FlockBuddy
 				//we are at the target :P
 				return true;
 			}
-
-			Vector2 toTarget = Vector2.Subtract(target, Position);
-			toTarget.Normalize();
+			
+			//get the point we are currently going to end up at
+			Vector2 currenTarget = Position + (Speed() * Heading);
 
 			//first determine the angle between the heading vector and the target
-			float dotP = Vector2.Dot(_heading, toTarget);
-			dotP = MathHelper.Clamp(dotP, -1.0f, 1.0f);
-			float angle = (float)Math.Acos(dotP);
+			float angle = Vector2Ext.AngleBetweenVectors(currenTarget, target);
 
 			//return true if the player is facing the target
 			if (angle < 0.00001)
@@ -161,11 +159,11 @@ namespace FlockBuddy
 			}
 
 			//clamp the amount to turn to the max turn rate
-			angle = MathHelper.Clamp(dotP, -MaxTurnRate, MaxTurnRate);
+			angle = MathHelper.Clamp(angle, -MaxTurnRate, MaxTurnRate);
 			angle *= BoidTimer.TimeDelta;
 
 			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
-			Matrix RotationMatrix = MatrixExt.Orientation(angle * Heading.Sign(toTarget));
+			Matrix RotationMatrix = MatrixExt.Orientation(angle * Heading.Sign(Position - target));
 
 			//notice how the direction of rotation has to be determined when creating the rotation matrix
 			Heading = RotationMatrix.Multiply(Heading);

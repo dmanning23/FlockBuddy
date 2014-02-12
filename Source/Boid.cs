@@ -54,12 +54,6 @@ namespace FlockBuddy
 		public bool SmoothingOn { get; set; }
 
 		/// <summary>
-		/// keeps a track of the most recent update time. 
-		/// (some of the steering behaviors make use of this - see Wander)
-		/// </summary>
-		protected GameClock BoidTimer { get; set; }
-
-		/// <summary>
 		/// the flock that owns this dude
 		/// </summary>
 		public Flock MyFlock { get; private set; }
@@ -104,8 +98,6 @@ namespace FlockBuddy
 			MyFlock = owner;
 			SmoothedHeading = Vector2.Zero;
 			SmoothingOn = true;
-			BoidTimer = new GameClock();
-			BoidTimer.Start();
 
 			//set up the steering behavior class
 			Behaviors = new SteeringBehaviors(this);
@@ -120,8 +112,7 @@ namespace FlockBuddy
 		/// <param name="time_elapsed"></param>
 		public override void Update(GameClock time_elapsed)
 		{
-			//update the time elapsed
-			BoidTimer.Update(time_elapsed);
+			base.Update(time_elapsed);
 
 			//grab this for later so we can update the cell position
 			Vector2 currentPosition = Position;
@@ -129,6 +120,7 @@ namespace FlockBuddy
 			//Acceleration = Force/Mass
 			Vector2 acceleration = GetSteeringForce() / Mass;
 			acceleration.Truncate(MaxForce);//TODO: do need this? prioritixzed shoudl already do it
+			//acceleration *= BoidTimer.TimeDelta;
 
 			//get the speed
 			float speed = Speed();
@@ -139,8 +131,8 @@ namespace FlockBuddy
 			//turn towards that point if the vehicle has a non zero velocity
 			if (acceleration != Vector2.Zero)
 			{
-				//RotateHeadingToFacePosition(desiredPoint);
-				Heading = desiredPoint - currentPosition;
+				RotateHeadingToFacePosition(desiredPoint);
+				//Heading = desiredPoint - currentPosition;
 			}
 
 			_heading.Normalize();

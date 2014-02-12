@@ -27,6 +27,12 @@ namespace FlockBuddy
 		/// </summary>
 		protected Vector2 _side;
 
+		/// <summary>
+		/// keeps a track of the most recent update time. 
+		/// (some of the steering behaviors make use of this - see Wander)
+		/// </summary>
+		protected GameClock BoidTimer { get; set; }
+
 		#endregion //Members
 
 		#region Properties
@@ -105,6 +111,9 @@ namespace FlockBuddy
 			MaxSpeed = max_speed;
 			MaxTurnRate = max_turn_rate;
 			MaxForce = max_force;
+
+			BoidTimer = new GameClock();
+			BoidTimer.Start();
 		}
 
 		public bool IsSpeedMaxedOut()
@@ -153,6 +162,7 @@ namespace FlockBuddy
 
 			//clamp the amount to turn to the max turn rate
 			angle = MathHelper.Clamp(dotP, -MaxTurnRate, MaxTurnRate);
+			angle *= BoidTimer.TimeDelta;
 
 			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
 			Matrix RotationMatrix = MatrixExt.Orientation(angle * Heading.Sign(toTarget));
@@ -170,6 +180,10 @@ namespace FlockBuddy
 		/// <param name="time_elapsed"></param>
 		public override void Update(GameClock curTime)
 		{
+			base.Update(curTime);
+
+			//update the time elapsed
+			BoidTimer.Update(curTime);
 		}
 
 		#endregion //Methods

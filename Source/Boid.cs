@@ -66,7 +66,7 @@ namespace FlockBuddy
 		{
 			get
 			{
-				return (float)(SmoothingOn ? Math.Atan2(SmoothedHeading.X, SmoothedHeading.Y) : Math.Atan2(Heading.X, Heading.Y));
+				return (SmoothingOn ? SmoothedHeading.Angle() : Heading.Angle());
 			}
 		}
 

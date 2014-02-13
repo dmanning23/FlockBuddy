@@ -59,5 +59,96 @@ namespace FlockBuddy.Tests
 
 			Assert.AreEqual(-90.0f, heading);
 		}
+
+		[Test]
+		public void GetNewHeadingMinus90_1()
+		{
+			Mover dude = new Mover(Vector2.Zero, 10.0f, new Vector2(1.0f, 0.0f), 100.0f, 1.0f, 100.0f, 4.0f, 100.0f);
+			float heading = 0.0f;
+			dude.GetAmountToTurn(new Vector2(0.0f, -1.0f), ref heading);
+
+			heading = MathHelper.ToDegrees(heading);
+			heading = (float)Math.Round(heading, 4);
+
+			Assert.AreEqual(-90.0f, heading);
+		}
+
+		[Test]
+		public void GetNewHeadingMinus90_2()
+		{
+			Mover dude = new Mover(Vector2.Zero, 10.0f, new Vector2(0.0f, 1.0f), 100.0f, 1.0f, 100.0f, 4.0f, 100.0f);
+			float heading = 0.0f;
+			dude.GetAmountToTurn(new Vector2(1.0f, 0.0f), ref heading);
+
+			heading = MathHelper.ToDegrees(heading);
+			heading = (float)Math.Round(heading, 4);
+
+			Assert.AreEqual(-90.0f, heading);
+		}
+
+		[Test]
+		public void GetNewHeadingMinus90_3()
+		{
+			Mover dude = new Mover(Vector2.Zero, 10.0f, new Vector2(-1.0f, 0.0f), 100.0f, 1.0f, 100.0f, 4.0f, 100.0f);
+			float heading = 0.0f;
+			dude.GetAmountToTurn(new Vector2(0.0f, 1.0f), ref heading);
+
+			heading = MathHelper.ToDegrees(heading);
+			heading = (float)Math.Round(heading, 4);
+
+			Assert.AreEqual(-90.0f, heading);
+		}
+
+		[Test]
+		public void GetNewHeading90()
+		{
+			Mover dude = new Mover(Vector2.Zero, 10.0f, new Vector2(0.0f, -1.0f), 100.0f, 1.0f, 100.0f, 4.0f, 100.0f);
+			float heading = 0.0f;
+			dude.GetAmountToTurn(new Vector2(1.0f, 0.0f), ref heading);
+
+			heading = MathHelper.ToDegrees(heading);
+			heading = (float)Math.Round(heading, 4);
+
+			Assert.AreEqual(90.0f, heading);
+		}
+
+		[Test]
+		public void GetNewHeading90_1()
+		{
+			Mover dude = new Mover(Vector2.Zero, 10.0f, new Vector2(1.0f, 0.0f), 100.0f, 1.0f, 100.0f, 4.0f, 100.0f);
+			float heading = 0.0f;
+			dude.GetAmountToTurn(new Vector2(0.0f, 1.0f), ref heading);
+
+			heading = MathHelper.ToDegrees(heading);
+			heading = (float)Math.Round(heading, 4);
+
+			Assert.AreEqual(90.0f, heading);
+		}
+
+		[Test]
+		public void GetNewHeading90_2()
+		{
+			Mover dude = new Mover(Vector2.Zero, 10.0f, new Vector2(0.0f, 1.0f), 100.0f, 1.0f, 100.0f, 4.0f, 100.0f);
+			float heading = 0.0f;
+			dude.GetAmountToTurn(new Vector2(-1.0f, 0.0f), ref heading);
+
+			heading = MathHelper.ToDegrees(heading);
+			heading = (float)Math.Round(heading, 4);
+
+			Assert.AreEqual(90.0f, heading);
+		}
+
+		[Test]
+		public void GetNewHeading90_3()
+		{
+			Mover dude = new Mover(Vector2.Zero, 10.0f, new Vector2(-1.0f, 0.0f), 100.0f, 1.0f, 100.0f, 4.0f, 100.0f);
+			float heading = 0.0f;
+			dude.GetAmountToTurn(new Vector2(0.0f, -1.0f), ref heading);
+
+			heading = MathHelper.ToDegrees(heading);
+			heading = (float)Math.Round(heading, 4);
+
+			Assert.AreEqual(90.0f, heading);
+		}
 	}
 }

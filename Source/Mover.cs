@@ -172,7 +172,7 @@ namespace FlockBuddy
 			angle = ClampAngle(angle);
 
 			//return true if the player is facing the target
-			if (Math.Abs(angle) < 0.00001f)
+			if (Math.Abs(angle) < 0.001f)
 			{
 				return true;
 			}

@@ -25,7 +25,7 @@ namespace FlockBuddy
 		public Alignment(Boid dude)
 			: base(dude, EBehaviorType.alignment)
 		{
-			Weight = 100.0f;
+			Weight = 1.0f;
 		}
 
 		/// <summary>

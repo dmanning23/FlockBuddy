@@ -25,7 +25,7 @@ namespace FlockBuddy
 		public Separation(Boid dude)
 			: base(dude, EBehaviorType.separation)
 		{
-			Weight = 50.0f;
+			Weight = 25.0f;
 		}
 
 		/// <summary>

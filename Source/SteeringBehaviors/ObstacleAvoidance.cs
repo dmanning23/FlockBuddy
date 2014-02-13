@@ -38,7 +38,7 @@ namespace FlockBuddy
 		protected override Vector2 GetSteering()
 		{
 			//the detection box length is proportional to the agent's velocity
-			float boxLength = DBoxLength + (Owner.Speed() / Owner.MaxSpeed) * DBoxLength;
+			float boxLength = DBoxLength + (Owner.Speed / Owner.MaxSpeed) * DBoxLength;
 
 			//tag all obstacles within range of the box for processing
 			Owner.MyFlock.TagObstacles(Owner, boxLength);

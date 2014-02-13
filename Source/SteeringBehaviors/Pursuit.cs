@@ -72,7 +72,7 @@ namespace FlockBuddy
 			//the lookahead time is propotional to the distance between the evader
 			//and the pursuer; and is inversely proportional to the sum of the
 			//agent's velocities
-			float lookAheadTime = toEvader.Length() / (Owner.MaxSpeed + Prey.Speed());
+			float lookAheadTime = toEvader.Length() / (Owner.MaxSpeed + Prey.Speed);
 
 			//now seek to the predicted future position of the evader
 			return SeekAction.GetSteering(Prey.Position + Prey.Velocity * lookAheadTime);

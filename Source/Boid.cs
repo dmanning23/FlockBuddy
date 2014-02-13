@@ -127,37 +127,23 @@ namespace FlockBuddy
 
 			//Acceleration = Force/Mass
 			Vector2 acceleration = GetSteeringForce() / Mass;
-			acceleration.Truncate(MaxForce);//TODO: do need this? prioritixzed shoudl already do it
+			acceleration = acceleration.Truncate(MaxForce);//TODO: do need this? prioritixzed shoudl already do it
 			//acceleration *= BoidTimer.TimeDelta;
 
-			//get the speed
-			float speed = Speed();
-
 			//add the acceleration to the position
-			Vector2 desiredPoint = currentPosition + (speed * acceleration);
+			Vector2 desiredPoint = currentPosition + (Speed * acceleration);
 
 			//turn towards that point if the vehicle has a non zero velocity
-			if (acceleration != Vector2.Zero)
-			{
-				RotateHeadingToFacePosition(desiredPoint);
-				//Heading = desiredPoint - currentPosition;
-			}
-
-			_heading.Normalize();
+			RotateHeadingToFacePosition(desiredPoint);
 
 			//Set the velocity
 			if (SmoothingOn)
 			{
 				SmoothedHeading = HeadingSmoother.Update(Heading);
-				_velocity = (SmoothedHeading * speed);
-			}
-			else
-			{
-				_velocity = (Heading * speed);
 			}
 
 			//make sure vehicle does not exceed maximum velocity
-			_velocity.Truncate(MaxSpeed);
+			Speed = MathHelper.Clamp(Speed, 0.0f, MaxSpeed);
 
 			//update the position
 			currentPosition += (Velocity * BoidTimer.TimeDelta);

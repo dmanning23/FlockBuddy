@@ -636,7 +636,7 @@ namespace FlockBuddy
 			else
 			{
 				//add it to the steering force
-				Vector2.Normalize(forceToAdd);
+				forceToAdd.Normalize();
 				runningTot += (forceToAdd * magnitudeRemaining);
 			}
 

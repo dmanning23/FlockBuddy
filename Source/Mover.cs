@@ -15,8 +15,6 @@ namespace FlockBuddy
 	{
 		#region Members
 
-		protected Vector2 _velocity;
-
 		/// <summary>
 		/// a normalized vector pointing in the direction the entity is heading. 
 		/// </summary>
@@ -33,6 +31,11 @@ namespace FlockBuddy
 		/// </summary>
 		protected GameClock BoidTimer { get; set; }
 
+		/// <summary>
+		/// the speed of this dude in pixels/sec
+		/// </summary>
+		public float Speed { get; set; }
+
 		#endregion //Members
 
 		#region Properties
@@ -41,7 +44,7 @@ namespace FlockBuddy
 		{
 			get
 			{
-				return _velocity;
+				return Heading * Speed;
 			}
 		}
 
@@ -106,7 +109,7 @@ namespace FlockBuddy
 			: base(position, radius)
 		{
 			Heading = heading;
-			_velocity = heading * speed;
+			Speed = speed;
 			Mass = mass;
 			MaxSpeed = max_speed;
 			MaxTurnRate = max_turn_rate;
@@ -118,17 +121,12 @@ namespace FlockBuddy
 
 		public bool IsSpeedMaxedOut()
 		{
-			return MaxSpeed * MaxSpeed >= Velocity.LengthSquared();
-		}
-
-		public float Speed()
-		{
-			return Velocity.Length();
+			return MaxSpeed * MaxSpeed >= SpeedSq();
 		}
 
 		public float SpeedSq()
 		{
-			return Velocity.LengthSquared();
+			return (Speed * Speed);
 		}
 
 		/// <summary>
@@ -147,13 +145,14 @@ namespace FlockBuddy
 			}
 			
 			//get the point we are currently going to end up at
-			Vector2 currenTarget = Position + (Speed() * Heading);
+			Vector2 currenTarget = Position + (Speed * Heading);
 
 			//first determine the angle between the heading vector and the target
 			float angle = Vector2Ext.AngleBetweenVectors(currenTarget, target);
+			angle = Math.Abs(angle);
 
 			//return true if the player is facing the target
-			if (angle < 0.00001)
+			if (angle < 0.1)
 			{
 				return true;
 			}
@@ -163,11 +162,10 @@ namespace FlockBuddy
 			angle *= BoidTimer.TimeDelta;
 
 			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
-			Matrix RotationMatrix = MatrixExt.Orientation(angle * Heading.Sign(Position - target));
+			Matrix RotationMatrix = MatrixExt.Orientation(angle * -Heading.Sign(currenTarget - target));
 
 			//notice how the direction of rotation has to be determined when creating the rotation matrix
 			Heading = RotationMatrix.Multiply(Heading);
-			//_velocity = RotationMatrix.Multiply(Velocity);
 
 			return false;
 		}

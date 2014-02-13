@@ -66,8 +66,6 @@ namespace FlockBuddy
 		/// </summary>
 		private bool UseWorldWrap { get; set; }
 
-		
-
 		/// <summary>
 		/// The size of the world!
 		/// </summary>

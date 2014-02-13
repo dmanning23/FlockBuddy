@@ -25,6 +25,8 @@ namespace FlockBuddy
 		/// </summary>
 		private const float QueryRadius = 100.0f;
 
+		private Vector2 _force = Vector2.Zero;
+
 		#endregion Members
 
 		#region Properties
@@ -78,6 +80,14 @@ namespace FlockBuddy
 			}
 		}
 
+		public Vector2 Force
+		{
+			get
+			{
+				return _force;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -105,7 +115,7 @@ namespace FlockBuddy
 		{
 			MyFlock = owner;
 			SmoothedHeading = Vector2.Zero;
-			SmoothingOn = true;
+			SmoothingOn = false;
 
 			//set up the steering behavior class
 			Behaviors = new SteeringBehaviors(this);
@@ -122,19 +132,13 @@ namespace FlockBuddy
 		{
 			base.Update(time_elapsed);
 
-			//grab this for later so we can update the cell position
-			Vector2 currentPosition = Position;
-
 			//Acceleration = Force/Mass
-			Vector2 acceleration = GetSteeringForce() / Mass;
-			acceleration = acceleration.Truncate(MaxForce);//TODO: do need this? prioritixzed shoudl already do it
+			_force = GetSteeringForce() / Mass;
+			_force = _force.Truncate(MaxForce);//TODO: do need this? prioritixzed shoudl already do it
 			//acceleration *= BoidTimer.TimeDelta;
 
-			//add the acceleration to the position
-			Vector2 desiredPoint = currentPosition + (Speed * acceleration);
-
 			//turn towards that point if the vehicle has a non zero velocity
-			RotateHeadingToFacePosition(desiredPoint);
+			RotateHeadingToFacePosition(_force);
 
 			//Set the velocity
 			if (SmoothingOn)
@@ -146,7 +150,7 @@ namespace FlockBuddy
 			Speed = MathHelper.Clamp(Speed, 0.0f, MaxSpeed);
 
 			//update the position
-			currentPosition += (Velocity * BoidTimer.TimeDelta);
+			Vector2 currentPosition = Position + (Velocity * BoidTimer.TimeDelta);
 
 			//EnforceNonPenetrationConstraint(this, World()->Agents());
 
@@ -209,6 +213,15 @@ namespace FlockBuddy
 			{
 				prim.Circle(neighbor.Position, neighbor.Physics.Radius, Color.Red);
 			}
+		}
+
+		public void DrawVectors(IBasicPrimitive prim)
+		{
+			//draw the current velocity
+			prim.Line(Position, Position + Velocity, Color.Black);
+
+			//draw the force being applied
+			prim.Line(Position, Position + Force, Color.Yellow);
 		}
 
 		#endregion //Methods

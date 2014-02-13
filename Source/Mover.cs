@@ -136,23 +136,19 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="target"></param>
 		/// <returns>returns true when the heading is facing in the desired direction</returns>
-		public bool RotateHeadingToFacePosition(Vector2 target)
+		public bool RotateHeadingToFacePosition(Vector2 targetHeading)
 		{
-			if (target == Position)
+			if (targetHeading.LengthSquared() == 0.0f)
 			{
 				//we are at the target :P
 				return true;
 			}
 			
-			//get the point we are currently going to end up at
-			Vector2 currenTarget = Position + (Speed * Heading);
-
 			//first determine the angle between the heading vector and the target
-			float angle = Vector2Ext.AngleBetweenVectors(currenTarget, target);
-			angle = Math.Abs(angle);
+			float angle = Vector2Ext.AngleBetweenVectors(Heading, targetHeading);
 
-			//return true if the player is facing the target
-			if (angle < 0.1)
+			////return true if the player is facing the target
+			if (Math.Abs(angle) < 0.00001)
 			{
 				return true;
 			}
@@ -162,12 +158,28 @@ namespace FlockBuddy
 			angle *= BoidTimer.TimeDelta;
 
 			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
-			Matrix RotationMatrix = MatrixExt.Orientation(angle * -Heading.Sign(currenTarget - target));
+			Matrix RotationMatrix = MatrixExt.Orientation(angle);// * -Heading.Sign(currenTarget - target));
 
 			//notice how the direction of rotation has to be determined when creating the rotation matrix
 			Heading = RotationMatrix.Multiply(Heading);
 
 			return false;
+		}
+
+		public static float ClampAngle(float fAngle)
+		{
+			//keep the angle between -180 and 180
+			while (-MathHelper.Pi > fAngle)
+			{
+				fAngle += MathHelper.TwoPi;
+			}
+
+			while (MathHelper.Pi < fAngle)
+			{
+				fAngle -= MathHelper.TwoPi;
+			}
+
+			return fAngle;
 		}
 
 		/// <summary>

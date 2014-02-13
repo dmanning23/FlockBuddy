@@ -251,11 +251,20 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="prim"></param>
 		/// <param name="drawCells"></param>
-		public void Render(IBasicPrimitive prim, bool drawCells)
+		public void DrawCells(IBasicPrimitive prim)
 		{
-			if (drawCells)
+			CellSpace.RenderCells(prim);
+		}
+
+		/// <summary>
+		/// draw the vectors of all the dudes
+		/// </summary>
+		/// <param name="prim"></param>
+		public void DrawVectors(IBasicPrimitive prim)
+		{
+			foreach (Boid dude in Dudes)
 			{
-				CellSpace.RenderCells(prim);
+				dude.DrawVectors(prim);
 			}
 		}
 

@@ -138,31 +138,47 @@ namespace FlockBuddy
 		/// <returns>returns true when the heading is facing in the desired direction</returns>
 		public bool RotateHeadingToFacePosition(Vector2 targetHeading)
 		{
+			//get the amount to turn towrads the new heading
+			float angle = 0.0f;
+			if (GetAmountToTurn(targetHeading, ref angle))
+			{
+				return true;
+			}
+
+			angle *= BoidTimer.TimeDelta;
+
+			//update the heading
+			RotateHeading(angle);
+
+			return false;
+		}
+
+		/// <summary>
+		/// Given a target heading, figure out how much to turn towards that heading.
+		/// </summary>
+		/// <param name="targetHeading"></param>
+		/// <param name="angle"></param>
+		/// <returns>true if this dude's heading doesnt need to be updated.</returns>
+		public bool GetAmountToTurn(Vector2 targetHeading, ref float angle)
+		{
 			if (targetHeading.LengthSquared() == 0.0f)
 			{
 				//we are at the target :P
 				return true;
 			}
-			
-			//first determine the angle between the heading vector and the target
-			float angle = Vector2Ext.AngleBetweenVectors(Heading, targetHeading);
 
-			////return true if the player is facing the target
-			if (Math.Abs(angle) < 0.00001)
+			//first determine the angle between the heading vector and the target
+			angle = Vector2Ext.AngleBetweenVectors(Heading, targetHeading);
+			angle = ClampAngle(angle);
+
+			//return true if the player is facing the target
+			if (Math.Abs(angle) < 0.00001f)
 			{
 				return true;
 			}
 
 			//clamp the amount to turn to the max turn rate
 			angle = MathHelper.Clamp(angle, -MaxTurnRate, MaxTurnRate);
-			angle *= BoidTimer.TimeDelta;
-
-			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
-			Matrix RotationMatrix = MatrixExt.Orientation(angle);// * -Heading.Sign(currenTarget - target));
-
-			//notice how the direction of rotation has to be determined when creating the rotation matrix
-			Heading = RotationMatrix.Multiply(Heading);
-
 			return false;
 		}
 
@@ -180,6 +196,20 @@ namespace FlockBuddy
 			}
 
 			return fAngle;
+		}
+
+		/// <summary>
+		/// Given an amount to turn, update the heading
+		/// </summary>
+		/// <param name="fAngle"></param>
+		/// <returns></returns>
+		public void RotateHeading(float fAngle)
+		{
+			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
+			Matrix RotationMatrix = MatrixExt.Orientation(fAngle);
+
+			//notice how the direction of rotation has to be determined when creating the rotation matrix
+			Heading = RotationMatrix.Multiply(Heading);
 		}
 
 		/// <summary>

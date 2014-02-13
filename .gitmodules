@@ -25,3 +25,6 @@
 [submodule "externals/CellSpacePartition"]
 	path = externals/CellSpacePartition
 	url = git@github.com:dmanning23/CellSpacePartition.git
+[submodule "externals/BasicPrimitiveBuddy"]
+	path = externals/BasicPrimitiveBuddy
+	url = git@github.com:dmanning23/BasicPrimitiveBuddy.git

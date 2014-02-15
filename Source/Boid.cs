@@ -191,6 +191,12 @@ namespace FlockBuddy
 			return Behaviors.Calculate(BoidTimer);
 		}
 
+		public void Render(IBasicPrimitive prim)
+		{
+			prim.Circle(Position, BoundingRadius, Color.White);
+			prim.Line(Position, Position + (BoundingRadius * Heading), Color.White);
+		}
+
 		/// <summary>
 		/// Draw the detection circle and point out all the neighbors
 		/// </summary>

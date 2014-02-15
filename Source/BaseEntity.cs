@@ -159,7 +159,7 @@ namespace FlockBuddy
 			Vector2 to = dude.Position - Position;
 
 			//the bounding radius of the other is taken into account by adding it to the range
-			double range = BoundingRadius + dude.BoundingRadius;
+			double range = radius + dude.BoundingRadius;
 
 			//if entity within range, tag for further consideration. 
 			//(working in distance-squared space to avoid sqrts)

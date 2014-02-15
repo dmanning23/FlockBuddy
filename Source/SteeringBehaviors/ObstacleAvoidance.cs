@@ -24,6 +24,7 @@ namespace FlockBuddy
 		public ObstacleAvoidance(Boid dude)
 			: base(dude, EBehaviorType.obstacle_avoidance)
 		{
+			Weight = 40.0f;
 		}
 
 		public Vector2 GetSteering2()
@@ -69,7 +70,7 @@ namespace FlockBuddy
 						//if the distance from the x axis to the object's position is less
 						//than its radius + half the width of the detection box then there
 						//is a potential intersection.
-						double expandedRadius = curOb.BoundingRadius + Owner.BoundingRadius;
+						double expandedRadius = curOb.BoundingRadius + Owner.BoundingRadius + 1;
 
 						if (Math.Abs(localPos.Y) < expandedRadius)
 						{
@@ -108,26 +109,15 @@ namespace FlockBuddy
 			Vector2 steeringForce = Vector2.Zero;
 			if (null != closestIntersectingObstacle)
 			{
-				//the closer the agent is to an object, the stronger the 
-				//steering force should be
-				float multiplier = 1.0f + (DBoxLength - localPosOfClosestObstacle.X) /
-									DBoxLength;
+				Vector2 toAgent = Owner.Position - closestIntersectingObstacle.Position;
 
-				//calculate the lateral force
-				steeringForce.Y = (closestIntersectingObstacle.BoundingRadius -
-								   localPosOfClosestObstacle.Y) * multiplier;
-
-				//apply a braking force proportional to the obstacles distance from
-				//the vehicle. 
-				const float brakingWeight = 0.2f;
-
-				steeringForce.X = (closestIntersectingObstacle.BoundingRadius -
-								   localPosOfClosestObstacle.X) *
-								   brakingWeight;
+				//scale the force inversely proportional to the agents distance from the collision point
+				toAgent.Normalize();
+				float multiplier = 1.0f + (DBoxLength - localPosOfClosestObstacle.X) / DBoxLength;
+				steeringForce = toAgent * multiplier;
 			}
 
-			//finally, convert the steering vector from local to world space
-			return steeringForce.ToWorldSpace(Owner.Heading, Owner.Side) * Weight;
+			return steeringForce * Weight;
 		}
 
 		#endregion //Methods

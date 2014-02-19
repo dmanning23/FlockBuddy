@@ -32,7 +32,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// its location in the environment
 		/// </summary>
-		public Circle Physics { get; protected set; }
+		protected Circle Physics { get; private set; }
 
 		/// <summary>
 		/// its location in the environment
@@ -88,21 +88,10 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// default constructor
+		/// Constructor
 		/// </summary>
-		public BaseEntity()
-		{
-			ID = NextValidID();
-			Physics = new Circle();
-			Tagged = false;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="entity_type"></param>
-		/// <param name="pos"></param>
-		/// <param name="r"></param>
+		/// <param name="pos">teh position of this dude</param>
+		/// <param name="r">the radius of this dude</param>
 		public BaseEntity(Vector2 pos, float r)
 		{
 			ID = NextValidID();
@@ -113,7 +102,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every frame to update this thing
 		/// </summary>
-		/// <param name="time_elapsed"></param>
+		/// <param name="curTime"></param>
 		public virtual void Update(GameClock curTime)
 		{
 		}
@@ -121,8 +110,8 @@ namespace FlockBuddy
 		/// <summary>
 		/// tags any entities contained in a container that are within the radius of the single entity parameter
 		/// </summary>
-		/// <param name="containerOfEntities"></param>
-		/// <param name="radius"></param>
+		/// <param name="dudes">teh list of entities to tag as neighbors</param>
+		/// <param name="radius">the disdtance to tag neightbors</param>
 		public void TagNeighbors(List<Boid> dudes, float radius)
 		{
 			//iterate through all entities checking for range
@@ -172,10 +161,11 @@ namespace FlockBuddy
 		/// <summary>
 		/// Draw the physics info for this entity
 		/// </summary>
-		/// <param name="curTime"></param>
+		/// <param name="prim">basic ptimitive to draw this dude</param>
+		/// <param name="color">teh color to draw him</param>
 		public void DrawPhysics(IBasicPrimitive prim, Color color)
 		{
-			prim.Circle(Physics.Pos, Physics.Radius, color);
+			prim.Circle(Position, BoundingRadius, color);
 		}
 
 		#endregion //Methods

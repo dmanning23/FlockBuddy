@@ -133,22 +133,13 @@ namespace FlockBuddy
 			//Update all the flock dudes
 			for (int i = 0; i < Dudes.Count; i++)
 			{
-				UpdateBoid(Dudes[i]);
-			}
-		}
+				Dudes[i].Update(FlockTimer);
 
-		/// <summary>
-		/// update a single item being managed by this flock
-		/// </summary>
-		/// <param name="dude"></param>
-		public virtual void UpdateBoid(Boid dude)
-		{
-			dude.Update(FlockTimer);
-
-			//update the vehicle's current cell if space partitioning is turned on
-			if (UseCellSpace)
-			{
-				CellSpace.Update(Boid);
+				//update the vehicle's current cell if space partitioning is turned on
+				if (UseCellSpace)
+				{
+					CellSpace.Update(Dudes[i]);
+				}
 			}
 		}
 

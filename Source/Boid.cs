@@ -1,13 +1,12 @@
-using GameTimer;
+using AverageBuddy;
+using BasicPrimitiveBuddy;
 using CellSpacePartitionLib;
+using GameTimer;
+using Microsoft.Xna.Framework;
 using RectangleFLib;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using AverageBuddy;
-using System;
-using Vector2Extensions;
 using System.Diagnostics;
-using BasicPrimitiveBuddy;
+using Vector2Extensions;
 
 namespace FlockBuddy
 {
@@ -159,8 +158,8 @@ namespace FlockBuddy
 
 			//Update the position
 			Physics.Pos = currentPosition;
-			Debug.Assert(!float.IsNaN(Physics.Pos.X));
-			Debug.Assert(!float.IsNaN(Physics.Pos.Y));
+			Debug.Assert(!float.IsNaN(Position.X));
+			Debug.Assert(!float.IsNaN(Position.Y));
 		}
 
 		/// <summary>
@@ -217,7 +216,7 @@ namespace FlockBuddy
 			List<Boid> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
 			foreach (Boid neighbor in neighbors)
 			{
-				prim.Circle(neighbor.Position, neighbor.Physics.Radius, Color.Red);
+				prim.Circle(neighbor.Position, neighbor.BoundingRadius, Color.Red);
 			}
 		}
 

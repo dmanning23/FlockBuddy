@@ -157,7 +157,7 @@ namespace FlockBuddy
 			MyFlock.WrapWorldPosition(ref currentPosition);
 
 			//Update the position
-			Physics.Pos = currentPosition;
+			Position = currentPosition;
 			Debug.Assert(!float.IsNaN(Position.X));
 			Debug.Assert(!float.IsNaN(Position.Y));
 		}

@@ -12,6 +12,15 @@ namespace FlockBuddy
 	/// </summary>
 	public class BaseEntity : IMovingEntity
 	{
+		#region Members
+
+		/// <summary>
+		/// The location of this boid
+		/// </summary>
+		protected Vector2 _Position = Vector2.Zero;
+
+		#endregion //Members
+
 		#region Properties
 
 		/// <summary>
@@ -31,18 +40,18 @@ namespace FlockBuddy
 
 		/// <summary>
 		/// its location in the environment
-		/// </summary>
-		protected Circle Physics { get; private set; }
-
-		/// <summary>
-		/// its location in the environment
 		/// Used by the cell space IMovingEntity thing
 		/// </summary>
 		public Vector2 Position
 		{
 			get
 			{
-				return Physics.Pos;
+				return _Position;
+			}
+			set
+			{
+				OldPosition = _Position;
+				_Position = value;
 			}
 		}
 
@@ -50,24 +59,12 @@ namespace FlockBuddy
 		/// its location in the environment
 		/// Used by the cell space IMovingEntity thing
 		/// </summary>
-		public Vector2 OldPosition
-		{
-			get
-			{
-				return Physics.OldPos;
-			}
-		}
+		public Vector2 OldPosition { get; private set; }
 
 		/// <summary>
 		/// the length of this object's bounding radius
 		/// </summary>
-		public float BoundingRadius
-		{
-			get
-			{
-				return Physics.Radius;
-			}
-		}
+		public float BoundingRadius { get; private set; }
 
 		#endregion //Properties
 
@@ -95,7 +92,11 @@ namespace FlockBuddy
 		public BaseEntity(Vector2 pos, float r)
 		{
 			ID = NextValidID();
-			Physics = new Circle(pos, r);
+
+			_Position = pos;
+			OldPosition = pos;
+			BoundingRadius = r;
+
 			Tagged = false;
 		}
 

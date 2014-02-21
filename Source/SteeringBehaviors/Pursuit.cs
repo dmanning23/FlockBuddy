@@ -12,12 +12,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// A dude we are chasing
 		/// </summary>
-		Boid Prey { get; set; }
+		private Boid Prey { get; set; }
 
 		/// <summary>
 		/// Used to chase dudes
 		/// </summary>
-		Seek SeekAction { get; set; }
+		private Seek SeekAction { get; set; }
 
 		#endregion //Members
 

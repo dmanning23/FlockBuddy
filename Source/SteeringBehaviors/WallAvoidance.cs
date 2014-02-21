@@ -16,14 +16,14 @@ namespace FlockBuddy
 		/// <summary>
 		/// The walls to avoid
 		/// </summary>
-		List<Line> Walls { get; set; }
+		private List<Line> Walls { get; set; }
 
 		/// <summary>
 		/// little whiskers that this dude will use to detect walls
 		/// </summary>
-		List<Vector2> Feelers { get; set; }
+		public List<Vector2> Feelers { get; set; }
 
-		const float WhiskerLength = 20.0f;
+		private const float WhiskerLength = 20.0f;
 
 		#endregion //Members
 
@@ -56,6 +56,11 @@ namespace FlockBuddy
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{
+			if (0 >= Walls.Count)
+			{
+				return Vector2.Zero;
+			}
+
 			//the feelers are contained in a std::vector, m_Feelers
 			CreateFeelers();
 

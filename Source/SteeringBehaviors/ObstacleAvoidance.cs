@@ -12,7 +12,7 @@ namespace FlockBuddy
 		#region Members
 
 		//length of the 'detection box' utilized in obstacle avoidance
-		const float DBoxLength = 100.0f;
+		private const float DBoxLength = 100.0f;
 
 		#endregion //Members
 

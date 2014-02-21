@@ -234,6 +234,18 @@ namespace FlockBuddy
 			prim.Line(Position, Position + Force, Color.Yellow);
 		}
 
+		public void DrawWallFeelers(IBasicPrimitive prim)
+		{
+			//get the wall avoidance steering behavior
+			WallAvoidance behav = Behaviors.Behaviors[(int)EBehaviorType.wall_avoidance] as WallAvoidance;
+
+			//draw all the whiskers
+			foreach (var whisker in behav.Feelers)
+			{
+				prim.Line(Position, whisker, Color.MediumPurple);
+			}
+		}
+
 		#endregion //Methods
 	}
 }

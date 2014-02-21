@@ -56,10 +56,28 @@ namespace FlockBuddy
 		//any path we may create for the vehicles to follow
 		//Path*                         m_pPath;
 
+		private bool _useCellSpace = false;
+
 		/// <summary>
 		/// whether or not to use the cell space partitioning
 		/// </summary>
-		private bool UseCellSpace { get; set; }
+		public bool UseCellSpace 
+		{
+			get
+			{
+				return _useCellSpace;
+			}
+			set
+			{
+				_useCellSpace = value;
+
+				//Clear out the cell space if we arent using it
+				if (false == _useCellSpace)
+				{
+					CellSpace.Clear();
+				}
+			}
+		}
 
 		/// <summary>
 		/// Whether or not to constrian  boids to within toroid world
@@ -80,6 +98,8 @@ namespace FlockBuddy
 		/// </summary>
 		public Flock()
 		{
+			UseWorldWrap = false;
+
 			Dudes = new List<Boid>();
 			FlockTimer = new GameClock();
 			CellSpace = new CellSpacePartition<Boid>(WorldSize, 20, 20);
@@ -252,7 +272,6 @@ namespace FlockBuddy
 		/// draw a bunch of debug info
 		/// </summary>
 		/// <param name="prim"></param>
-		/// <param name="drawCells"></param>
 		public void DrawCells(IBasicPrimitive prim)
 		{
 			CellSpace.RenderCells(prim);
@@ -273,11 +292,6 @@ namespace FlockBuddy
 		//void NonPenetrationContraint(Boid dude)
 		//{
 		//	EnforceNonPenetrationConstraint(dude, Dudes);
-		//}
-
-		//void TagVehiclesWithinViewRange(Boid dude, double range)
-		//{
-		//	dude.TagNeighbors(Dudes, range);
 		//}
 
 		/// <summary>

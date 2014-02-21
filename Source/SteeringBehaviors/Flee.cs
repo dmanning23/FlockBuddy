@@ -12,12 +12,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// The position to run away from!
 		/// </summary>
-		public Vector2 TargetPos;
+		private Vector2 TargetPos;
 
 		/// <summary>
 		/// How far to look out for bad guys
 		/// </summary>
-		const float PanicDistance = 100.0f;
+		private const float PanicDistance = 100.0f;
 
 		#endregion //Members
 

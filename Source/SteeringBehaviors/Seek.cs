@@ -12,7 +12,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// The target position
 		/// </summary>
-		Vector2 TargetPos { get; set; }
+		private Vector2 TargetPos { get; set; }
 
 		#endregion //Members
 

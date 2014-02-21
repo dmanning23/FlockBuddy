@@ -190,10 +190,15 @@ namespace FlockBuddy
 			return Behaviors.Calculate(BoidTimer);
 		}
 
-		public void Render(IBasicPrimitive prim)
+		/// <summary>
+		/// Draw the bounding circle and heading of this boid
+		/// </summary>
+		/// <param name="prim"></param>
+		/// <param name="color"></param>
+		public void Render(IBasicPrimitive prim, Color color)
 		{
-			prim.Circle(Position, BoundingRadius, Color.White);
-			prim.Line(Position, Position + (BoundingRadius * Heading), Color.White);
+			DrawPhysics(prim, color);
+			prim.Line(Position, Position + (BoundingRadius * Heading), color);
 		}
 
 		/// <summary>

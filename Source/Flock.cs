@@ -73,6 +73,8 @@ namespace FlockBuddy
 
 		#endregion //Members
 
+		#region Methods
+
 		/// <summary>
 		/// Construct the flock!
 		/// </summary>
@@ -287,5 +289,16 @@ namespace FlockBuddy
 		{
 			dude.TagObjects(Obstacles, range);
 		}
+
+		/// <summary>
+		/// Remove all the boids from this flock.
+		/// </summary>
+		public void Clear()
+		{
+			Dudes.Clear();
+			CellSpace.Clear();
+		}
+
+		#endregion //Methods
 	}
 }

@@ -289,6 +289,30 @@ namespace FlockBuddy
 			}
 		}
 
+		/// <summary>
+		/// draw the wall whiskers of all the dudes
+		/// </summary>
+		/// <param name="prim"></param>
+		public void DrawWhiskers(IBasicPrimitive prim)
+		{
+			foreach (Boid dude in Dudes)
+			{
+				dude.DrawWallFeelers(prim);
+			}
+		}
+
+		/// <summary>
+		/// draw all the walls 
+		/// </summary>
+		/// <param name="prim"></param>
+		public void DrawWalls(IBasicPrimitive prim)
+		{
+			foreach (var wall in Walls)
+			{
+				wall.Draw(prim, Color.Black);
+			}
+		}
+
 		//void NonPenetrationContraint(Boid dude)
 		//{
 		//	EnforceNonPenetrationConstraint(dude, Dudes);

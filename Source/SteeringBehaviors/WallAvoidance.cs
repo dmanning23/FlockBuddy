@@ -23,7 +23,7 @@ namespace FlockBuddy
 		/// </summary>
 		public List<Vector2> Feelers { get; set; }
 
-		private const float WhiskerLength = 20.0f;
+		private const float WhiskerLength = 50.0f;
 
 		#endregion //Members
 
@@ -35,13 +35,14 @@ namespace FlockBuddy
 		public WallAvoidance(Boid dude)
 			: base(dude, EBehaviorType.wall_avoidance)
 		{
+			Weight = 40.0f;
 			Feelers = new List<Vector2>();
 		}
 
 		/// <summary>
 		/// This returns a steering force that will keep the agent away from any walls it may encounter
 		/// </summary>
-		/// <param name="time"></param>
+		/// <param name="walls"></param>
 		/// <returns></returns>
 		public Vector2 GetSteering(List<Line> walls)
 		{
@@ -52,7 +53,6 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
-		/// <param name="time"></param>
 		/// <returns></returns>
 		protected override Vector2 GetSteering()
 		{

@@ -242,7 +242,7 @@ namespace FlockBuddy
 			//draw all the whiskers
 			foreach (var whisker in behav.Feelers)
 			{
-				prim.Line(Position, whisker, Color.MediumPurple);
+				prim.Line(Position, whisker, Color.Aqua);
 			}
 		}
 

@@ -23,7 +23,7 @@ namespace FlockBuddy
 		/// </summary>
 		public List<Vector2> Feelers { get; set; }
 
-		private const float WhiskerLength = 50.0f;
+		private const float WhiskerLength = 70.0f;
 
 		#endregion //Members
 
@@ -35,7 +35,7 @@ namespace FlockBuddy
 		public WallAvoidance(Boid dude)
 			: base(dude, EBehaviorType.wall_avoidance)
 		{
-			Weight = 40.0f;
+			Weight = 50.0f;
 			Feelers = new List<Vector2>();
 		}
 

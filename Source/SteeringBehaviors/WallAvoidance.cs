@@ -23,7 +23,7 @@ namespace FlockBuddy
 		/// </summary>
 		public List<Vector2> Feelers { get; set; }
 
-		private const float WhiskerLength = 70.0f;
+		private const float WhiskerLength = 60.0f;
 
 		#endregion //Members
 

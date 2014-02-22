@@ -24,7 +24,7 @@ namespace FlockBuddy
 		public ObstacleAvoidance(Boid dude)
 			: base(dude, EBehaviorType.obstacle_avoidance)
 		{
-			Weight = 40.0f;
+			Weight = 30.0f;
 		}
 
 		public Vector2 GetSteering2()
@@ -110,10 +110,13 @@ namespace FlockBuddy
 			if (null != closestIntersectingObstacle)
 			{
 				Vector2 toAgent = Owner.Position - closestIntersectingObstacle.Position;
+				toAgent.Normalize();
+
+				//get the distance to the edge of the obstacle
+				Vector2 dist = (toAgent * closestIntersectingObstacle.BoundingRadius) - localPosOfClosestObstacle;
 
 				//scale the force inversely proportional to the agents distance from the collision point
-				toAgent.Normalize();
-				float multiplier = 1.0f + (DBoxLength - localPosOfClosestObstacle.X) / DBoxLength;
+				float multiplier = 1.0f + (DBoxLength - dist.X) / DBoxLength;
 				steeringForce = toAgent * multiplier;
 			}
 

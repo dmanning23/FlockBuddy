@@ -109,10 +109,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\AverageBuddy\Windows\AverageBuddy.Windows.csproj">
-      <Project>{5c824c4d-746c-4b13-9b71-ceeba37c3b6f}</Project>
-      <Name>AverageBuddy.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\BasicPrimitiveBuddy\Windows\BasicPrimitiveBuddy.Windows.csproj">
       <Project>{0faa1286-7bfa-4765-8b51-62e438cb121d}</Project>
       <Name>BasicPrimitiveBuddy.Windows</Name>

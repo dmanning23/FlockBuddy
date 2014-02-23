@@ -1,4 +1,3 @@
-using AverageBuddy;
 using BasicPrimitiveBuddy;
 using CellSpacePartitionLib;
 using GameTimer;
@@ -17,8 +16,6 @@ namespace FlockBuddy
 	{
 		#region Members
 
-		private Vector2 _smootherHeading = Vector2.UnitX;
-
 		/// <summary>
 		/// how far to do a query to calculate neightbors
 		/// </summary>
@@ -36,48 +33,9 @@ namespace FlockBuddy
 		public SteeringBehaviors Behaviors { get; private set; }
 
 		/// <summary>
-		/// some steering behaviors give jerky looking movement. 
-		/// The following members are used to smooth the vehicle's heading
-		/// </summary>
-		protected Averager<Vector2> HeadingSmoother { get; private set; }
-
-		/// <summary>
-		/// this vector represents the average of the vehicle's heading vector smoothed over the last few frames
-		/// </summary>
-		public Vector2 SmoothedHeading 
-		{
-			get
-			{
-				return _smootherHeading;
-			}
-			set
-			{
-				_smootherHeading = value;
-				_smootherHeading.Normalize();
-			}
-		}
-
-		/// <summary>
-		/// when true, smoothing is active
-		/// </summary>
-		public bool SmoothingOn { get; set; }
-
-		/// <summary>
 		/// the flock that owns this dude
 		/// </summary>
 		public Flock MyFlock { get; private set; }
-
-		/// <summary>
-		/// Get the direction this dude is facing.
-		/// Does some ,ath, so don't go crazy with this.  Use for drawing only!
-		/// </summary>
-		public float Rotation
-		{
-			get
-			{
-				return (SmoothingOn ? SmoothedHeading.Angle() : Heading.Angle());
-			}
-		}
 
 		public Vector2 Force
 		{
@@ -113,14 +71,9 @@ namespace FlockBuddy
 				max_force)
 		{
 			MyFlock = owner;
-			SmoothedHeading = Vector2.Zero;
-			SmoothingOn = false;
 
 			//set up the steering behavior class
 			Behaviors = new SteeringBehaviors(this);
-
-			//set up the smoother
-			HeadingSmoother = new Averager<Vector2>(10, Vector2.Zero);
 		}
 
 		/// <summary>
@@ -143,12 +96,6 @@ namespace FlockBuddy
 
 			//turn towards that point if the vehicle has a non zero velocity
 			RotateHeadingToFacePosition(_force);
-
-			//Set the velocity
-			if (SmoothingOn)
-			{
-				SmoothedHeading = HeadingSmoother.Update(Heading);
-			}
 
 			//make sure vehicle does not exceed maximum velocity
 			Speed = MathHelper.Clamp(Speed, 0.0f, MaxSpeed);

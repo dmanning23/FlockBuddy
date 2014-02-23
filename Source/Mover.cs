@@ -77,6 +77,17 @@ namespace FlockBuddy
 			}
 		}
 
+		/// <summary>
+		/// Get the direction this dude is facing.
+		/// </summary>
+		public float Rotation
+		{
+			get
+			{
+				return Heading.Angle();
+			}
+		}
+
 		public float Mass { get; set; }
 
 		/// <summary>

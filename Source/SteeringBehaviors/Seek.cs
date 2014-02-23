@@ -45,10 +45,13 @@ namespace FlockBuddy
 		{
 			//get the direction to the target position
 			Vector2 desiredVelocity = (TargetPos - Owner.Position);
-			desiredVelocity.Normalize();
+			if (desiredVelocity.LengthSquared() > 0.0f)
+			{
+				desiredVelocity.Normalize();
 
-			//move towards the target as fast as possible
-			desiredVelocity *= Owner.MaxSpeed;
+				//move towards the target as fast as possible
+				desiredVelocity *= Owner.MaxSpeed;
+			}
 
 			return (desiredVelocity - Owner.Velocity) * Weight;
 		}

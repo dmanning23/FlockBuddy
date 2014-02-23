@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 using System.Collections.Generic;
 using GameTimer;
 using Vector2Extensions;
@@ -258,16 +259,22 @@ namespace FlockBuddy
 			if (IsActive(EBehaviorType.wall_avoidance))
 			{
 				steeringForce += CalcWallAvoidance();
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			if (IsActive(EBehaviorType.obstacle_avoidance))
 			{
 				steeringForce += CalcObstacleAvoidance();
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			if (IsActive(EBehaviorType.evade))
 			{
 				steeringForce += CalcEvade();
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 
@@ -277,16 +284,22 @@ namespace FlockBuddy
 			if (IsActive(EBehaviorType.separation))
 			{
 				steeringForce += CalcSeparation();
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			if (IsActive(EBehaviorType.alignment))
 			{
 				steeringForce += CalcAlignment();
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			if (IsActive(EBehaviorType.cohesion))
 			{
 				steeringForce += CalcCohesion();
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 

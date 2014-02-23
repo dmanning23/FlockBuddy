@@ -133,6 +133,11 @@ namespace FlockBuddy
 
 			//Acceleration = Force/Mass
 			_force = GetSteeringForce() / Mass;
+
+			Debug.Assert(!float.IsNaN(Mass));
+			Debug.Assert(!float.IsNaN(_force.X));
+			Debug.Assert(!float.IsNaN(_force.Y));
+
 			_force = _force.Truncate(MaxForce);//TODO: do need this? prioritixzed shoudl already do it
 			//acceleration *= BoidTimer.TimeDelta;
 

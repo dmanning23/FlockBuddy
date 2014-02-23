@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
@@ -55,10 +56,14 @@ namespace FlockBuddy
 				{
 					Vector2 toAgent = Owner.Position - Buddies[i].Position;
 					float length = toAgent.Length();
-					toAgent.Normalize();
 
-					//scale the force inversely proportional to the agents distance from its neighbor.
-					steeringForce += toAgent / length;
+					if (length != 0.0f)
+					{
+						toAgent.Normalize();
+
+						//scale the force inversely proportional to the agents distance from its neighbor.
+						steeringForce += toAgent / length;
+					}
 				}
 			}
 

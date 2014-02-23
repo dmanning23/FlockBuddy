@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
@@ -73,6 +74,8 @@ namespace FlockBuddy
 
 				//now seek towards that position
 				steeringForce = SeekBehavior.GetSteering(centerOfMass);
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			//the magnitude of cohesion is usually much larger than separation or

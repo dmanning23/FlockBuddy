@@ -138,6 +138,9 @@ namespace FlockBuddy
 		/// <returns>returns true when the heading is facing in the desired direction</returns>
 		public bool RotateHeadingToFacePosition(Vector2 targetHeading)
 		{
+			Debug.Assert(!float.IsNaN(targetHeading.X));
+			Debug.Assert(!float.IsNaN(targetHeading.Y));
+
 			//get the amount to turn towrads the new heading
 			float angle = 0.0f;
 			if (GetAmountToTurn(targetHeading, ref angle))
@@ -205,6 +208,8 @@ namespace FlockBuddy
 		/// <returns></returns>
 		public void RotateHeading(float fAngle)
 		{
+			Debug.Assert(!float.IsNaN(fAngle));
+
 			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
 			Matrix RotationMatrix = MatrixExt.Orientation(fAngle);
 

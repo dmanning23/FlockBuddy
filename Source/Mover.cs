@@ -1,4 +1,5 @@
 using GameTimer;
+using BasicPrimitiveBuddy;
 using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using System;
@@ -238,6 +239,25 @@ namespace FlockBuddy
 
 			//update the time elapsed
 			BoidTimer.Update(curTime);
+		}
+
+		/// <summary>
+		/// Draw the bounding circle and heading of this boid
+		/// </summary>
+		/// <param name="prim"></param>
+		/// <param name="color"></param>
+		public virtual void Render(IBasicPrimitive prim, Color color)
+		{
+			DrawPhysics(prim, color);
+			prim.Line(Position, Position + (BoundingRadius * Heading), color);
+		}
+
+		/// <summary>
+		/// Draw the detection circle and point out all the neighbors
+		/// </summary>
+		/// <param name="curTime"></param>
+		public virtual void DrawNeigbors(IBasicPrimitive prim)
+		{
 		}
 
 		#endregion //Methods

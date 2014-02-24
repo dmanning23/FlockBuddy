@@ -71,6 +71,7 @@ namespace FlockBuddy
 				max_force)
 		{
 			MyFlock = owner;
+			MyFlock.AddDude(this);
 
 			//set up the steering behavior class
 			Behaviors = new SteeringBehaviors(this);
@@ -121,15 +122,15 @@ namespace FlockBuddy
 		public Vector2 GetSteeringForce()
 		{
 			//Update the flock
-			List<Boid> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
+			List<Mover> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
 
 			//update the enemies
-			Boid enemy1;
-			Boid enemy2;
+			Mover enemy1;
+			Mover enemy2;
 			MyFlock.FindEnemies(this, out enemy1, out enemy2);
 
 			//update the target dudes
-			Boid target;
+			Mover target;
 			MyFlock.FindTarget(this, out target);
 
 			//Update the steering behaviors
@@ -147,17 +148,22 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="prim"></param>
 		/// <param name="color"></param>
-		public void Render(IBasicPrimitive prim, Color color)
+		public override void Render(IBasicPrimitive prim, Color color)
 		{
-			DrawPhysics(prim, color);
-			prim.Line(Position, Position + (BoundingRadius * Heading), color);
+			base.Render(prim, color);
+			
+			//draw the target
+			if (null != Behaviors.Prey)
+			{
+				Behaviors.Prey.Render(prim, Color.Yellow);
+			}
 		}
 
 		/// <summary>
 		/// Draw the detection circle and point out all the neighbors
 		/// </summary>
 		/// <param name="curTime"></param>
-		public void DrawNeigbors(IBasicPrimitive prim)
+		public override void DrawNeigbors(IBasicPrimitive prim)
 		{
 			//draw the query cells
 			MyFlock.CellSpace.RenderCellIntersections(prim, Position, QueryRadius, Color.Green);
@@ -170,8 +176,8 @@ namespace FlockBuddy
 			prim.Circle(Position, QueryRadius, Color.White);
 
 			//draw the neighbor dudes
-			List<Boid> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
-			foreach (Boid neighbor in neighbors)
+			List<Mover> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
+			foreach (var neighbor in neighbors)
 			{
 				prim.Circle(neighbor.Position, neighbor.BoundingRadius, Color.Red);
 			}

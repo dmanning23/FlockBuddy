@@ -12,7 +12,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// A dude we are chasing
 		/// </summary>
-		private Boid Prey { get; set; }
+		private Mover Prey { get; set; }
 
 		/// <summary>
 		/// Used to chase dudes
@@ -37,7 +37,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="prey"></param>
 		/// <returns></returns>
-		public Vector2 GetSteering(Boid prey)
+		public Vector2 GetSteering(Mover prey)
 		{
 			Prey = prey;
 			if (null == Prey)

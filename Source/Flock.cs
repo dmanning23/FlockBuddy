@@ -21,7 +21,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// a container of all the moving entities this dude is managing
 		/// </summary>
-		public List<Boid> Dudes { get; private set; }
+		public List<Mover> Dudes { get; private set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
@@ -31,7 +31,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// break up the game world into cells to make it easier to update the flock
 		/// </summary>
-		public CellSpacePartition<Boid> CellSpace { get; private set; }
+		public CellSpacePartition<Mover> CellSpace { get; private set; }
 
 		/// <summary>
 		/// any obstacles for this flock
@@ -46,12 +46,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// A list of all the enemies of this flock.  We will run away from them!
 		/// </summary>
-		public List<Boid> Enemies { get; set; }
+		public List<Mover> Enemies { get; set; }
 
 		/// <summary>
 		/// A list of all the dudes we gonna chase
 		/// </summary>
-		public List<Boid> Targets { get; set; }
+		public List<Mover> Targets { get; set; }
 
 		//any path we may create for the vehicles to follow
 		//Path*                         m_pPath;
@@ -100,15 +100,15 @@ namespace FlockBuddy
 		{
 			UseWorldWrap = false;
 
-			Dudes = new List<Boid>();
+			Dudes = new List<Mover>();
 			FlockTimer = new GameClock();
-			CellSpace = new CellSpacePartition<Boid>(WorldSize, 20, 20);
+			CellSpace = new CellSpacePartition<Mover>(WorldSize, 20, 20);
 
 			//set this stuff here, but will prolly be overridden right away 
 			Obstacles = new List<BaseEntity>();
-			Enemies = new List<Boid>();
+			Enemies = new List<Mover>();
 			Walls = new List<Line>();
-			Targets = new List<Boid>();
+			Targets = new List<Mover>();
 		}
 
 		/// <summary>
@@ -125,7 +125,7 @@ namespace FlockBuddy
 			this.WorldSize = worldSize;
 			this.UseWorldWrap = useWorldWrap;
 			this.UseCellSpace = useCellSpace;
-			CellSpace = new CellSpacePartition<Boid>(WorldSize, cellsX, cellsY);
+			CellSpace = new CellSpacePartition<Mover>(WorldSize, cellsX, cellsY);
 		}
 
 		/// <summary>
@@ -133,7 +133,7 @@ namespace FlockBuddy
 		/// This is the only way that dudes should be added to ensure they go in the cell space corerctly.
 		/// </summary>
 		/// <param name="dude"></param>
-		public void AddDude(Boid dude)
+		internal void AddDude(Boid dude)
 		{
 			Dudes.Add(dude);
 			if (UseCellSpace)
@@ -198,7 +198,7 @@ namespace FlockBuddy
 		/// Tag all the guys inteh flock that are neightbors of a dude.
 		/// </summary>
 		/// <param name="dude"></param>
-		public List<Boid> TagNeighbors(Boid dude, float queryRadius)
+		public List<Mover> TagNeighbors(Boid dude, float queryRadius)
 		{
 			if (UseCellSpace)
 			{
@@ -227,7 +227,7 @@ namespace FlockBuddy
 		/// <param name="dude"></param>
 		/// <param name="enemy1"></param>
 		/// <param name="enemy2"></param>
-		public void FindEnemies(Boid dude, out Boid enemy1, out Boid enemy2)
+		public void FindEnemies(Boid dude, out Mover enemy1, out Mover enemy2)
 		{
 			//are there any enemies in the list?
 			if (Enemies.Count >= 2)
@@ -255,7 +255,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dude"></param>
 		/// <param name="target"></param>
-		public void FindTarget(Boid dude, out Boid target)
+		public void FindTarget(Boid dude, out Mover target)
 		{
 			//are there any targets in the list?
 			if (Targets.Count >= 1)

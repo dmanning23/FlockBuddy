@@ -113,7 +113,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dudes">teh list of entities to tag as neighbors</param>
 		/// <param name="radius">the disdtance to tag neightbors</param>
-		public void TagNeighbors(List<Boid> dudes, float radius)
+		public void TagNeighbors(List<Mover> dudes, float radius)
 		{
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)

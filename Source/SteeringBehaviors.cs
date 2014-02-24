@@ -41,22 +41,22 @@ namespace FlockBuddy
 		/// <summary>
 		/// A list of all the neighbors to use
 		/// </summary>
-		public List<Boid> Neighbors { get; set; }
+		public List<Mover> Neighbors { get; set; }
 
 		/// <summary>
 		/// these can be used to keep track of pursuers
 		/// </summary>
-		public Boid Enemy1 { get; set; }
+		public Mover Enemy1 { get; set; }
 
 		/// <summary>
 		/// these can be used to keep track of pursuers
 		/// </summary>
-		public Boid Enemy2 { get; set; }
+		public Mover Enemy2 { get; set; }
 
 		/// <summary>
 		/// these can be used to keep track of target dudes
 		/// </summary>
-		public Boid Prey { get; set; }
+		public Mover Prey { get; set; }
 
 		/// <summary>
 		/// the current target point
@@ -165,9 +165,8 @@ namespace FlockBuddy
 
 		public Vector2 CalcPursuit()
 		{
-			//TODO
 			Pursuit behavior = Behaviors[(int)EBehaviorType.pursuit] as Pursuit;
-			return Vector2.Zero;
+			return behavior.GetSteering(Prey);
 		}
 
 		public Vector2 CalcSeek()

@@ -12,12 +12,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// A dude chasing this dude
 		/// </summary>
-		private Boid Pursuer { get; set; }
+		private Mover Pursuer { get; set; }
 
 		/// <summary>
 		/// How far to look out for bad guys
 		/// </summary>
-		private const float ThreatRange = 100.0f;
+		private const float ThreatRange = 80.0f;
 
 		/// <summary>
 		/// Used to run away from bad guys
@@ -42,7 +42,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="pursuer"></param>
 		/// <returns></returns>
-		public Vector2 GetSteering(Boid pursuer)
+		public Vector2 GetSteering(Mover pursuer)
 		{
 			Pursuer = pursuer;
 			if (null == Pursuer)

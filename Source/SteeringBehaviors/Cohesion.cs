@@ -29,6 +29,7 @@ namespace FlockBuddy
 			: base(dude, EBehaviorType.cohesion)
 		{
 			SeekBehavior = new Seek(dude);
+			Weight = 0.5f;
 		}
 
 		/// <summary>

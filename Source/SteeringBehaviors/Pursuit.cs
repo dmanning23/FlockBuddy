@@ -30,6 +30,7 @@ namespace FlockBuddy
 			: base(dude, EBehaviorType.pursuit)
 		{
 			SeekAction = new Seek(dude);
+			Weight = 0.1f;
 		}
 
 		/// <summary>
@@ -75,7 +76,7 @@ namespace FlockBuddy
 			float lookAheadTime = toEvader.Length() / (Owner.MaxSpeed + Prey.Speed);
 
 			//now seek to the predicted future position of the evader
-			return SeekAction.GetSteering(Prey.Position + Prey.Velocity * lookAheadTime);
+			return SeekAction.GetSteering(Prey.Position + (Prey.Velocity * lookAheadTime)) * Weight;
 		}
 
 		#endregion //Methods

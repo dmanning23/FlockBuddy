@@ -28,7 +28,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// a container of all the moving entities this dude is managing
 		/// </summary>
-		private List<Mover> Dudes { get; set; }
+		public List<Mover> Dudes { get; private set; }
 
 		/// <summary>
 		/// The game clock to manage this flock

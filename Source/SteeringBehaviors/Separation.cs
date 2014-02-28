@@ -52,18 +52,16 @@ namespace FlockBuddy
 			{
 				//make sure this agent isn't included in the calculations and that the agent being examined is close enough. 
 				//***also make sure it doesn't include the evade target ***
-				if (Buddies[i].ID != Owner.ID)
+				Vector2 toAgent = Owner.Position - Buddies[i].Position;
+				float length = toAgent.Length();
+
+				if (length != 0.0f)
 				{
-					Vector2 toAgent = Owner.Position - Buddies[i].Position;
-					float length = toAgent.Length();
+					//normalize the vector
+					toAgent /= length;
 
-					if (length != 0.0f)
-					{
-						toAgent.Normalize();
-
-						//scale the force inversely proportional to the agents distance from its neighbor.
-						steeringForce += toAgent / length;
-					}
+					//scale the force inversely proportional to the agents distance from its neighbor.
+					steeringForce += toAgent / length;
 				}
 			}
 

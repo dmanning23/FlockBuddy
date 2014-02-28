@@ -57,11 +57,8 @@ namespace FlockBuddy
 			{
 				//make sure *this* agent isn't included in the calculations 
 				//and that the agent being examined  is close enough 
-				if (Buddies[i].ID != Owner.ID)
-				{
-					AverageHeading += Buddies[i].Heading;
-					++NeighborCount;
-				}
+				AverageHeading += Buddies[i].Heading;
+				++NeighborCount;
 			}
 
 			//if the neighborhood contained one or more vehicles, average their heading vectors.

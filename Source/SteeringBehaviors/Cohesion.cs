@@ -61,11 +61,8 @@ namespace FlockBuddy
 				//make sure *this* agent isn't included in the calculations and that
 				//the agent being examined is close enough ***also make sure it doesn't
 				//include the evade target ***
-				if (Buddies[i].ID != Owner.ID)
-				{
-					centerOfMass += Buddies[i].Position;
-					neighborCount++;
-				}
+				centerOfMass += Buddies[i].Position;
+				neighborCount++;
 			}
 
 			if (neighborCount > 0)

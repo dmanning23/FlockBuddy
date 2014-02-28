@@ -57,7 +57,7 @@ namespace FlockBuddy
 			{
 				//make sure *this* agent isn't included in the calculations 
 				//and that the agent being examined  is close enough 
-				if (Buddies[i].Tagged && (Buddies[i].ID != Owner.ID))
+				if (Buddies[i].ID != Owner.ID)
 				{
 					AverageHeading += Buddies[i].Heading;
 					++NeighborCount;

@@ -42,7 +42,7 @@ namespace FlockBuddy
 			float boxLength = DBoxLength + (Owner.Speed / Owner.MaxSpeed) * DBoxLength;
 
 			//tag all obstacles within range of the box for processing
-			Owner.MyFlock.TagObstacles(Owner, boxLength);
+			var obs = Owner.MyFlock.TagObstacles(Owner, boxLength);
 
 			//this will keep track of the closest intersecting obstacle (CIB)
 			BaseEntity closestIntersectingObstacle = null;
@@ -53,53 +53,49 @@ namespace FlockBuddy
 			//this will record the transformed local coordinates of the CIB
 			Vector2 localPosOfClosestObstacle = Vector2.Zero;
 
-			for (int i = 0; i < Owner.MyFlock.Obstacles.Count; i++)
+			for (int i = 0; i < obs.Count; i++)
 			{
-				var curOb = Owner.MyFlock.Obstacles[i];
+				var curOb = obs[i];
 
-				//if the obstacle has been tagged within range proceed
-				if (curOb.Tagged)
+				//calculate this obstacle's position in local space
+				Vector2 localPos = curOb.Position.ToLocalSpace(Owner.Heading, Owner.Side, Owner.Position);
+
+				//if the local position has a negative x value then it must lay
+				//behind the agent. (in which case it can be ignored)
+				if (localPos.X >= 0)
 				{
-					//calculate this obstacle's position in local space
-					Vector2 localPos = curOb.Position.ToLocalSpace(Owner.Heading, Owner.Side, Owner.Position);
+					//if the distance from the x axis to the object's position is less
+					//than its radius + half the width of the detection box then there
+					//is a potential intersection.
+					double expandedRadius = curOb.BoundingRadius + Owner.BoundingRadius + 1;
 
-					//if the local position has a negative x value then it must lay
-					//behind the agent. (in which case it can be ignored)
-					if (localPos.X >= 0)
+					if (Math.Abs(localPos.Y) < expandedRadius)
 					{
-						//if the distance from the x axis to the object's position is less
-						//than its radius + half the width of the detection box then there
-						//is a potential intersection.
-						double expandedRadius = curOb.BoundingRadius + Owner.BoundingRadius + 1;
+						//now to do a line/circle intersection test. The center of the 
+						//circle is represented by (cX, cY). The intersection points are 
+						//given by the formula x = cX +/-sqrt(r^2-cY^2) for y=0. 
+						//We only need to look at the smallest positive value of x because
+						//that will be the closest point of intersection.
+						float cX = localPos.X;
+						float cY = localPos.Y;
 
-						if (Math.Abs(localPos.Y) < expandedRadius)
+						//we only need to calculate the sqrt part of the above equation once
+						float sqrtPart = (float)Math.Sqrt(expandedRadius * expandedRadius - cY * cY);
+
+						float ip = cX - sqrtPart;
+
+						if (ip <= 0.0)
 						{
-							//now to do a line/circle intersection test. The center of the 
-							//circle is represented by (cX, cY). The intersection points are 
-							//given by the formula x = cX +/-sqrt(r^2-cY^2) for y=0. 
-							//We only need to look at the smallest positive value of x because
-							//that will be the closest point of intersection.
-							float cX = localPos.X;
-							float cY = localPos.Y;
+							ip = cX + sqrtPart;
+						}
 
-							//we only need to calculate the sqrt part of the above equation once
-							float sqrtPart = (float)Math.Sqrt(expandedRadius * expandedRadius - cY * cY);
-
-							float ip = cX - sqrtPart;
-
-							if (ip <= 0.0)
-							{
-								ip = cX + sqrtPart;
-							}
-
-							//test to see if this is the closest so far. If it is keep a
-							//record of the obstacle and its local coordinates
-							if (ip < distToClosestIP)
-							{
-								distToClosestIP = ip;
-								closestIntersectingObstacle = curOb;
-								localPosOfClosestObstacle = localPos;
-							}
+						//test to see if this is the closest so far. If it is keep a
+						//record of the obstacle and its local coordinates
+						if (ip < distToClosestIP)
+						{
+							distToClosestIP = ip;
+							closestIntersectingObstacle = curOb;
+							localPosOfClosestObstacle = localPos;
 						}
 					}
 				}

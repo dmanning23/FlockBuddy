@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using CollisionBuddy;
 using CellSpacePartitionLib;
 using Microsoft.Xna.Framework;
 using GameTimer;
 using BasicPrimitiveBuddy;
+using System.Threading.Tasks;
 
 namespace FlockBuddy
 {
@@ -19,9 +21,14 @@ namespace FlockBuddy
 		#region Members
 
 		/// <summary>
+		/// crappy lock object for list access
+		/// </summary>
+		private object _listLock = new object();
+
+		/// <summary>
 		/// a container of all the moving entities this dude is managing
 		/// </summary>
-		public List<Mover> Dudes { get; private set; }
+		private List<Mover> Dudes { get; set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
@@ -135,10 +142,13 @@ namespace FlockBuddy
 		/// <param name="dude"></param>
 		internal void AddDude(Boid dude)
 		{
-			Dudes.Add(dude);
-			if (UseCellSpace)
+			lock (_listLock)
 			{
-				CellSpace.Add(dude);
+				Dudes.Add(dude);
+				if (UseCellSpace)
+				{
+					CellSpace.Add(dude);
+				}
 			}
 		}
 
@@ -152,17 +162,37 @@ namespace FlockBuddy
 			//update the time
 			FlockTimer.Update(curTime);
 
+			//create a list of all our tasks
+			List<Task> taskList = new List<Task>();
+
 			//Update all the flock dudes
 			for (int i = 0; i < Dudes.Count; i++)
 			{
-				Dudes[i].Update(FlockTimer);
+				Boid dude = Dudes[i] as Boid;
+				Debug.Assert(null != dude);
+				taskList.Add(dude.UpdateAsync(FlockTimer));
+			}
 
-				//update the vehicle's current cell if space partitioning is turned on
-				if (UseCellSpace)
+			//wait for all the updates to finish
+			Task.WaitAll(taskList.ToArray());
+
+			//update the vehicle's current cell if space partitioning is turned on
+			if (UseCellSpace)
+			{
+				for (int i = 0; i < Dudes.Count; i++)
 				{
 					CellSpace.Update(Dudes[i]);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Remove a boid from the list
+		/// </summary>
+		/// <param name="dude"></param>
+		public void RemoveBoid(Boid dude)
+		{
+			Dudes.Remove(dude);
 		}
 
 		/// <summary>
@@ -206,17 +236,12 @@ namespace FlockBuddy
 				CellSpace.CalculateNeighbors(dude.Position, queryRadius);
 
 				//tag & return all the dudes it found
-				for (int i = 0; i < CellSpace.Neighbors.Count; i++)
-				{
-					CellSpace.Neighbors[i].Tagged = true;
-				}
 				return CellSpace.Neighbors;
 			}
 			else
 			{
 				//go through all the dudes and tag them up
-				dude.TagNeighbors(Dudes, queryRadius);
-				return Dudes;
+				return dude.TagNeighbors(Dudes, queryRadius);
 			}
 		}
 
@@ -323,9 +348,9 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dude"></param>
 		/// <param name="range"></param>
-		public void TagObstacles(Boid dude, float range)
+		public List<BaseEntity> TagObstacles(Boid dude, float range)
 		{
-			dude.TagObjects(Obstacles, range);
+			return dude.TagObjects(Obstacles, range);
 		}
 
 		/// <summary>

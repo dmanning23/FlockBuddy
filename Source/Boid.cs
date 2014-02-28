@@ -1,4 +1,5 @@
 using BasicPrimitiveBuddy;
+using System.Threading.Tasks;
 using CellSpacePartitionLib;
 using GameTimer;
 using Microsoft.Xna.Framework;
@@ -78,6 +79,18 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
+		/// Asynchronous update method
+		/// </summary>
+		/// <param name="time_elapsed"></param>
+		/// <returns></returns>
+		public async Task UpdateAsync(GameClock time_elapsed)
+		{
+			//run the update method on a different thread
+			Update(time_elapsed);
+			await Task.Run(() => { Update(time_elapsed); });
+		}
+
+		/// <summary>
 		/// Updates the vehicle's position from a series of steering behaviors
 		/// </summary>
 		/// <param name="time_elapsed"></param>
@@ -122,7 +135,7 @@ namespace FlockBuddy
 		public Vector2 GetSteeringForce()
 		{
 			//Update the flock
-			List<Mover> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
+			Behaviors.Neighbors = MyFlock.TagNeighbors(this, QueryRadius);
 
 			//update the enemies
 			Mover enemy1;
@@ -134,7 +147,6 @@ namespace FlockBuddy
 			MyFlock.FindTarget(this, out target);
 
 			//Update the steering behaviors
-			Behaviors.Neighbors = neighbors;
 			Behaviors.Enemy1 = enemy1;
 			Behaviors.Enemy2 = enemy2;
 			Behaviors.Prey = target;

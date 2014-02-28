@@ -34,11 +34,6 @@ namespace FlockBuddy
 		public int ID { get; set; }
 
 		/// <summary>
-		/// this is a generic flag. 
-		/// </summary>
-		public bool Tagged { get; set; }
-
-		/// <summary>
 		/// its location in the environment
 		/// Used by the cell space IMovingEntity thing
 		/// </summary>
@@ -96,8 +91,6 @@ namespace FlockBuddy
 			_Position = pos;
 			OldPosition = pos;
 			BoundingRadius = r;
-
-			Tagged = false;
 		}
 
 		/// <summary>
@@ -113,13 +106,20 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dudes">teh list of entities to tag as neighbors</param>
 		/// <param name="radius">the disdtance to tag neightbors</param>
-		public void TagNeighbors(List<Mover> dudes, float radius)
+		public List<Mover> TagNeighbors(List<Mover> dudes, float radius)
 		{
+			var neighbors = new List<Mover>();
+
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)
 			{
-				TagObject(dudes[i], radius);
+				if (TagObject(dudes[i], radius))
+				{
+					neighbors.Add(dudes[i]);
+				}
 			}
+
+			return neighbors;
 		}
 
 		/// <summary>
@@ -127,13 +127,20 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dudes"></param>
 		/// <param name="radius"></param>
-		public void TagObjects(List<BaseEntity> dudes, float radius)
+		public List<BaseEntity> TagObjects(List<BaseEntity> dudes, float radius)
 		{
+			var neighbors = new List<BaseEntity>();
+
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)
 			{
-				TagObject(dudes[i], radius);
+				if (TagObject(dudes[i], radius))
+				{
+					neighbors.Add(dudes[i]);
+				}
 			}
+
+			return neighbors;
 		}
 
 		/// <summary>
@@ -141,11 +148,8 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dude"></param>
 		/// <param name="radius"></param>
-		private void TagObject(BaseEntity dude, float radius)
+		private bool TagObject(BaseEntity dude, float radius)
 		{
-			//first clear any current tag
-			dude.Tagged = false;
-
 			Vector2 to = dude.Position - Position;
 
 			//the bounding radius of the other is taken into account by adding it to the range
@@ -153,10 +157,7 @@ namespace FlockBuddy
 
 			//if entity within range, tag for further consideration. 
 			//(working in distance-squared space to avoid sqrts)
-			if ((to.LengthSquared() < (range * range)) && (dude.ID != ID))
-			{
-				dude.Tagged = true;
-			}
+			return ((to.LengthSquared() < (range * range)) && (dude.ID != ID));
 		}
 
 		/// <summary>

@@ -233,10 +233,7 @@ namespace FlockBuddy
 			if (UseCellSpace)
 			{
 				//Update the cell space to find all the dudes neighbors
-				CellSpace.CalculateNeighbors(dude.Position, queryRadius);
-
-				//tag & return all the dudes it found
-				return CellSpace.Neighbors;
+				return CellSpace.CalculateNeighbors(dude.Position, queryRadius);
 			}
 			else
 			{

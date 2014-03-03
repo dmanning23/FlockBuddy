@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Source\BaseBehavior.cs">
@@ -41,6 +42,9 @@
     </Compile>
     <Compile Include="..\Source\BaseEntity.cs">
       <Link>BaseEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\BoidTemplate.cs">
+      <Link>BoidTemplate.cs</Link>
     </Compile>
     <Compile Include="..\Source\EBehaviorType.cs">
       <Link>EBehaviorType.cs</Link>
@@ -50,6 +54,9 @@
     </Compile>
     <Compile Include="..\Source\Flock.cs">
       <Link>Flock.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\FlockXML.cs">
+      <Link>FlockXML.cs</Link>
     </Compile>
     <Compile Include="..\Source\Mover.cs">
       <Link>Mover.cs</Link>
@@ -109,43 +116,47 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\BasicPrimitiveBuddy\Windows\BasicPrimitiveBuddy.Windows.csproj">
+    <ProjectReference Include="..\externals\BasicPrimitiveBuddy\Windows\BasicPrimitiveBuddy.Windows.csproj">
       <Project>{0faa1286-7bfa-4765-8b51-62e438cb121d}</Project>
       <Name>BasicPrimitiveBuddy.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CellSpacePartition\Windows\CellSpacePartition.Windows.csproj">
+    <ProjectReference Include="..\externals\CellSpacePartition\Windows\CellSpacePartition.Windows.csproj">
       <Project>{ed4cab1a-5436-4f45-aea4-6ced6f4364ef}</Project>
       <Name>CellSpacePartition.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CollisionBuddy\Windows\CollisionBuddy.Windows.csproj">
+    <ProjectReference Include="..\externals\CollisionBuddy\Windows\CollisionBuddy.Windows.csproj">
       <Project>{e032cf52-88bc-4d76-8e93-3798f5ee5cd2}</Project>
       <Name>CollisionBuddy.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GameTimer\Windows\GameTimer.Windows.csproj">
+    <ProjectReference Include="..\externals\GameTimer\Windows\GameTimer.Windows.csproj">
       <Project>{6b6d4188-5c03-4e16-923b-96fdbc85b91a}</Project>
       <Name>GameTimer.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MatrixExtensions\Windows\MatrixExtensions.Windows.csproj">
+    <ProjectReference Include="..\externals\MatrixExtensions\Windows\MatrixExtensions.Windows.csproj">
       <Project>{e2c50d0b-a1c1-4f67-92cb-be0e587a3ce6}</Project>
       <Name>MatrixExtensions.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Windows.csproj">
+    <ProjectReference Include="..\externals\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Windows.csproj">
       <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
       <Name>Lidgren.Network.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
+    <ProjectReference Include="..\externals\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
       <Project>{7DE47032-A904-4C29-BD22-2D235E8D91BA}</Project>
       <Name>MonoGame.Framework.WindowsGL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RandomExtensions\Windows\RandomExtensions.Windows.csproj">
+    <ProjectReference Include="..\externals\Filename\Windows\Filename.Windows.csproj">
+      <Project>{2a84dfe8-75e0-4774-baaf-00629ed44405}</Project>
+      <Name>Filename.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\externals\RandomExtensions\Windows\RandomExtensions.Windows.csproj">
       <Project>{f0bba30f-66e1-4e2f-bdf6-e17ff317c34e}</Project>
       <Name>RandomExtensions.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RectangleF\Windows\RectangleF.Windows.csproj">
+    <ProjectReference Include="..\externals\RectangleF\Windows\RectangleF.Windows.csproj">
       <Project>{ac266a3a-2c6a-491f-9044-918d7b0a41bf}</Project>
       <Name>RectangleF.Windows</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Vector2Extensions\Windows\Vector2Extensions.Windows.csproj">
+    <ProjectReference Include="..\externals\Vector2Extensions\Windows\Vector2Extensions.Windows.csproj">
       <Project>{2c5acada-d15a-4193-ba0a-d36a362075f4}</Project>
       <Name>Vector2Extensions.Windows</Name>
     </ProjectReference>

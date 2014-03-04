@@ -1,4 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Xml;
+using Vector2Extensions;
 
 namespace FlockBuddy
 {
@@ -13,17 +19,18 @@ namespace FlockBuddy
 	/// </summary>
 	public class BoidTemplateXML
 	{
+		public float Radius = 0.0f;
 		public Vector2 StartDirection = Vector2.Zero;
-		public float StartSpeed { get; private set; }
-		public float Mass { get; private set; }
-		public float MaxSpeed { get; private set; }
-		public float MaxTurnRate { get; private set; }
-		public float MaxForce { get; private set; }
-		public float QueryRadius { get; private set; }
-		public Dictionary<EBehaviorType, float> Behaviors { get; private set; }
-		public float EvadeThreatRange { get; private set; }
-		public float FleePanicDistance { get; private set; }
-		public float ObstacleAvoidanceDetectionDistance { get; private set; }
-		public float WallAvoidanceWhiskerLength { get; private set; }
+		public float StartSpeed = 0.0f;
+		public float Mass = 0.0f;
+		public float MaxSpeed = 0.0f;
+		public float MaxTurnRate = 0.0f;
+		public float MaxForce = 0.0f;
+		public float QueryRadius = 0.0f;
+		public Dictionary<EBehaviorType, float> Behaviors = new Dictionary<EBehaviorType, float>();
+		public float EvadeThreatRange = 0.0f;
+		public float FleePanicDistance = 0.0f;
+		public float ObstacleAvoidanceDetectionDistance = 0.0f;
+		public float WallAvoidanceWhiskerLength = 0.0f;
 	}
 }

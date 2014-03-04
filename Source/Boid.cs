@@ -20,7 +20,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// how far to do a query to calculate neightbors
 		/// </summary>
-		private const float QueryRadius = 100.0f;
+		private float QueryRadius = 100.0f;
 
 		private Vector2 _force = Vector2.Zero;
 
@@ -76,6 +76,37 @@ namespace FlockBuddy
 
 			//set up the steering behavior class
 			Behaviors = new SteeringBehaviors(this);
+		}
+
+		public Boid(Flock owner, Vector2 position, BoidTemplate template)
+			: this(owner, 
+				position,
+				template.Radius,
+				template.StartDirection,
+				template.StartSpeed,
+				template.Mass,
+				template.MaxSpeed,
+				template.MaxTurnRate,
+				template.MaxForce)
+		{
+		}
+
+		public void SetFromTemplate(BoidTemplate template)
+		{
+			BoundingRadius = template.Radius;
+			Heading = template.StartDirection;
+			Speed = template.StartSpeed;
+			Mass = template.Mass;
+			MaxSpeed = template.MaxSpeed;
+			MaxTurnRate = template.MaxTurnRate;
+			MaxForce = template.MaxForce;
+			QueryRadius = template.QueryRadius;
+
+			//activate the beavhiors
+			Behaviors.ActivateBehaviors(template.Behaviors.Keys.ToArray());
+
+			//TODO: set the parameters of the behaviors
+
 		}
 
 		/// <summary>

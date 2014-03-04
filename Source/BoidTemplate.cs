@@ -17,6 +17,11 @@ namespace FlockBuddy
 		#region Members
 
 		/// <summary>
+		/// the radius of the boid
+		/// </summary>
+		public float Radius{ get; private set; }
+
+		/// <summary>
 		/// the start direction of the boid
 		/// </summary>
 		public Vector2 StartDirection { get; private set; }
@@ -174,7 +179,11 @@ namespace FlockBuddy
 					string strName = childNode.Name;
 					string strValue = childNode.InnerText;
 
-					if (strName == "StartDirection")
+					if (strName == "Radius")
+					{
+						Radius = Convert.ToSingle(strValue);
+					}
+					else if (strName == "StartDirection")
 					{
 						StartDirection = strValue.ToVector2();
 					}
@@ -204,7 +213,7 @@ namespace FlockBuddy
 					}
 					else if (strName == "Behaviors")
 					{
-						//TODO: read in behaviors
+						ReadBehaviorXml(childNode);
 					}
 					else if (strName == "EvadeThreatRange")
 					{
@@ -229,6 +238,59 @@ namespace FlockBuddy
 					}
 				}
 			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Read in a behavior node
+		/// </summary>
+		/// <param name="rXMLNode"></param>
+		/// <returns></returns>
+		private bool ReadBehaviorXml(XmlNode rXMLNode)
+		{
+			//should have an attribute Type
+			XmlNamedNodeMap mapAttributes = rXMLNode.Attributes;
+			for (int i = 0; i < mapAttributes.Count; i++)
+			{
+				//will only have the name attribute
+				string strAttName = mapAttributes.Item(i).Name;
+				string strAttValue = mapAttributes.Item(i).Value;
+				if ("Type" == strAttName)
+				{
+					if (strAttValue != "FlockBuddy.BehaviorXML")
+					{
+						Debug.Assert(false);
+						return false;
+					}
+				}
+				else
+				{
+					Debug.Assert(false);
+					return false;
+				}
+			}
+
+			//Read in child nodes
+			Debug.Assert(rXMLNode.HasChildNodes);
+			XmlNode childNode = rXMLNode.FirstChild;
+
+			//get the behavior node
+			string strName = childNode.Name;
+			string strValue = childNode.InnerText;
+			Debug.Assert(strName == "BehaviorType");
+			EBehaviorType behavior = (EBehaviorType)Enum.Parse(typeof(EBehaviorType), strValue);
+
+			//get the weight node
+			childNode = childNode.NextSibling;
+			Debug.Assert(null != childNode);
+			strName = childNode.Name;
+			strValue = childNode.InnerText;
+			Debug.Assert(strName == "BehaviorType");
+			float weight =  Convert.ToSingle(strValue);
+
+			//Add the behavior to the list we are going to use
+			Behaviors.Add(behavior, weight);
 
 			return true;
 		}

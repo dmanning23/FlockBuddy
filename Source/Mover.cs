@@ -1,5 +1,5 @@
-using GameTimer;
 using BasicPrimitiveBuddy;
+using GameTimer;
 using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using System;

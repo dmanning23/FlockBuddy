@@ -1,6 +1,6 @@
+using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using System;
-using MatrixExtensions;
 
 namespace FlockBuddy
 {

@@ -1,11 +1,11 @@
 using BasicPrimitiveBuddy;
-using System.Threading.Tasks;
 using CellSpacePartitionLib;
 using GameTimer;
 using Microsoft.Xna.Framework;
 using RectangleFLib;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Vector2Extensions;
 
 namespace FlockBuddy

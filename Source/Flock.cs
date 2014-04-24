@@ -1,10 +1,10 @@
+using BasicPrimitiveBuddy;
+using CellSpacePartitionLib;
+using CollisionBuddy;
+using GameTimer;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
-using CollisionBuddy;
-using CellSpacePartitionLib;
-using Microsoft.Xna.Framework;
-using GameTimer;
-using BasicPrimitiveBuddy;
 using System.Threading.Tasks;
 
 namespace FlockBuddy

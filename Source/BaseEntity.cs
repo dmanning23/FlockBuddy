@@ -1,9 +1,8 @@
-using Microsoft.Xna.Framework;
-using GameTimer;
-using CollisionBuddy;
-using System.Collections.Generic;
-using CellSpacePartitionLib;
 using BasicPrimitiveBuddy;
+using CellSpacePartitionLib;
+using GameTimer;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace FlockBuddy
 {

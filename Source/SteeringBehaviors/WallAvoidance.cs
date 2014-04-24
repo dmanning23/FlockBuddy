@@ -1,7 +1,7 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using CollisionBuddy;
 using MatrixExtensions;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Vector2Extensions;
 
 namespace FlockBuddy

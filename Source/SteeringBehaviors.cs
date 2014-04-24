@@ -1,10 +1,8 @@
-using Microsoft.Xna.Framework;
-using System.Diagnostics;
-using System.Collections.Generic;
 using GameTimer;
-using Vector2Extensions;
-using RandomExtensions;
+using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FlockBuddy
 {

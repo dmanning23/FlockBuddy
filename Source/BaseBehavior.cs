@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using GameTimer;
 using Microsoft.Xna.Framework;
 
 namespace FlockBuddy

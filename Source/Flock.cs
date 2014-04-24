@@ -353,7 +353,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Remove all the boids from this flock.
 		/// </summary>
-		public void Clear()
+		public virtual void Clear()
 		{
 			Dudes.Clear();
 			CellSpace.Clear();

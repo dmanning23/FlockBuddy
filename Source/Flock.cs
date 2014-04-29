@@ -157,7 +157,7 @@ namespace FlockBuddy
 		/// This assumes that you have already updated all the external entities (enemies, targets, etc.)
 		/// </summary>
 		/// <param name="curTime"></param>
-		public virtual void Update(GameTime curTime)
+		public virtual void Update(GameClock curTime)
 		{
 			//update the time
 			FlockTimer.Update(curTime);

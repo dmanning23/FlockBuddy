@@ -9,7 +9,7 @@ namespace FlockBuddy
 	/// <summary>
 	/// Base class to define a common interface for all game entities
 	/// </summary>
-	public class BaseEntity : IMovingEntity
+	public class BaseEntity : IBaseEntity
 	{
 		#region Members
 
@@ -18,19 +18,22 @@ namespace FlockBuddy
 		/// </summary>
 		protected Vector2 _Position = Vector2.Zero;
 
+		private RoundRobinID _id;
+
 		#endregion //Members
 
 		#region Properties
 
 		/// <summary>
-		/// Counter used to round-robin entity ids
-		/// </summary>
-		private static int NextID;
-
-		/// <summary>
 		/// each entity has a unique ID
 		/// </summary>
-		public int ID { get; set; }
+		public int ID
+		{
+			get
+			{
+				return _id.ID;
+			}
+		}
 
 		/// <summary>
 		/// its location in the environment
@@ -65,27 +68,13 @@ namespace FlockBuddy
 		#region Methods
 
 		/// <summary>
-		/// used by the constructor to give each entity a unique ID
-		/// </summary>
-		/// <returns>an id to use for an entity</returns>
-		static int NextValidID() { return NextID++; }
-
-		/// <summary>
-		/// Static constructor
-		/// </summary>
-		static BaseEntity()
-		{
-			NextID = 0;
-		}
-
-		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="pos">teh position of this dude</param>
 		/// <param name="r">the radius of this dude</param>
 		public BaseEntity(Vector2 pos, float r)
 		{
-			ID = NextValidID();
+			_id = new RoundRobinID();
 
 			_Position = pos;
 			OldPosition = pos;
@@ -105,9 +94,9 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dudes">teh list of entities to tag as neighbors</param>
 		/// <param name="radius">the disdtance to tag neightbors</param>
-		public List<Mover> TagNeighbors(List<Mover> dudes, float radius)
+		public List<IMover> TagNeighbors(List<IMover> dudes, float radius)
 		{
-			var neighbors = new List<Mover>();
+			var neighbors = new List<IMover>();
 
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)
@@ -126,9 +115,9 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dudes"></param>
 		/// <param name="radius"></param>
-		public List<BaseEntity> TagObjects(List<BaseEntity> dudes, float radius)
+		public List<IBaseEntity> TagObjects(List<IBaseEntity> dudes, float radius)
 		{
-			var neighbors = new List<BaseEntity>();
+			var neighbors = new List<IBaseEntity>();
 
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)
@@ -147,7 +136,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dude"></param>
 		/// <param name="radius"></param>
-		private bool TagObject(BaseEntity dude, float radius)
+		private bool TagObject(IBaseEntity dude, float radius)
 		{
 			Vector2 to = dude.Position - Position;
 

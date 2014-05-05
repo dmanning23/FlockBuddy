@@ -58,8 +58,17 @@
     <Compile Include="..\Source\FlockXML.cs">
       <Link>FlockXML.cs</Link>
     </Compile>
+    <Compile Include="..\Source\IBaseEntity.cs">
+      <Link>IBaseEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\IMover.cs">
+      <Link>IMover.cs</Link>
+    </Compile>
     <Compile Include="..\Source\Mover.cs">
       <Link>Mover.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\RoundRobinID.cs">
+      <Link>RoundRobinID.cs</Link>
     </Compile>
     <Compile Include="..\Source\SteeringBehaviors.cs">
       <Link>SteeringBehaviors.cs</Link>

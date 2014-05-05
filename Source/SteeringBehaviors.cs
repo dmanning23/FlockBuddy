@@ -39,22 +39,22 @@ namespace FlockBuddy
 		/// <summary>
 		/// A list of all the neighbors to use
 		/// </summary>
-		public List<Mover> Neighbors { get; set; }
+		public List<IMover> Neighbors { get; set; }
 
 		/// <summary>
 		/// these can be used to keep track of pursuers
 		/// </summary>
-		public Mover Enemy1 { get; set; }
+		public IMover Enemy1 { get; set; }
 
 		/// <summary>
 		/// these can be used to keep track of pursuers
 		/// </summary>
-		public Mover Enemy2 { get; set; }
+		public IMover Enemy2 { get; set; }
 
 		/// <summary>
 		/// these can be used to keep track of target dudes
 		/// </summary>
-		public Mover Prey { get; set; }
+		public IMover Prey { get; set; }
 
 		/// <summary>
 		/// the current target point

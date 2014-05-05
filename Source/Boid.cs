@@ -137,12 +137,12 @@ namespace FlockBuddy
 			Behaviors.Neighbors = MyFlock.TagNeighbors(this, QueryRadius);
 
 			//update the enemies
-			Mover enemy1;
-			Mover enemy2;
+			IMover enemy1;
+			IMover enemy2;
 			MyFlock.FindEnemies(this, out enemy1, out enemy2);
 
 			//update the target dudes
-			Mover target;
+			IMover target;
 			MyFlock.FindTarget(this, out target);
 
 			//Update the steering behaviors
@@ -187,7 +187,7 @@ namespace FlockBuddy
 			prim.Circle(Position, QueryRadius, Color.White);
 
 			//draw the neighbor dudes
-			List<Mover> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
+			List<IMover> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
 			foreach (var neighbor in neighbors)
 			{
 				prim.Circle(neighbor.Position, neighbor.BoundingRadius, Color.Red);

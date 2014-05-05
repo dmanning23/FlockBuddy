@@ -12,7 +12,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// A dude chasing this dude
 		/// </summary>
-		private Mover Pursuer { get; set; }
+		private IMover Pursuer { get; set; }
 
 		/// <summary>
 		/// How far to look out for bad guys
@@ -42,7 +42,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="pursuer"></param>
 		/// <returns></returns>
-		public Vector2 GetSteering(Mover pursuer)
+		public Vector2 GetSteering(IMover pursuer)
 		{
 			Pursuer = pursuer;
 			if (null == Pursuer)

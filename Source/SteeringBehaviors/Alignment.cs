@@ -13,7 +13,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// The guys we are trying to align with
 		/// </summary>
-		private List<Mover> Buddies { get; set; }
+		private List<IMover> Buddies { get; set; }
 
 		#endregion //Members
 
@@ -33,7 +33,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="group">the group of this dude's buddies to align with</param>
 		/// <returns></returns>
-		public Vector2 GetSteering(List<Mover> group)
+		public Vector2 GetSteering(List<IMover> group)
 		{
 			Buddies = group;
 			return GetSteering();

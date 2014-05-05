@@ -12,19 +12,19 @@ namespace FlockBuddy
 	/// A base class defining an entity that moves. 
 	/// The entity has a local coordinate system and members for defining its mass and velocity.
 	/// </summary>
-	public class Mover : BaseEntity
+	public class Mover : BaseEntity, IMover
 	{
 		#region Members
 
 		/// <summary>
 		/// a normalized vector pointing in the direction the entity is heading. 
 		/// </summary>
-		protected Vector2 _heading;
+		private Vector2 _heading;
 
 		/// <summary>
 		/// a vector perpendicular to the heading vector
 		/// </summary>
-		protected Vector2 _side;
+		private Vector2 _side;
 
 		/// <summary>
 		/// keeps a track of the most recent update time. 

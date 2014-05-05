@@ -45,7 +45,7 @@ namespace FlockBuddy
 			var obs = Owner.MyFlock.TagObstacles(Owner, boxLength);
 
 			//this will keep track of the closest intersecting obstacle (CIB)
-			BaseEntity closestIntersectingObstacle = null;
+			IBaseEntity closestIntersectingObstacle = null;
 
 			//this will be used to track the distance to the CIB
 			float distToClosestIP = float.MaxValue;

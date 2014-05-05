@@ -28,7 +28,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// a container of all the moving entities this dude is managing
 		/// </summary>
-		public List<Mover> Dudes { get; private set; }
+		public List<IMover> Dudes { get; private set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
@@ -38,12 +38,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// break up the game world into cells to make it easier to update the flock
 		/// </summary>
-		public CellSpacePartition<Mover> CellSpace { get; private set; }
+		public CellSpacePartition<IMover> CellSpace { get; private set; }
 
 		/// <summary>
 		/// any obstacles for this flock
 		/// </summary>
-		public List<BaseEntity> Obstacles { get; set; }
+		public List<IBaseEntity> Obstacles { get; set; }
 
 		/// <summary>
 		/// container containing any walls in the environment
@@ -53,12 +53,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// A list of all the enemies of this flock.  We will run away from them!
 		/// </summary>
-		public List<Mover> Enemies { get; set; }
+		public List<IMover> Enemies { get; set; }
 
 		/// <summary>
 		/// A list of all the dudes we gonna chase
 		/// </summary>
-		public List<Mover> Targets { get; set; }
+		public List<IMover> Targets { get; set; }
 
 		//any path we may create for the vehicles to follow
 		//Path*                         m_pPath;
@@ -107,15 +107,15 @@ namespace FlockBuddy
 		{
 			UseWorldWrap = false;
 
-			Dudes = new List<Mover>();
+			Dudes = new List<IMover>();
 			FlockTimer = new GameClock();
-			CellSpace = new CellSpacePartition<Mover>(WorldSize, 20, 20);
+			CellSpace = new CellSpacePartition<IMover>(WorldSize, 20, 20);
 
 			//set this stuff here, but will prolly be overridden right away 
-			Obstacles = new List<BaseEntity>();
-			Enemies = new List<Mover>();
+			Obstacles = new List<IBaseEntity>();
+			Enemies = new List<IMover>();
 			Walls = new List<Line>();
-			Targets = new List<Mover>();
+			Targets = new List<IMover>();
 		}
 
 		/// <summary>
@@ -132,7 +132,7 @@ namespace FlockBuddy
 			this.WorldSize = worldSize;
 			this.UseWorldWrap = useWorldWrap;
 			this.UseCellSpace = useCellSpace;
-			CellSpace = new CellSpacePartition<Mover>(WorldSize, cellsX, cellsY);
+			CellSpace = new CellSpacePartition<IMover>(WorldSize, cellsX, cellsY);
 		}
 
 		/// <summary>
@@ -228,7 +228,7 @@ namespace FlockBuddy
 		/// Tag all the guys inteh flock that are neightbors of a dude.
 		/// </summary>
 		/// <param name="dude"></param>
-		public List<Mover> TagNeighbors(Boid dude, float queryRadius)
+		public List<IMover> TagNeighbors(Boid dude, float queryRadius)
 		{
 			if (UseCellSpace)
 			{
@@ -249,7 +249,7 @@ namespace FlockBuddy
 		/// <param name="dude"></param>
 		/// <param name="enemy1"></param>
 		/// <param name="enemy2"></param>
-		public void FindEnemies(Boid dude, out Mover enemy1, out Mover enemy2)
+		public void FindEnemies(Boid dude, out IMover enemy1, out IMover enemy2)
 		{
 			//are there any enemies in the list?
 			if (Enemies.Count >= 2)
@@ -277,7 +277,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dude"></param>
 		/// <param name="target"></param>
-		public void FindTarget(Boid dude, out Mover target)
+		public void FindTarget(Boid dude, out IMover target)
 		{
 			//are there any targets in the list?
 			if (Targets.Count >= 1)
@@ -345,7 +345,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dude"></param>
 		/// <param name="range"></param>
-		public List<BaseEntity> TagObstacles(Boid dude, float range)
+		public List<IBaseEntity> TagObstacles(Boid dude, float range)
 		{
 			return dude.TagObjects(Obstacles, range);
 		}

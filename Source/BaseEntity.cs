@@ -153,7 +153,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="prim">basic ptimitive to draw this dude</param>
 		/// <param name="color">teh color to draw him</param>
-		public void DrawPhysics(IBasicPrimitive prim, Color color)
+		public virtual void DrawPhysics(IBasicPrimitive prim, Color color)
 		{
 			prim.Circle(Position, BoundingRadius, color);
 		}

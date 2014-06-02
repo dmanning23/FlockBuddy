@@ -60,7 +60,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// the length of this object's bounding radius
 		/// </summary>
-		public float BoundingRadius { get; protected set; }
+		public virtual float BoundingRadius { get; protected set; }
 
 		#endregion //Properties
 

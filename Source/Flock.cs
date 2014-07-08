@@ -96,6 +96,8 @@ namespace FlockBuddy
 		/// </summary>
 		private Vector2 WorldSize = new Vector2(1024.0f, 768.0f);
 
+		public BoidTemplate BoidTemplate { get; set; }
+
 		#endregion //Members
 
 		#region Methods
@@ -116,6 +118,8 @@ namespace FlockBuddy
 			Enemies = new List<IMover>();
 			Walls = new List<Line>();
 			Targets = new List<IMover>();
+
+			BoidTemplate = new BoidTemplate();
 		}
 
 		/// <summary>

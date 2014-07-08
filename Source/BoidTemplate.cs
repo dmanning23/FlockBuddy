@@ -19,17 +19,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// the radius of the boid
 		/// </summary>
-		public float Radius{ get; private set; }
-
-		/// <summary>
-		/// the start direction of the boid
-		/// </summary>
-		public Vector2 StartDirection { get; private set; }
-
-		/// <summary>
-		/// the start speed of the boid
-		/// </summary>
-		public float StartSpeed { get; private set; }
+		public float Radius { get; private set; }
 
 		/// <summary>
 		/// mass o the boid
@@ -92,6 +82,26 @@ namespace FlockBuddy
 		public BoidTemplate()
 		{
 			Behaviors = new Dictionary<EBehaviorType, float>();
+
+			Radius = 10.0f;
+			Mass = 1.0f;
+			MaxSpeed = 500.0f;
+			MaxTurnRate = 10.0f;
+			MaxForce = 100.0f;
+			QueryRadius = 100.0f;
+
+			Behaviors[EBehaviorType.alignment] = 10.0f;
+			Behaviors[EBehaviorType.cohesion] = 0.5f;
+			Behaviors[EBehaviorType.separation] = 120.0f;
+			Behaviors[EBehaviorType.obstacle_avoidance] = 30.0f;
+			Behaviors[EBehaviorType.wall_avoidance] = 50.0f;
+			Behaviors[EBehaviorType.pursuit] = 0.1f;
+			Behaviors[EBehaviorType.evade] = 1.0f;
+
+			EvadeThreatRange = 80.0f;
+			FleePanicDistance = 100.0f;
+			ObstacleAvoidanceDetectionDistance = 100.0f;
+			WallAvoidanceWhiskerLength = 60.0f;
 		}
 
 		#endregion //Methods
@@ -182,14 +192,6 @@ namespace FlockBuddy
 					if (strName == "Radius")
 					{
 						Radius = Convert.ToSingle(strValue);
-					}
-					else if (strName == "StartDirection")
-					{
-						StartDirection = strValue.ToVector2();
-					}
-					else if (strName == "StartSpeed")
-					{
-						StartSpeed = Convert.ToSingle(strValue);
 					}
 					else if (strName == "Mass")
 					{
@@ -287,7 +289,7 @@ namespace FlockBuddy
 			strName = childNode.Name;
 			strValue = childNode.InnerText;
 			Debug.Assert(strName == "BehaviorType");
-			float weight =  Convert.ToSingle(strValue);
+			float weight = Convert.ToSingle(strValue);
 
 			//Add the behavior to the list we are going to use
 			Behaviors.Add(behavior, weight);

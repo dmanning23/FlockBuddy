@@ -23,9 +23,8 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Alignment"/> class.
 		/// </summary>
 		public Alignment(Boid dude)
-			: base(dude, EBehaviorType.alignment)
+			: base(dude, EBehaviorType.alignment, dude.MyFlock.BoidTemplate)
 		{
-			Weight = 10.0f;
 		}
 
 		/// <summary>

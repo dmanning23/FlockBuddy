@@ -26,10 +26,9 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Cohesion(Boid dude)
-			: base(dude, EBehaviorType.cohesion)
+			: base(dude, EBehaviorType.cohesion, dude.MyFlock.BoidTemplate)
 		{
 			SeekBehavior = new Seek(dude);
-			Weight = 0.5f;
 		}
 
 		/// <summary>

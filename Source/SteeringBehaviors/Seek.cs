@@ -22,7 +22,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Seek"/> class.
 		/// </summary>
 		public Seek(Boid dude)
-			: base(dude, EBehaviorType.seek)
+			: base(dude, EBehaviorType.seek, dude.MyFlock.BoidTemplate)
 		{
 		}
 

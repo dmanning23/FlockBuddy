@@ -10,6 +10,39 @@ using Vector2Extensions;
 namespace FlockBuddy
 {
 	/// <summary>
+	/// properties required to run a behavior
+	/// </summary>
+	public class BehaviorTemplate
+	{
+		#region Properties
+
+		/// <summary>
+		/// binary flag to indicate whether or not a behavior should be active
+		/// </summary>
+		public bool Enabled { get; set; }
+
+		/// <summary>
+		/// How much weight to apply to this beahvior
+		/// </summary>
+		public float Weight { get; set; }
+
+		#endregion //Properties
+
+		#region Methods
+
+		/// <summary>
+		/// construuctor
+		/// </summary>
+		public BehaviorTemplate()
+		{
+			Enabled = false;
+			Weight = 1.0f;
+		}
+
+		#endregion //Methods
+	}
+
+	/// <summary>
 	/// Contains all the data to describe the behavior of a boid
 	/// </summary>
 	public class BoidTemplate
@@ -50,7 +83,7 @@ namespace FlockBuddy
 		/// A dictionary of behavior types to weights...
 		/// Any behaviors in this dictionary are "active"
 		/// </summary>
-		public Dictionary<EBehaviorType, float> Behaviors { get; private set; }
+		public List<BehaviorTemplate> Behaviors { get; private set; }
 
 		/// <summary>
 		/// how far the evade behvaior should look out for threats
@@ -81,8 +114,6 @@ namespace FlockBuddy
 		/// </summary>
 		public BoidTemplate()
 		{
-			Behaviors = new Dictionary<EBehaviorType, float>();
-
 			Radius = 10.0f;
 			Mass = 1.0f;
 			MaxSpeed = 500.0f;
@@ -90,18 +121,31 @@ namespace FlockBuddy
 			MaxForce = 100.0f;
 			QueryRadius = 100.0f;
 
-			Behaviors[EBehaviorType.alignment] = 10.0f;
-			Behaviors[EBehaviorType.cohesion] = 0.5f;
-			Behaviors[EBehaviorType.separation] = 120.0f;
-			Behaviors[EBehaviorType.obstacle_avoidance] = 30.0f;
-			Behaviors[EBehaviorType.wall_avoidance] = 50.0f;
-			Behaviors[EBehaviorType.pursuit] = 0.1f;
-			Behaviors[EBehaviorType.evade] = 1.0f;
+			int numBehaviors = (int)Enum.GetNames(typeof(EBehaviorType)).Length;
+			Behaviors = new List<BehaviorTemplate>();
+			for (int i = 0; i < numBehaviors; i++)
+			{
+				Behaviors.Add(new BehaviorTemplate());
+			}
+
+			SetBehavior(EBehaviorType.alignment, true, 10.0f);
+			SetBehavior(EBehaviorType.cohesion, true, 0.5f);
+			SetBehavior(EBehaviorType.separation, true, 120.0f);
+			SetBehavior(EBehaviorType.obstacle_avoidance, true, 30.0f);
+			SetBehavior(EBehaviorType.wall_avoidance, true, 50.0f);
+			SetBehavior(EBehaviorType.pursuit, true, 0.1f);
+			SetBehavior(EBehaviorType.evade, true, 1.0f);
 
 			EvadeThreatRange = 80.0f;
 			FleePanicDistance = 100.0f;
 			ObstacleAvoidanceDetectionDistance = 100.0f;
 			WallAvoidanceWhiskerLength = 60.0f;
+		}
+
+		public void SetBehavior(EBehaviorType behavior, bool enable, float weight)
+		{
+			Behaviors[(int)behavior].Enabled = enable;
+			Behaviors[(int)behavior].Weight = weight;
 		}
 
 		#endregion //Methods
@@ -292,7 +336,7 @@ namespace FlockBuddy
 			float weight = Convert.ToSingle(strValue);
 
 			//Add the behavior to the list we are going to use
-			Behaviors.Add(behavior, weight);
+			SetBehavior(behavior, true, weight);
 
 			return true;
 		}

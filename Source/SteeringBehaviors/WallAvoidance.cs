@@ -23,7 +23,13 @@ namespace FlockBuddy
 		/// </summary>
 		public List<Vector2> Feelers { get; set; }
 
-		private const float WhiskerLength = 60.0f;
+		private float WhiskerLength
+		{
+			get
+			{
+				return BoidTemplate.WallAvoidanceWhiskerLength;
+			}
+		}
 
 		#endregion //Members
 
@@ -33,9 +39,8 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public WallAvoidance(Boid dude)
-			: base(dude, EBehaviorType.wall_avoidance)
+			: base(dude, EBehaviorType.wall_avoidance, dude.MyFlock.BoidTemplate)
 		{
-			Weight = 50.0f;
 			Feelers = new List<Vector2>();
 		}
 

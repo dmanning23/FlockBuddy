@@ -17,7 +17,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Interpose(Boid dude)
-			: base(dude, EBehaviorType.interpose)
+			: base(dude, EBehaviorType.interpose, dude.MyFlock.BoidTemplate)
 		{
 		}
 

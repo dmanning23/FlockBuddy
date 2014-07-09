@@ -17,7 +17,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Arrive(Boid dude)
-			: base(dude, EBehaviorType.arrive)
+			: base(dude, EBehaviorType.arrive, dude.MyFlock.BoidTemplate)
 		{
 		}
 

@@ -27,10 +27,9 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Pursuit"/> class.
 		/// </summary>
 		public Pursuit(Boid dude)
-			: base(dude, EBehaviorType.pursuit)
+			: base(dude, EBehaviorType.pursuit, dude.MyFlock.BoidTemplate)
 		{
 			SeekAction = new Seek(dude);
-			Weight = 0.1f;
 		}
 
 		/// <summary>

@@ -17,11 +17,6 @@ namespace FlockBuddy
 	{
 		#region Members
 
-		/// <summary>
-		/// how far to do a query to calculate neightbors
-		/// </summary>
-		private const float QueryRadius = 100.0f;
-
 		private Vector2 _force = Vector2.Zero;
 
 		#endregion Members
@@ -57,19 +52,15 @@ namespace FlockBuddy
 			Vector2 position,
 			float radius,
 			Vector2 heading,
-			float speed,
-			float mass,
-			float max_speed,
-			float max_turn_rate,
-			float max_force)
+			float speed)
 				: base(position, 
 				radius,
 				heading, 
 				speed,
-				mass,
-				max_speed, 
-				max_turn_rate, 
-				max_force)
+				owner.BoidTemplate.Mass,
+				owner.BoidTemplate.MaxSpeed,
+				owner.BoidTemplate.MaxTurnRate,
+				owner.BoidTemplate.MaxForce)
 		{
 			MyFlock = owner;
 			MyFlock.AddDude(this);
@@ -134,7 +125,7 @@ namespace FlockBuddy
 		public Vector2 GetSteeringForce()
 		{
 			//Update the flock
-			Behaviors.Neighbors = MyFlock.TagNeighbors(this, QueryRadius);
+			Behaviors.Neighbors = MyFlock.TagNeighbors(this, MyFlock.BoidTemplate.QueryRadius);
 
 			//update the enemies
 			IMover enemy1;
@@ -177,17 +168,17 @@ namespace FlockBuddy
 		public override void DrawNeigbors(IBasicPrimitive prim)
 		{
 			//draw the query cells
-			MyFlock.CellSpace.RenderCellIntersections(prim, Position, QueryRadius, Color.Green);
+			MyFlock.CellSpace.RenderCellIntersections(prim, Position, MyFlock.BoidTemplate.QueryRadius, Color.Green);
 
 			//get the query rectangle
-			RectangleF queryRect = CellSpacePartition<Boid>.CreateQueryBox(Position, QueryRadius);
+			RectangleF queryRect = CellSpacePartition<Boid>.CreateQueryBox(Position, MyFlock.BoidTemplate.QueryRadius);
 			prim.Rectangle(queryRect, Color.White);
 
 			//get the query circle
-			prim.Circle(Position, QueryRadius, Color.White);
+			prim.Circle(Position, MyFlock.BoidTemplate.QueryRadius, Color.White);
 
 			//draw the neighbor dudes
-			List<IMover> neighbors = MyFlock.TagNeighbors(this, QueryRadius);
+			List<IMover> neighbors = MyFlock.TagNeighbors(this, MyFlock.BoidTemplate.QueryRadius);
 			foreach (var neighbor in neighbors)
 			{
 				prim.Circle(neighbor.Position, neighbor.BoundingRadius, Color.Red);

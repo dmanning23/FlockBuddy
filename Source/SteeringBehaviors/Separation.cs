@@ -23,9 +23,8 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Separation(Boid dude)
-			: base(dude, EBehaviorType.separation)
+			: base(dude, EBehaviorType.separation, dude.MyFlock.BoidTemplate)
 		{
-			Weight = 120.0f;
 		}
 
 		/// <summary>

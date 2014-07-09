@@ -12,7 +12,13 @@ namespace FlockBuddy
 		#region Members
 
 		//length of the 'detection box' utilized in obstacle avoidance
-		private const float DBoxLength = 100.0f;
+		private float AvoidanceDetectionDistance
+		{
+			get
+			{
+				return BoidTemplate.ObstacleAvoidanceDetectionDistance;
+			}
+		}
 
 		#endregion //Members
 
@@ -22,9 +28,8 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.ObstacleAvoidance"/> class.
 		/// </summary>
 		public ObstacleAvoidance(Boid dude)
-			: base(dude, EBehaviorType.obstacle_avoidance)
+			: base(dude, EBehaviorType.obstacle_avoidance, dude.MyFlock.BoidTemplate)
 		{
-			Weight = 30.0f;
 		}
 
 		public Vector2 GetSteering2()
@@ -39,7 +44,7 @@ namespace FlockBuddy
 		protected override Vector2 GetSteering()
 		{
 			//the detection box length is proportional to the agent's velocity
-			float boxLength = DBoxLength + (Owner.Speed / Owner.MaxSpeed) * DBoxLength;
+			float boxLength = AvoidanceDetectionDistance + (Owner.Speed / Owner.MaxSpeed) * AvoidanceDetectionDistance;
 
 			//tag all obstacles within range of the box for processing
 			var obs = Owner.MyFlock.TagObstacles(Owner, boxLength);
@@ -112,7 +117,7 @@ namespace FlockBuddy
 				Vector2 dist = (toAgent * closestIntersectingObstacle.BoundingRadius) - localPosOfClosestObstacle;
 
 				//scale the force inversely proportional to the agents distance from the collision point
-				float multiplier = 1.0f + (DBoxLength - dist.X) / DBoxLength;
+				float multiplier = 1.0f + (AvoidanceDetectionDistance - dist.X) / AvoidanceDetectionDistance;
 				steeringForce = toAgent * multiplier;
 			}
 

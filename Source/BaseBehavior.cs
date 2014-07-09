@@ -15,11 +15,6 @@ namespace FlockBuddy
 		public EBehaviorType BehaviorType { get; private set; }
 
 		/// <summary>
-		/// binary flag to indicate whether or not a behavior should be active
-		/// </summary>
-		public bool Active { get; set; }
-
-		/// <summary>
 		/// a pointer to the owner of this instance
 		/// </summary>
 		public Boid Owner { get; set; }
@@ -29,10 +24,36 @@ namespace FlockBuddy
 		/// </summary>
 		public bool CellSpaceOn { get; set; }
 
+		public BoidTemplate BoidTemplate { get; private set; }
+
 		/// <summary>
-		/// How much weight to apply to this beahvior
+		/// The behavior template for this dude
 		/// </summary>
-		public float Weight { get; set; }
+		public BehaviorTemplate BehaviorTemplate { get; private set; }
+
+		public float Weight
+		{
+			get
+			{
+				return BehaviorTemplate.Weight;
+			}
+			set
+			{
+				BehaviorTemplate.Weight = value;
+			}
+		}
+
+		public bool Active
+		{
+			get
+			{
+				return BehaviorTemplate.Enabled;
+			}
+			set
+			{
+				BehaviorTemplate.Enabled = value;
+			}
+		}
 
 		#endregion //Members
 
@@ -41,12 +62,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.BaseBehavior"/> class.
 		/// </summary>
-		public BaseBehavior(Boid dude, EBehaviorType behaviorType)
+		public BaseBehavior(Boid dude, EBehaviorType behaviorType, BoidTemplate template)
 		{
 			BehaviorType = behaviorType;
-			Active = false;
-			Weight = 1.0f;
 			Owner = dude;
+			BoidTemplate = template;
+			BehaviorTemplate = BoidTemplate.Behaviors[(int)BehaviorType];
 		}
 
 		/// <summary>

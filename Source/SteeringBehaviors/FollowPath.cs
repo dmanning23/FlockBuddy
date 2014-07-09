@@ -17,7 +17,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public FollowPath(Boid dude)
-			: base(dude, EBehaviorType.follow_path)
+			: base(dude, EBehaviorType.follow_path, dude.MyFlock.BoidTemplate)
 		{
 		}
 

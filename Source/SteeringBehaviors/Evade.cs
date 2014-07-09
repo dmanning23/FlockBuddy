@@ -17,7 +17,13 @@ namespace FlockBuddy
 		/// <summary>
 		/// How far to look out for bad guys
 		/// </summary>
-		private const float ThreatRange = 80.0f;
+		private float ThreatRange
+		{
+			get
+			{
+				return BoidTemplate.EvadeThreatRange;
+			}
+		}
 
 		/// <summary>
 		/// Used to run away from bad guys
@@ -32,7 +38,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Evade(Boid dude)
-			: base(dude, EBehaviorType.evade)
+			: base(dude, EBehaviorType.evade, dude.MyFlock.BoidTemplate)
 		{
 			FleeAction = new Flee(dude);
 		}

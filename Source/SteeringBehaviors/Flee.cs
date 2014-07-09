@@ -17,7 +17,13 @@ namespace FlockBuddy
 		/// <summary>
 		/// How far to look out for bad guys
 		/// </summary>
-		private const float PanicDistance = 100.0f;
+		private float PanicDistance
+		{
+			get
+			{
+				return BoidTemplate.FleePanicDistance;
+			}
+		}
 
 		#endregion //Members
 
@@ -26,7 +32,8 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Flee"/> class.
 		/// </summary>
-		public Flee(Boid dude):base(dude, EBehaviorType.flee)
+		public Flee(Boid dude)
+			: base(dude, EBehaviorType.flee, dude.MyFlock.BoidTemplate)
 		{
 		}
 

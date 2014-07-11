@@ -61,8 +61,9 @@ namespace FlockBuddy
 
 			float relativeHeading = Vector2.Dot(Owner.Heading, Prey.Heading);
 
-			if ((Vector2.Dot(toEvader, Owner.Heading) > 0.0f) &&
-				 (relativeHeading < -0.95f))  //acos(0.95)=18 degs
+			if (BoidTemplate.ViciousPursuit ||
+				((Vector2.Dot(toEvader, Owner.Heading) > 0.0f) &&
+				 (relativeHeading < -0.95f)))  //acos(0.95)=18 degs
 			{
 				return SeekAction.GetSteering(Prey.Position);
 			}

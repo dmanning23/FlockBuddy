@@ -52,32 +52,32 @@ namespace FlockBuddy
 		/// <summary>
 		/// the radius of the boid
 		/// </summary>
-		public float Radius { get; private set; }
+		public float Radius { get; set; }
 
 		/// <summary>
 		/// mass o the boid
 		/// </summary>
-		public float Mass { get; private set; }
+		public float Mass { get; set; }
 
 		/// <summary>
 		/// The max speed of the boid
 		/// </summary>
-		public float MaxSpeed { get; private set; }
+		public float MaxSpeed { get; set; }
 
 		/// <summary>
 		/// max turn rate of this boid
 		/// </summary>
-		public float MaxTurnRate { get; private set; }
+		public float MaxTurnRate { get; set; }
 
 		/// <summary>
 		/// the max for ce of teh boid
 		/// </summary>
-		public float MaxForce { get; private set; }
+		public float MaxForce { get; set; }
 
 		/// <summary>
 		/// how far out to check for neighbors
 		/// </summary>
-		public float QueryRadius { get; private set; }
+		public float QueryRadius { get; set; }
 
 		/// <summary>
 		/// A dictionary of behavior types to weights...
@@ -88,22 +88,27 @@ namespace FlockBuddy
 		/// <summary>
 		/// how far the evade behvaior should look out for threats
 		/// </summary>
-		public float EvadeThreatRange { get; private set; }
+		public float EvadeThreatRange { get; set; }
 
 		/// <summary>
 		/// how far out the flee behvaior should watch before panicking
 		/// </summary>
-		public float FleePanicDistance { get; private set; }
+		public float FleePanicDistance { get; set; }
 
 		/// <summary>
 		/// how four the obstacle avoidance behvaior should watch for obastcles
 		/// </summary>
-		public float ObstacleAvoidanceDetectionDistance { get; private set; }
+		public float ObstacleAvoidanceDetectionDistance { get; set; }
 
 		/// <summary>
 		/// the length of the wall avoidance whiskers
 		/// </summary>
-		public float WallAvoidanceWhiskerLength { get; private set; }
+		public float WallAvoidanceWhiskerLength { get; set; }
+
+		/// <summary>
+		/// If this is set to true, predators will head straight at prey instead of looking ahead
+		/// </summary>
+		public bool ViciousPursuit { get; set; }
 
 		#endregion Members
 
@@ -140,6 +145,7 @@ namespace FlockBuddy
 			FleePanicDistance = 100.0f;
 			ObstacleAvoidanceDetectionDistance = 100.0f;
 			WallAvoidanceWhiskerLength = 60.0f;
+			ViciousPursuit = false;
 		}
 
 		public void SetBehavior(EBehaviorType behavior, bool enable, float weight)

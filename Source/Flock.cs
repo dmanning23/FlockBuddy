@@ -351,7 +351,7 @@ namespace FlockBuddy
 		/// <param name="range"></param>
 		public List<IBaseEntity> TagObstacles(Boid dude, float range)
 		{
-			return dude.TagObjects(Obstacles, range);
+			return (null == dude ? dude.TagObjects(Obstacles, range) : new List<IBaseEntity>());
 		}
 
 		/// <summary>

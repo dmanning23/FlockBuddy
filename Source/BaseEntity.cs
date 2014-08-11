@@ -137,6 +137,11 @@ namespace FlockBuddy
 		/// <param name="radius"></param>
 		private bool TagObject(IBaseEntity dude, float radius)
 		{
+			if (null == dude)
+			{
+				return false;
+			}
+
 			Vector2 to = dude.Position - Position;
 
 			//the bounding radius of the other is taken into account by adding it to the range

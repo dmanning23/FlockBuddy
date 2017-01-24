@@ -1,0 +1,22 @@
+﻿{
+  "dependencies": {
+    "CellSpacePartition": "1.0.0",
+    "CollisionBuddy": "1.0.1",
+    "GameTimer": "1.0.1",
+    "MatrixExtensions": "1.0.1",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
+    "PrimitiveBuddy": "1.0.0",
+    "RectangleF": "1.0.0"
+  },
+  "frameworks": {
+    "uap10.0": {}
+  },
+  "runtimes": {
+    "win10-arm": {},
+    "win10-arm-aot": {},
+    "win10-x86": {},
+    "win10-x86-aot": {},
+    "win10-x64": {},
+    "win10-x64-aot": {}
+  }
+}

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>932de7a2-c12e-4d94-89ce-247b762c7ee8</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>FlockBuddy.SharedProject</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BaseBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Boid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BoidTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EBehaviorType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ESummingMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Flock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FlockXML.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IBaseEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IMover.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mover.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RoundRobinID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Alignment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Arrive.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Cohesion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Evade.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Flee.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\FollowPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Hide.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Interpose.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\ObstacleAvoidance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\OffsetPursuit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Pursuit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Seek.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Separation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\WallAvoidance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Wander.cs" />
+  </ItemGroup>
+</Project>

@@ -12,7 +12,7 @@ namespace FlockBuddy
 	/// <summary>
 	/// Definition of a simple vehicle that uses steering behaviors
 	/// </summary>
-	public class Boid : Mover
+	public class Boid : Mover, IBoid
 	{
 		#region Members
 
@@ -30,7 +30,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// the flock that owns this dude
 		/// </summary>
-		public Flock MyFlock { get; private set; }
+		public IFlock MyFlock { get; private set; }
 
 		public Vector2 Force
 		{
@@ -40,6 +40,11 @@ namespace FlockBuddy
 			}
 		}
 
+		/// <summary>
+		/// how far out to check for neighbors
+		/// </summary>
+		public float QueryRadius { get; set; }
+
 		#endregion //Properties
 
 		#region Methods
@@ -47,22 +52,28 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Boid"/> class.
 		/// </summary>
-		public Boid(Flock owner,
+		public Boid(IFlock owner,
 			Vector2 position,
-			float radius,
 			Vector2 heading,
-			float speed)
+			float speed,
+			float radius = 10f,
+			float mass = 1f,
+			float maxSpeed = 500f,
+			float maxTurnRate = 10f,
+			float maxForce = 100f)
 				: base(position, 
 				radius,
 				heading, 
 				speed,
-				owner.BoidTemplate.Mass,
-				owner.BoidTemplate.MaxSpeed,
-				owner.BoidTemplate.MaxTurnRate,
-				owner.BoidTemplate.MaxForce)
+				mass,
+				maxSpeed,
+				maxTurnRate,
+				maxForce)
 		{
 			MyFlock = owner;
-			MyFlock.AddDude(this);
+			MyFlock.AddBoid(this);
+
+			QueryRadius = 100.0f;
 
 			//set up the steering behavior class
 			Behaviors = new SteeringBehaviors(this);
@@ -180,7 +191,7 @@ namespace FlockBuddy
 			List<IMover> neighbors = MyFlock.TagNeighbors(this, MyFlock.BoidTemplate.QueryRadius);
 			foreach (var neighbor in neighbors)
 			{
-				prim.Circle(neighbor.Position, neighbor.BoundingRadius, Color.Red);
+				prim.Circle(neighbor.Position, neighbor.Radius, Color.Red);
 			}
 		}
 

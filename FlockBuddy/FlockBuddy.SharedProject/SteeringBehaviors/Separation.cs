@@ -6,14 +6,14 @@ namespace FlockBuddy
 	/// <summary>
 	/// Group behavior to move boids away from each other
 	/// </summary>
-	public class Separation : BaseBehavior
+	public class Separation : BaseBehavior, IFlockingBehavior
 	{
 		#region Members
 
 		/// <summary>
 		/// The guys we are trying to align with
 		/// </summary>
-		private List<IMover> Buddies { get; set; }
+		public List<IMover> Buddies { get; private set; }
 
 		#endregion //Members
 
@@ -23,7 +23,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Separation(Boid dude)
-			: base(dude, EBehaviorType.separation, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.separation, 120f)
 		{
 		}
 
@@ -42,7 +42,7 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			Vector2 steeringForce = Vector2.Zero;
 

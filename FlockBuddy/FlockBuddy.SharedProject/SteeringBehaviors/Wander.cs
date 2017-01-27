@@ -26,8 +26,9 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
+			//TODO:
 			return Vector2.Zero * Weight;
 		}
 

@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework;
 namespace FlockBuddy
 {
 	/// <summary>
-	/// this results in a steering force that attempts to steer the vehicle to the center of the vector connecting two moving agents.
+	/// this results in a steering force that attempts to steer the vehicle to the center
+	/// of the vector connecting two moving agents.
 	/// </summary>
-	public class Interpose : BaseBehavior
+	public class Interpose : BaseBehavior, IPreyBehavior, IGuardBehavior
 	{
 		#region Members
 
@@ -26,8 +27,9 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
+			//TODO:
 			return Vector2.Zero * Weight;
 		}
 

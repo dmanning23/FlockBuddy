@@ -5,9 +5,14 @@ namespace FlockBuddy
 	/// <summary>
 	/// this behavior is similar to seek but it attempts to arrive at the target position with a zero velocity
 	/// </summary>
-	public class Arrive : BaseBehavior
+	public class Arrive : BaseBehavior, ITargetPositionBehavior
 	{
 		#region Members
+
+		/// <summary>
+		/// The target position
+		/// </summary>
+		public Vector2 TargetPosition { get; private set; }
 
 		#endregion //Members
 
@@ -26,8 +31,9 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
+			//TODO:
 			return Vector2.Zero * Weight;
 		}
 

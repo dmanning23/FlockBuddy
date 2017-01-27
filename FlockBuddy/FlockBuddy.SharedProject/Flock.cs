@@ -11,12 +11,12 @@ namespace FlockBuddy
 {
 	/// <summary>
 	/// This holds all the data for a single flock...
-	/// It has all the dudes, which will be updated here.
+	/// It has all the boids, which will be updated here.
 	/// It has all the enemies, which are updated ELSEWHERE.
 	/// It has all the prey items, which are updated ELSEWHERE
 	/// It has all the obstacles, walls, and path, which are also all updated somewhere else in the game.
 	/// </summary>
-	public class Flock
+	public class Flock : IFlock
 	{
 		#region Members
 
@@ -26,9 +26,9 @@ namespace FlockBuddy
 		private object _listLock = new object();
 
 		/// <summary>
-		/// a container of all the moving entities this dude is managing
+		/// a container of all the moving entities this boid is managing
 		/// </summary>
-		public List<IMover> Dudes { get; private set; }
+		public List<IMover> Boids { get; private set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
@@ -43,25 +43,25 @@ namespace FlockBuddy
 		/// <summary>
 		/// any obstacles for this flock
 		/// </summary>
-		public List<IBaseEntity> Obstacles { get; set; }
+		public List<IBaseEntity> Obstacles { get; private set; }
 
 		/// <summary>
 		/// container containing any walls in the environment
 		/// </summary>
-		public List<Line> Walls { get; set; }
+		public List<ILine> Walls { get; private set; }
 
 		/// <summary>
 		/// A list of all the enemies of this flock.  We will run away from them!
 		/// </summary>
-		public List<IMover> Enemies { get; set; }
+		public List<IMover> Enemies { get; private set; }
 
 		/// <summary>
-		/// A list of all the dudes we gonna chase
+		/// A list of all the boids we gonna chase
 		/// </summary>
-		public List<IMover> Targets { get; set; }
+		public List<IMover> Targets { get; private set; }
 
 		//any path we may create for the vehicles to follow
-		//Path*                         m_pPath;
+		//List<vector2> Path { get; private set; }
 
 		private bool _useCellSpace = false;
 
@@ -109,14 +109,14 @@ namespace FlockBuddy
 		{
 			UseWorldWrap = false;
 
-			Dudes = new List<IMover>();
+			Boids = new List<IMover>();
 			FlockTimer = new GameClock();
 			CellSpace = new CellSpacePartition<IMover>(WorldSize, 20, 20);
 
 			//set this stuff here, but will prolly be overridden right away 
 			Obstacles = new List<IBaseEntity>();
 			Enemies = new List<IMover>();
-			Walls = new List<Line>();
+			Walls = new List<ILine>();
 			Targets = new List<IMover>();
 
 			BoidTemplate = new BoidTemplate();
@@ -140,18 +140,18 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// add a dude to the flock.
-		/// This is the only way that dudes should be added to ensure they go in the cell space corerctly.
+		/// add a boid to the flock.
+		/// This is the only way that boids should be added to ensure they go in the cell space corerctly.
 		/// </summary>
-		/// <param name="dude"></param>
-		internal void AddDude(Boid dude)
+		/// <param name="boid"></param>
+		internal void AddDude(IBoid boid)
 		{
 			lock (_listLock)
 			{
-				Dudes.Add(dude);
+				Boids.Add(boid);
 				if (UseCellSpace)
 				{
-					CellSpace.Add(dude);
+					CellSpace.Add(boid);
 				}
 			}
 		}
@@ -169,12 +169,12 @@ namespace FlockBuddy
 			//create a list of all our tasks
 			List<Task> taskList = new List<Task>();
 
-			//Update all the flock dudes
-			for (int i = 0; i < Dudes.Count; i++)
+			//Update all the flock boids
+			for (int i = 0; i < Boids.Count; i++)
 			{
-				Boid dude = Dudes[i] as Boid;
-				Debug.Assert(null != dude);
-				taskList.Add(dude.UpdateAsync(FlockTimer));
+				Boid boid = Boids[i] as Boid;
+				Debug.Assert(null != boid);
+				taskList.Add(boid.UpdateAsync(FlockTimer));
 			}
 
 			//wait for all the updates to finish
@@ -183,9 +183,9 @@ namespace FlockBuddy
 			//update the vehicle's current cell if space partitioning is turned on
 			if (UseCellSpace)
 			{
-				for (int i = 0; i < Dudes.Count; i++)
+				for (int i = 0; i < Boids.Count; i++)
 				{
-					CellSpace.Update(Dudes[i]);
+					CellSpace.Update(Boids[i]);
 				}
 			}
 		}
@@ -193,10 +193,10 @@ namespace FlockBuddy
 		/// <summary>
 		/// Remove a boid from the list
 		/// </summary>
-		/// <param name="dude"></param>
-		public void RemoveBoid(Boid dude)
+		/// <param name="boid"></param>
+		public void RemoveBoid(IBoid boid)
 		{
-			Dudes.Remove(dude);
+			Boids.Remove(boid);
 		}
 
 		/// <summary>
@@ -229,31 +229,31 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// Tag all the guys inteh flock that are neightbors of a dude.
+		/// Tag all the guys inteh flock that are neightbors of a boid.
 		/// </summary>
-		/// <param name="dude"></param>
-		public List<IMover> TagNeighbors(Boid dude, float queryRadius)
+		/// <param name="boid"></param>
+		public List<IMover> TagNeighbors(IBoid boid, float queryRadius)
 		{
 			if (UseCellSpace)
 			{
-				//Update the cell space to find all the dudes neighbors
-				return CellSpace.CalculateNeighbors(dude.Position, queryRadius);
+				//Update the cell space to find all the boids neighbors
+				return CellSpace.CalculateNeighbors(boid.Position, queryRadius);
 			}
 			else
 			{
-				//go through all the dudes and tag them up
-				return dude.TagNeighbors(Dudes, queryRadius);
+				//go through all the boids and tag them up
+				return boid.TagNeighbors(Boids, queryRadius);
 			}
 		}
 
 		/// <summary>
-		/// Calculate the enemies of a dude.
-		/// Right now just pulls out the first two dudes.
+		/// Calculate the enemies of a boid.
+		/// Right now just pulls out the first two boids.
 		/// </summary>
-		/// <param name="dude"></param>
+		/// <param name="boid"></param>
 		/// <param name="enemy1"></param>
 		/// <param name="enemy2"></param>
-		public void FindEnemies(Boid dude, out IMover enemy1, out IMover enemy2)
+		public void FindEnemies(IBoid boid, out IMover enemy1, out IMover enemy2)
 		{
 			//are there any enemies in the list?
 			if (Enemies.Count >= 2)
@@ -277,11 +277,11 @@ namespace FlockBuddy
 
 		/// <summary>
 		/// Find any targets in the list.
-		/// Right now just returns the first dude in the list.
+		/// Right now just returns the first boid in the list.
 		/// </summary>
-		/// <param name="dude"></param>
+		/// <param name="boid"></param>
 		/// <param name="target"></param>
-		public void FindTarget(Boid dude, out IMover target)
+		public void FindTarget(IBoid boid, out IMover target)
 		{
 			//are there any targets in the list?
 			if (Targets.Count >= 1)
@@ -304,26 +304,26 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// draw the vectors of all the dudes
+		/// draw the vectors of all the boids
 		/// </summary>
 		/// <param name="prim"></param>
 		public void DrawVectors(IPrimitive prim)
 		{
-			foreach (Boid dude in Dudes)
+			foreach (Boid boid in Boids)
 			{
-				dude.DrawVectors(prim);
+				boid.DrawVectors(prim);
 			}
 		}
 
 		/// <summary>
-		/// draw the wall whiskers of all the dudes
+		/// draw the wall whiskers of all the boids
 		/// </summary>
 		/// <param name="prim"></param>
 		public void DrawWhiskers(IPrimitive prim)
 		{
-			foreach (Boid dude in Dudes)
+			foreach (Boid boid in Boids)
 			{
-				dude.DrawWallFeelers(prim);
+				boid.DrawWallFeelers(prim);
 			}
 		}
 
@@ -339,19 +339,19 @@ namespace FlockBuddy
 			}
 		}
 
-		//void NonPenetrationContraint(Boid dude)
+		//void NonPenetrationContraint(Boid boid)
 		//{
-		//	EnforceNonPenetrationConstraint(dude, Dudes);
+		//	EnforceNonPenetrationConstraint(boid, Boids);
 		//}
 
 		/// <summary>
-		/// Tag all the obstacles that a dude can see.
+		/// Tag all the obstacles that a boid can see.
 		/// </summary>
-		/// <param name="dude"></param>
+		/// <param name="boid"></param>
 		/// <param name="range"></param>
-		public List<IBaseEntity> TagObstacles(Boid dude, float range)
+		public List<IBaseEntity> TagObstacles(IBoid boid, float range)
 		{
-			return (null == dude ? dude.TagObjects(Obstacles, range) : new List<IBaseEntity>());
+			return (null == boid ? boid.TagObjects(Obstacles, range) : new List<IBaseEntity>());
 		}
 
 		/// <summary>
@@ -359,7 +359,7 @@ namespace FlockBuddy
 		/// </summary>
 		public virtual void Clear()
 		{
-			Dudes.Clear();
+			Boids.Clear();
 			CellSpace.Clear();
 		}
 

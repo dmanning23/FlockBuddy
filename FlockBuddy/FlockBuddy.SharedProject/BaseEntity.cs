@@ -60,7 +60,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// the length of this object's bounding radius
 		/// </summary>
-		public virtual float BoundingRadius { get; protected set; }
+		public virtual float Radius { get; protected set; }
 
 		#endregion //Properties
 
@@ -71,13 +71,13 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="pos">teh position of this dude</param>
 		/// <param name="r">the radius of this dude</param>
-		public BaseEntity(Vector2 pos, float r)
+		public BaseEntity(Vector2 position, float radius)
 		{
 			_id = new RoundRobinID();
 
-			_Position = pos;
-			OldPosition = pos;
-			BoundingRadius = r;
+			_Position = position;
+			OldPosition = position;
+			Radius = radius;
 		}
 
 		/// <summary>
@@ -93,14 +93,14 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="dudes">teh list of entities to tag as neighbors</param>
 		/// <param name="radius">the disdtance to tag neightbors</param>
-		public List<IMover> TagNeighbors(List<IMover> dudes, float radius)
+		public List<IMover> TagNeighbors(List<IMover> dudes, float distance)
 		{
 			var neighbors = new List<IMover>();
 
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)
 			{
-				if (TagObject(dudes[i], radius))
+				if (TagObject(dudes[i], distance))
 				{
 					neighbors.Add(dudes[i]);
 				}
@@ -113,15 +113,15 @@ namespace FlockBuddy
 		/// check if some non-boid dudes are in range
 		/// </summary>
 		/// <param name="dudes"></param>
-		/// <param name="radius"></param>
-		public List<IBaseEntity> TagObjects(List<IBaseEntity> dudes, float radius)
+		/// <param name="distance"></param>
+		public List<IBaseEntity> TagObjects(List<IBaseEntity> dudes, float distance)
 		{
 			var neighbors = new List<IBaseEntity>();
 
 			//iterate through all entities checking for range
 			for (int i = 0; i < dudes.Count; i++)
 			{
-				if (TagObject(dudes[i], radius))
+				if (TagObject(dudes[i], distance))
 				{
 					neighbors.Add(dudes[i]);
 				}
@@ -134,8 +134,8 @@ namespace FlockBuddy
 		/// check if a dude is in range
 		/// </summary>
 		/// <param name="dude"></param>
-		/// <param name="radius"></param>
-		private bool TagObject(IBaseEntity dude, float radius)
+		/// <param name="distance"></param>
+		private bool TagObject(IBaseEntity dude, float distance)
 		{
 			if (null == dude)
 			{
@@ -145,7 +145,7 @@ namespace FlockBuddy
 			Vector2 to = dude.Position - Position;
 
 			//the bounding radius of the other is taken into account by adding it to the range
-			double range = radius + dude.BoundingRadius;
+			double range = distance + dude.Radius;
 
 			//if entity within range, tag for further consideration. 
 			//(working in distance-squared space to avoid sqrts)
@@ -159,7 +159,7 @@ namespace FlockBuddy
 		/// <param name="color">teh color to draw him</param>
 		public virtual void DrawPhysics(IPrimitive prim, Color color)
 		{
-			prim.Circle(Position, BoundingRadius, color);
+			prim.Circle(Position, Radius, color);
 		}
 
 		#endregion //Methods

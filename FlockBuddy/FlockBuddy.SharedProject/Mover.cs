@@ -32,22 +32,9 @@ namespace FlockBuddy
 		/// </summary>
 		protected GameClock BoidTimer { get; set; }
 
-		/// <summary>
-		/// the speed of this dude in pixels/sec
-		/// </summary>
-		public float Speed { get; set; }
-
 		#endregion //Members
 
 		#region Properties
-
-		public Vector2 Velocity
-		{
-			get
-			{
-				return Heading * Speed;
-			}
-		}
 
 		public Vector2 Heading
 		{
@@ -67,6 +54,19 @@ namespace FlockBuddy
 
 				//the side vector must always be perpendicular to the heading
 				_side = _heading.Perp();
+			}
+		}
+
+		/// <summary>
+		/// the speed of this dude in pixels/sec
+		/// </summary>
+		public float Speed { get; set; }
+
+		public Vector2 Velocity
+		{
+			get
+			{
+				return Heading * Speed;
 			}
 		}
 
@@ -115,17 +115,17 @@ namespace FlockBuddy
 					Vector2 heading,
 					float speed,
 					float mass,
-					float max_speed,
-					float max_turn_rate,
-					float max_force)
+					float maxSpeed,
+					float maxTurnRate,
+					float maxForce)
 			: base(position, radius)
 		{
 			Heading = heading;
 			Speed = speed;
 			Mass = mass;
-			MaxSpeed = max_speed;
-			MaxTurnRate = max_turn_rate;
-			MaxForce = max_force;
+			MaxSpeed = maxSpeed;
+			MaxTurnRate = maxTurnRate;
+			MaxForce = maxForce;
 
 			BoidTimer = new GameClock();
 			BoidTimer.Start();
@@ -249,7 +249,7 @@ namespace FlockBuddy
 		public virtual void Render(IPrimitive prim, Color color)
 		{
 			DrawPhysics(prim, color);
-			prim.Line(Position, Position + (BoundingRadius * Heading), color);
+			prim.Line(Position, Position + (Radius * Heading), color);
 		}
 
 		/// <summary>

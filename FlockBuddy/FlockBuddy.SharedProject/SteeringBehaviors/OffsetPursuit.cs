@@ -5,7 +5,7 @@ namespace FlockBuddy
 	/// <summary>
 	/// this behavior maintains a position, in the direction of offset from the target vehicle
 	/// </summary>
-	public class OffsetPursuit : BaseBehavior
+	public class OffsetPursuit : BaseBehavior, IGuardBehavior
 	{
 		#region Members
 
@@ -25,8 +25,9 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
+			//TODO:
 			return Vector2.Zero * Weight;
 		}
 

@@ -15,6 +15,6 @@ namespace FlockBuddy
 		/// <summary>
 		/// the length of this object's bounding radius
 		/// </summary>
-		float BoundingRadius { get; }
+		float Radius { get; }
 	}
 }

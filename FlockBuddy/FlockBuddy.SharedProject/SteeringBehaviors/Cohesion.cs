@@ -7,7 +7,7 @@ namespace FlockBuddy
 	/// <summary>
 	/// Group behavior to move boids together
 	/// </summary>
-	public class Cohesion : BaseBehavior
+	public class Cohesion : BaseBehavior, IFlockingBehavior
 	{
 		#region Members
 
@@ -26,7 +26,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Cohesion(Boid dude)
-			: base(dude, EBehaviorType.cohesion, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.cohesion, 0.5f)
 		{
 			SeekBehavior = new Seek(dude);
 		}
@@ -46,7 +46,7 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			//first find the center of mass of all the agents
 			Vector2 centerOfMass = Vector2.Zero;

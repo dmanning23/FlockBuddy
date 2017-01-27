@@ -5,25 +5,19 @@ namespace FlockBuddy
 	/// <summary>
 	/// this behavior returns a vector that moves the agent away from a target position
 	/// </summary>
-	public class Flee : BaseBehavior
+	public class Flee : BaseBehavior, IAvoidPositionBehavior
 	{
 		#region Members
 
 		/// <summary>
 		/// The position to run away from!
 		/// </summary>
-		private Vector2 TargetPos;
+		public Vector2 AvoidPosition { get; private set; }
 
 		/// <summary>
-		/// How far to look out for bad guys
+		/// how far out the flee behvaior should watch before panicking
 		/// </summary>
-		private float PanicDistance
-		{
-			get
-			{
-				return BoidTemplate.FleePanicDistance;
-			}
-		}
+		public float PanicDistance { get; set; }
 
 		#endregion //Members
 
@@ -35,6 +29,7 @@ namespace FlockBuddy
 		public Flee(Boid dude)
 			: base(dude, EBehaviorType.flee, dude.MyFlock.BoidTemplate)
 		{
+			PanicDistance = 100f;
 		}
 
 		/// <summary>
@@ -44,7 +39,7 @@ namespace FlockBuddy
 		/// <returns></returns>
 		public Vector2 GetSteering(Vector2 target)
 		{
-			TargetPos = target;
+			AvoidPosition = target;
 			return GetSteering();
 		}
 
@@ -52,15 +47,15 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			//only flee if the target is within 'panic distance'. Work in distance squared space.
-			if (Vector2.DistanceSquared(Owner.Position, TargetPos) > (PanicDistance * PanicDistance))
+			if (Vector2.DistanceSquared(Owner.Position, AvoidPosition) > (PanicDistance * PanicDistance))
 			{
 				return Vector2.Zero;
 			}
 
-			Vector2 desiredVelocity = Vector2.Normalize(Owner.Position - TargetPos) * Owner.MaxSpeed;
+			Vector2 desiredVelocity = Vector2.Normalize(Owner.Position - AvoidPosition) * Owner.MaxSpeed;
 			return (desiredVelocity - Owner.Velocity) * Weight;
 		}
 

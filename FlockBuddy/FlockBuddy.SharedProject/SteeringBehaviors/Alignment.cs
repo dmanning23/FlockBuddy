@@ -6,7 +6,7 @@ namespace FlockBuddy
 	/// <summary>
 	/// Group behavior to move boids in the same direction as each other
 	/// </summary>
-	public class Alignment : BaseBehavior
+	public class Alignment : BaseBehavior, IFlockingBehavior
 	{
 		#region Members
 
@@ -23,7 +23,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Alignment"/> class.
 		/// </summary>
 		public Alignment(Boid dude)
-			: base(dude, EBehaviorType.alignment, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.alignment, 10f)
 		{
 		}
 
@@ -43,7 +43,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			//used to record the average heading of the neighbors
 			Vector2 AverageHeading = Vector2.Zero;

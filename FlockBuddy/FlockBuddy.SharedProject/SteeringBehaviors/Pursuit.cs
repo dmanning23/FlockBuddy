@@ -5,7 +5,7 @@ namespace FlockBuddy
 	/// <summary>
 	/// Tthis behavior predicts where an agent will be in time T and seeks towards that point to intercept it.
 	/// </summary>
-	public class Pursuit : BaseBehavior
+	public class Pursuit : BaseBehavior, IPredatorBehavior
 	{
 		#region Members
 
@@ -19,6 +19,11 @@ namespace FlockBuddy
 		/// </summary>
 		private Seek SeekAction { get; set; }
 
+		/// <summary>
+		/// If this is set to true, predators will head straight at prey instead of looking ahead
+		/// </summary>
+		public bool ViciousPursuit { get; set; }
+
 		#endregion //Members
 
 		#region Methods
@@ -27,9 +32,10 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Pursuit"/> class.
 		/// </summary>
 		public Pursuit(Boid dude)
-			: base(dude, EBehaviorType.pursuit, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.pursuit, 0.1f)
 		{
 			SeekAction = new Seek(dude);
+			ViciousPursuit = false;
 		}
 
 		/// <summary>
@@ -54,14 +60,14 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			//if the evader is ahead and facing the agent then we can just seek for the evader's current position.
 			Vector2 toEvader = Prey.Position - Owner.Position;
 
 			float relativeHeading = Vector2.Dot(Owner.Heading, Prey.Heading);
 
-			if (BoidTemplate.ViciousPursuit ||
+			if (ViciousPursuit ||
 				((Vector2.Dot(toEvader, Owner.Heading) > 0.0f) &&
 				 (relativeHeading < -0.95f)))  //acos(0.95)=18 degs
 			{

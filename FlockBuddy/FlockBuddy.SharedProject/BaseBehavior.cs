@@ -5,9 +5,9 @@ namespace FlockBuddy
 	/// <summary>
 	/// This is the base class for all behaviors
 	/// </summary>
-	public abstract class BaseBehavior
+	public abstract class BaseBehavior : IBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The type of this beahvior
@@ -17,65 +17,33 @@ namespace FlockBuddy
 		/// <summary>
 		/// a pointer to the owner of this instance
 		/// </summary>
-		public Boid Owner { get; set; }
+		public IBoid Owner { get; set; }
 
 		/// <summary>
-		/// is cell space partitioning to be used or not?
+		/// How much weight to apply to this beahvior
 		/// </summary>
-		public bool CellSpaceOn { get; set; }
+		public float Weight { get; set; }
 
-		public BoidTemplate BoidTemplate { get; private set; }
-
-		/// <summary>
-		/// The behavior template for this dude
-		/// </summary>
-		public BehaviorTemplate BehaviorTemplate { get; private set; }
-
-		public float Weight
-		{
-			get
-			{
-				return BehaviorTemplate.Weight;
-			}
-			set
-			{
-				BehaviorTemplate.Weight = value;
-			}
-		}
-
-		public bool Active
-		{
-			get
-			{
-				return BehaviorTemplate.Enabled;
-			}
-			set
-			{
-				BehaviorTemplate.Enabled = value;
-			}
-		}
-
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.BaseBehavior"/> class.
 		/// </summary>
-		public BaseBehavior(Boid dude, EBehaviorType behaviorType, BoidTemplate template)
+		public BaseBehavior(IBoid dude, EBehaviorType behaviorType, float weight)
 		{
 			BehaviorType = behaviorType;
 			Owner = dude;
-			BoidTemplate = template;
-			BehaviorTemplate = BoidTemplate.Behaviors[(int)BehaviorType];
+			Weight = weight;
 		}
 
 		/// <summary>
-		/// Called every fram to get the steering direction from this behavior
+		/// Called every frame to get the steering direction from this behavior
 		/// Dont call this for inactive behaviors
 		/// </summary>
 		/// <returns></returns>
-		protected abstract Vector2 GetSteering();
+		public abstract Vector2 GetSteering();
 
 		#endregion //Methods
 	}

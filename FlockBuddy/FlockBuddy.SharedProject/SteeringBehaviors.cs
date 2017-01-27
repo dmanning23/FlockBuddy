@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace FlockBuddy
 {
@@ -16,7 +17,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// The list of behaviors this boid will use
 		/// </summary>
-		public List<BaseBehavior> Behaviors { get; private set; }
+		private List<IBehavior> Behaviors { get; set; }
 
 		/// <summary>
 		/// How to add up all the steering behaviors
@@ -26,11 +27,11 @@ namespace FlockBuddy
 		/// <summary>
 		/// The boid who owns this dude.
 		/// </summary>
-		protected Boid Owner { get; private set; }
+		protected IBoid Owner { get; private set; }
 
 		private GameClock Timer { get; set; }
 
-		Random _rand = new Random();
+		private Random _rand = new Random();
 
 		#endregion //Members
 
@@ -68,154 +69,19 @@ namespace FlockBuddy
 		/// <summary>
 		/// Constructor
 		/// </summary>
-		public SteeringBehaviors(Boid owner)
+		public SteeringBehaviors(IBoid owner)
 		{
 			Owner = owner;
 			Timer = new GameClock();
-			Behaviors = new List<BaseBehavior>();
-
-			//add all the steering behaviors
-			Behaviors.Add(new Alignment(owner));
-			Behaviors.Add(new Arrive(owner));
-			Behaviors.Add(new Cohesion(owner));
-			Behaviors.Add(new Evade(owner));
-			Behaviors.Add(new Flee(owner));
-			Behaviors.Add(new FollowPath(owner));
-			Behaviors.Add(new Hide(owner));
-			Behaviors.Add(new Interpose(owner));
-			Behaviors.Add(new ObstacleAvoidance(owner));
-			Behaviors.Add(new OffsetPursuit(owner));
-			Behaviors.Add(new Pursuit(owner));
-			Behaviors.Add(new Seek(owner));
-			Behaviors.Add(new Separation(owner));
-			Behaviors.Add(new WallAvoidance(owner));
-			Behaviors.Add(new Wander(owner));
+			Behaviors = new List<IBehavior>();
 
 			SumMethod = ESummingMethod.weighted_average;
 		}
 
-		#region Run Behaviors
-
-		public Vector2 CalcAlignment()
+		public void AddBehavior(IBehavior behavior)
 		{
-			Alignment behavior = Behaviors[(int)EBehaviorType.alignment] as Alignment;
-			return behavior.GetSteering(Neighbors);
-		}
-
-		public Vector2 CalcArrive()
-		{
-			//TODO
-			Arrive behavior = Behaviors[(int)EBehaviorType.arrive] as Arrive;
-			return Vector2.Zero;
-		}
-
-		public Vector2 CalcCohesion()
-		{
-			Cohesion behavior = Behaviors[(int)EBehaviorType.cohesion] as Cohesion;
-			return behavior.GetSteering(Neighbors);
-		}
-
-		public Vector2 CalcEvade()
-		{
-			Evade behavior = Behaviors[(int)EBehaviorType.evade] as Evade;
-			return behavior.GetSteering(Enemy1);
-		}
-
-		public Vector2 CalcFlee()
-		{
-			Flee behavior = Behaviors[(int)EBehaviorType.flee] as Flee;
-			return behavior.GetSteering(Target);
-		}
-
-		public Vector2 CalcFollowPath()
-		{
-			//TODO
-			FollowPath behavior = Behaviors[(int)EBehaviorType.follow_path] as FollowPath;
-			return Vector2.Zero;
-		}
-
-		public Vector2 CalcHide()
-		{
-			//TODO
-			Hide behavior = Behaviors[(int)EBehaviorType.hide] as Hide;
-			return Vector2.Zero;
-		}
-
-		public Vector2 CalcInterpose()
-		{
-			//TODO
-			Interpose behavior = Behaviors[(int)EBehaviorType.interpose] as Interpose;
-			return Vector2.Zero;
-		}
-
-		public Vector2 CalcObstacleAvoidance()
-		{
-			ObstacleAvoidance behavior = Behaviors[(int)EBehaviorType.obstacle_avoidance] as ObstacleAvoidance;
-			return behavior.GetSteering2();
-		}
-
-		public Vector2 CalcOffsetPursuit()
-		{
-			//TODO
-			OffsetPursuit behavior = Behaviors[(int)EBehaviorType.offset_pursuit] as OffsetPursuit;
-			return Vector2.Zero;
-		}
-
-		public Vector2 CalcPursuit()
-		{
-			Pursuit behavior = Behaviors[(int)EBehaviorType.pursuit] as Pursuit;
-			return behavior.GetSteering(Prey);
-		}
-
-		public Vector2 CalcSeek()
-		{
-			Seek behavior = Behaviors[(int)EBehaviorType.seek] as Seek;
-			return behavior.GetSteering(Target);
-		}
-
-		public Vector2 CalcSeparation()
-		{
-			Separation behavior = Behaviors[(int)EBehaviorType.separation] as Separation;
-			return behavior.GetSteering(Neighbors);
-		}
-
-		public Vector2 CalcWallAvoidance()
-		{
-			WallAvoidance behavior = Behaviors[(int)EBehaviorType.wall_avoidance] as WallAvoidance;
-			return behavior.GetSteering(Owner.MyFlock.Walls);
-		}
-
-		public Vector2 CalcWander()
-		{
-			//TODO
-			Wander behavior = Behaviors[(int)EBehaviorType.wander] as Wander;
-			return Vector2.Zero;
-		}
-
-		#endregion //Run Behaviors
-
-		/// <summary>
-		/// Given a list of behaviors, activate only the ones that are specified
-		/// This needs to be called once the behavior thing is created.
-		/// If you call this more than once, this does NOT deactivate any of the behaviors that are not specified!
-		/// </summary>
-		/// <param name="behaviors">a list of all the behaviors we want this dude to use</param>
-		public void ActivateBehaviors(EBehaviorType[] behaviors)
-		{
-			foreach (EBehaviorType behavior in behaviors)
-			{
-				this.Behaviors[(int)behavior].Active = true;
-			}
-		}
-
-		/// <summary>
-		/// Check if a particular steering behavior is active
-		/// </summary>
-		/// <param name="behavior"></param>
-		/// <returns></returns>
-		public bool IsActive(EBehaviorType behavior)
-		{
-			return Behaviors[(int)behavior].Active;
+			Behaviors.Add(behavior);
+			Behaviors.Sort((x, y) => x.BehaviorType.CompareTo(y.BehaviorType));
 		}
 
 		/// <summary>
@@ -253,96 +119,9 @@ namespace FlockBuddy
 		{
 			Vector2 steeringForce = Vector2.Zero;
 
-			if (IsActive(EBehaviorType.wall_avoidance))
+			for (int i = 0; i < Behaviors.Count; i++)
 			{
-				steeringForce += CalcWallAvoidance();
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
-			}
-
-			if (IsActive(EBehaviorType.obstacle_avoidance))
-			{
-				steeringForce += CalcObstacleAvoidance();
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
-			}
-
-			if (IsActive(EBehaviorType.evade))
-			{
-				steeringForce += CalcEvade();
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
-			}
-
-
-			//these next three can be combined for flocking behavior
-			//(wander is also a good behavior to add into this mix)
-
-			if (IsActive(EBehaviorType.separation))
-			{
-				steeringForce += CalcSeparation();
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
-			}
-
-			if (IsActive(EBehaviorType.alignment))
-			{
-				steeringForce += CalcAlignment();
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
-			}
-
-			if (IsActive(EBehaviorType.cohesion))
-			{
-				steeringForce += CalcCohesion();
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
-			}
-
-
-			if (IsActive(EBehaviorType.wander))
-			{
-				steeringForce += CalcWander();
-			}
-
-			if (IsActive(EBehaviorType.seek))
-			{
-				steeringForce += CalcSeek();
-			}
-
-			if (IsActive(EBehaviorType.flee))
-			{
-				steeringForce += CalcFlee();
-			}
-
-			if (IsActive(EBehaviorType.arrive))
-			{
-				steeringForce += CalcArrive();
-			}
-
-			if (IsActive(EBehaviorType.pursuit))
-			{
-				steeringForce += CalcPursuit();
-			}
-
-			if (IsActive(EBehaviorType.offset_pursuit))
-			{
-				steeringForce += CalcOffsetPursuit();
-			}
-
-			if (IsActive(EBehaviorType.interpose))
-			{
-				steeringForce += CalcInterpose();
-			}
-
-			if (IsActive(EBehaviorType.hide))
-			{
-				steeringForce += CalcHide();
-			}
-
-			if (IsActive(EBehaviorType.follow_path))
-			{
-				steeringForce += CalcFollowPath();
+				steeringForce += Behaviors[i].GetSteering();
 			}
 
 			return steeringForce;
@@ -355,104 +134,20 @@ namespace FlockBuddy
 		///  accumulated to that  point
 		/// </summary>
 		/// <returns></returns>
-		Vector2 CalculatePrioritized()
+		private Vector2 CalculatePrioritized()
 		{
 			Vector2 force;
 			Vector2 steeringForce = Vector2.Zero;
 
-			if (IsActive(EBehaviorType.wall_avoidance))
+			for (int i = 0; i < Behaviors.Count; i++)
 			{
-				force = CalcWallAvoidance();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
+				force = Behaviors[i].GetSteering();
+				if (!AccumulateForce(ref steeringForce, force))
+				{
+					return steeringForce;
+				}
 			}
-
-			if (IsActive(EBehaviorType.obstacle_avoidance))
-			{
-				force = CalcObstacleAvoidance();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.evade))
-			{
-				force = CalcEvade();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.flee))
-			{
-				force = CalcFlee();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			//these next three can be combined for flocking behavior
-			//(wander is also a good behavior to add into this mix)
-
-			if (IsActive(EBehaviorType.separation))
-			{
-				force = CalcSeparation();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.alignment))
-			{
-				force = CalcAlignment();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.cohesion))
-			{
-				force = CalcCohesion();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.seek))
-			{
-				force = CalcSeek();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.arrive))
-			{
-				force = CalcArrive();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.wander))
-			{
-				force = CalcWander();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.pursuit))
-			{
-				force = CalcPursuit();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.offset_pursuit))
-			{
-				force = CalcOffsetPursuit();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.interpose))
-			{
-				force = CalcInterpose();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.hide))
-			{
-				force = CalcHide();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
-			if (IsActive(EBehaviorType.follow_path))
-			{
-				force = CalcFollowPath();
-				if (!AccumulateForce(ref steeringForce, force)) return steeringForce;
-			}
-
+			
 			return steeringForce;
 		}
 
@@ -468,7 +163,7 @@ namespace FlockBuddy
 		///        just a few, so you get the general idea
 		/// </summary>
 		/// <returns></returns>
-		Vector2 CalculateDithered()
+		private Vector2 CalculateDithered()
 		{
 			//reset the steering force
 			Vector2 steeringForce = Vector2.Zero;
@@ -618,7 +313,7 @@ namespace FlockBuddy
 		/// <param name="RunningTot"></param>
 		/// <param name="ForceToAdd"></param>
 		/// <returns></returns>
-		bool AccumulateForce(ref Vector2 runningTot, Vector2 forceToAdd)
+		private bool AccumulateForce(ref Vector2 runningTot, Vector2 forceToAdd)
 		{
 			//calculate how much steering force the vehicle has used so far
 			float magnitudeSoFar = runningTot.Length();

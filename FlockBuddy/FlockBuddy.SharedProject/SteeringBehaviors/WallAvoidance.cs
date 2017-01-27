@@ -9,27 +9,24 @@ namespace FlockBuddy
 	/// <summary>
 	/// this returns a steering force which will keep the agent away from any walls it may encounter
 	/// </summary>
-	public class WallAvoidance : BaseBehavior
+	public class WallAvoidance : BaseBehavior, IWallBehavior
 	{
 		#region Members
 
 		/// <summary>
 		/// The walls to avoid
 		/// </summary>
-		private List<Line> Walls { get; set; }
+		public List<ILine> Walls { get; private set; }
 
 		/// <summary>
 		/// little whiskers that this dude will use to detect walls
 		/// </summary>
 		public List<Vector2> Feelers { get; set; }
 
-		private float WhiskerLength
-		{
-			get
-			{
-				return BoidTemplate.WallAvoidanceWhiskerLength;
-			}
-		}
+		/// <summary>
+		/// the length of the wall avoidance whiskers
+		/// </summary>
+		public float WhiskerLength { get; set; }
 
 		#endregion //Members
 
@@ -39,9 +36,10 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public WallAvoidance(Boid dude)
-			: base(dude, EBehaviorType.wall_avoidance, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.wall_avoidance, 50.0f)
 		{
 			Feelers = new List<Vector2>();
+			WhiskerLength = 60.0f;
 		}
 
 		/// <summary>
@@ -59,7 +57,7 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			if (0 >= Walls.Count)
 			{

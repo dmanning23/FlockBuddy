@@ -7,18 +7,14 @@ namespace FlockBuddy
 	/// <summary>
 	/// this returns a steering force which will attempt to keep the agent away from any obstacles it may encounter
 	/// </summary>
-	public class ObstacleAvoidance : BaseBehavior
+	public class ObstacleAvoidance : BaseBehavior, IObstacleBehavior
 	{
 		#region Members
 
-		//length of the 'detection box' utilized in obstacle avoidance
-		private float AvoidanceDetectionDistance
-		{
-			get
-			{
-				return BoidTemplate.ObstacleAvoidanceDetectionDistance;
-			}
-		}
+		/// <summary>
+		/// how far the obstacle avoidance behvaior should watch for obastcles
+		/// </summary>
+		public float AvoidanceDetectionDistance { get; set; }
 
 		#endregion //Members
 
@@ -28,8 +24,9 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.ObstacleAvoidance"/> class.
 		/// </summary>
 		public ObstacleAvoidance(Boid dude)
-			: base(dude, EBehaviorType.obstacle_avoidance, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.obstacle_avoidance, 30f)
 		{
+			AvoidanceDetectionDistance = 100.0f;
 		}
 
 		public Vector2 GetSteering2()
@@ -41,7 +38,7 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			//the detection box length is proportional to the agent's velocity
 			float boxLength = AvoidanceDetectionDistance + (Owner.Speed / Owner.MaxSpeed) * AvoidanceDetectionDistance;

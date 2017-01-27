@@ -14,6 +14,12 @@ namespace FlockBuddy
 
 		Vector2 Velocity { get; }
 
-		void Render(IPrimitive prim, Color color);
+		float Mass { get; set; }
+
+		float MaxSpeed { get; set; }
+
+		float MaxForce { get; set; }
+
+		float MaxTurnRate { get; set; }
 	}
 }

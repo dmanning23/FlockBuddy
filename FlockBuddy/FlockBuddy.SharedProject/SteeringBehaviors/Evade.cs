@@ -5,25 +5,19 @@ namespace FlockBuddy
 	/// <summary>
 	/// this behavior attempts to evade a pursuer
 	/// </summary>
-	public class Evade : BaseBehavior
+	public class Evade : BaseBehavior, IPreyBehavior
 	{
 		#region Members
 
 		/// <summary>
 		/// A dude chasing this dude
 		/// </summary>
-		private IMover Pursuer { get; set; }
+		public IMover Pursuer { get; private set; }
 
 		/// <summary>
-		/// How far to look out for bad guys
+		/// how far the evade behvaior should look out for threats
 		/// </summary>
-		private float ThreatRange
-		{
-			get
-			{
-				return BoidTemplate.EvadeThreatRange;
-			}
-		}
+		public float ThreatRange { get; set; }
 
 		/// <summary>
 		/// Used to run away from bad guys
@@ -38,9 +32,10 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Evade(Boid dude)
-			: base(dude, EBehaviorType.evade, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.evade, 1.0f)
 		{
 			FleeAction = new Flee(dude);
+			ThreatRange = 80f;
 		}
 
 		/// <summary>
@@ -65,7 +60,7 @@ namespace FlockBuddy
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
-		protected override Vector2 GetSteering()
+		public override Vector2 GetSteering()
 		{
 			/* Not necessary to include the check for facing direction this time */
 

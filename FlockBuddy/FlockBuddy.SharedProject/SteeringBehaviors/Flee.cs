@@ -7,19 +7,14 @@ namespace FlockBuddy
 	/// </summary>
 	public class Flee : BaseBehavior, IAvoidPositionBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The position to run away from!
 		/// </summary>
-		public Vector2 AvoidPosition { get; private set; }
-
-		/// <summary>
-		/// how far out the flee behvaior should watch before panicking
-		/// </summary>
-		public float PanicDistance { get; set; }
-
-		#endregion //Members
+		public Vector2 AvoidPosition { private get; set; }
+		
+		#endregion //Properties
 
 		#region Methods
 
@@ -27,9 +22,8 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Flee"/> class.
 		/// </summary>
 		public Flee(Boid dude)
-			: base(dude, EBehaviorType.flee, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.flee, 1f)
 		{
-			PanicDistance = 100f;
 		}
 
 		/// <summary>
@@ -50,7 +44,7 @@ namespace FlockBuddy
 		public override Vector2 GetSteering()
 		{
 			//only flee if the target is within 'panic distance'. Work in distance squared space.
-			if (Vector2.DistanceSquared(Owner.Position, AvoidPosition) > (PanicDistance * PanicDistance))
+			if (Vector2.DistanceSquared(Owner.Position, AvoidPosition) > (Owner.QueryRadius * Owner.QueryRadius))
 			{
 				return Vector2.Zero;
 			}

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
@@ -7,9 +9,11 @@ namespace FlockBuddy
 	/// </summary>
 	public class FollowPath : BaseBehavior, IPathBehavior
 	{
-		#region Members
+		#region Properties
 
-		#endregion //Members
+		public List<Vector2> Path { private get; set; }
+
+		#endregion //Properties
 
 		#region Methods
 
@@ -17,7 +21,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public FollowPath(Boid dude)
-			: base(dude, EBehaviorType.follow_path, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.follow_path, 1f)
 		{
 		}
 

@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FlockBuddy
 {
@@ -10,6 +7,6 @@ namespace FlockBuddy
 	/// </summary>
 	public interface IAvoidPositionBehavior
 	{
-		Vector2 AvoidPosition { get; }
+		Vector2 AvoidPosition { set; }
 	}
 }

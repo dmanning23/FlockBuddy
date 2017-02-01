@@ -7,24 +7,19 @@ namespace FlockBuddy
 	/// </summary>
 	public class Evade : BaseBehavior, IPreyBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// A dude chasing this dude
 		/// </summary>
-		public IMover Pursuer { get; private set; }
-
-		/// <summary>
-		/// how far the evade behvaior should look out for threats
-		/// </summary>
-		public float ThreatRange { get; set; }
+		public IMover Pursuer { private get; set; }
 
 		/// <summary>
 		/// Used to run away from bad guys
 		/// </summary>
 		private Flee FleeAction { get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -35,25 +30,6 @@ namespace FlockBuddy
 			: base(dude, EBehaviorType.evade, 1.0f)
 		{
 			FleeAction = new Flee(dude);
-			ThreatRange = 80f;
-		}
-
-		/// <summary>
-		/// similar to pursuit except the agent Flees from the estimated future position of the pursuer
-		/// </summary>
-		/// <param name="pursuer"></param>
-		/// <returns></returns>
-		public Vector2 GetSteering(IMover pursuer)
-		{
-			Pursuer = pursuer;
-			if (null == Pursuer)
-			{
-				return Vector2.Zero;
-			}
-			else
-			{
-				return GetSteering();
-			}
 		}
 
 		/// <summary>
@@ -62,12 +38,17 @@ namespace FlockBuddy
 		/// <returns></returns>
 		public override Vector2 GetSteering()
 		{
+			if (null == Pursuer)
+			{
+				return Vector2.Zero;
+			}
+
 			/* Not necessary to include the check for facing direction this time */
 
 			Vector2 toPursuer = Pursuer.Position - Owner.Position;
 
 			//uncomment the following two lines to have Evade only consider pursuers within a 'threat range'
-			if (toPursuer.LengthSquared() > (ThreatRange * ThreatRange))
+			if (toPursuer.LengthSquared() > (Owner.QueryRadius * Owner.QueryRadius))
 			{
 				return Vector2.Zero;
 			}
@@ -78,7 +59,8 @@ namespace FlockBuddy
 								   (Owner.MaxSpeed + Pursuer.Speed);
 
 			//now flee away from predicted future position of the pursuer
-			return FleeAction.GetSteering(Pursuer.Position + (Pursuer.Velocity * lookAheadTime)) * Weight;
+			FleeAction.AvoidPosition = Pursuer.Position + (Pursuer.Velocity * lookAheadTime);
+			return FleeAction.GetSteering() * Weight;
 		}
 
 		#endregion //Methods

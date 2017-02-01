@@ -7,9 +7,11 @@ namespace FlockBuddy
 	/// </summary>
 	public class OffsetPursuit : BaseBehavior, IGuardBehavior
 	{
-		#region Members
+		#region Properties
 
-		#endregion //Members
+		public IBaseEntity Vip { private get; set; }
+
+		#endregion //Properties
 
 		#region Methods
 
@@ -17,7 +19,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public OffsetPursuit(Boid dude)
-			: base(dude, EBehaviorType.obstacle_avoidance, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.obstacle_avoidance, 1f)
 		{
 		}
 

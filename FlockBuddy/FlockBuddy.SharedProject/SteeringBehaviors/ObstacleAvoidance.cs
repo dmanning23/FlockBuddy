@@ -1,6 +1,7 @@
 using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace FlockBuddy
 {
@@ -9,14 +10,11 @@ namespace FlockBuddy
 	/// </summary>
 	public class ObstacleAvoidance : BaseBehavior, IObstacleBehavior
 	{
-		#region Members
+		#region Properties
 
-		/// <summary>
-		/// how far the obstacle avoidance behvaior should watch for obastcles
-		/// </summary>
-		public float AvoidanceDetectionDistance { get; set; }
+		public List<IBaseEntity> Obstacles { private get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -26,12 +24,6 @@ namespace FlockBuddy
 		public ObstacleAvoidance(Boid dude)
 			: base(dude, EBehaviorType.obstacle_avoidance, 30f)
 		{
-			AvoidanceDetectionDistance = 100.0f;
-		}
-
-		public Vector2 GetSteering2()
-		{
-			return GetSteering();
 		}
 
 		/// <summary>
@@ -40,12 +32,6 @@ namespace FlockBuddy
 		/// <returns></returns>
 		public override Vector2 GetSteering()
 		{
-			//the detection box length is proportional to the agent's velocity
-			float boxLength = AvoidanceDetectionDistance + (Owner.Speed / Owner.MaxSpeed) * AvoidanceDetectionDistance;
-
-			//tag all obstacles within range of the box for processing
-			var obs = Owner.MyFlock.TagObstacles(Owner, boxLength);
-
 			//this will keep track of the closest intersecting obstacle (CIB)
 			IBaseEntity closestIntersectingObstacle = null;
 
@@ -55,9 +41,9 @@ namespace FlockBuddy
 			//this will record the transformed local coordinates of the CIB
 			Vector2 localPosOfClosestObstacle = Vector2.Zero;
 
-			for (int i = 0; i < obs.Count; i++)
+			for (int i = 0; i < Obstacles.Count; i++)
 			{
-				var curOb = obs[i];
+				var curOb = Obstacles[i];
 
 				//calculate this obstacle's position in local space
 				Vector2 localPos = curOb.Position.ToLocalSpace(Owner.Heading, Owner.Side, Owner.Position);
@@ -69,7 +55,7 @@ namespace FlockBuddy
 					//if the distance from the x axis to the object's position is less
 					//than its radius + half the width of the detection box then there
 					//is a potential intersection.
-					double expandedRadius = curOb.BoundingRadius + Owner.BoundingRadius + 1;
+					double expandedRadius = curOb.Radius + Owner.Radius + 1;
 
 					if (Math.Abs(localPos.Y) < expandedRadius)
 					{
@@ -111,10 +97,10 @@ namespace FlockBuddy
 				toAgent.Normalize();
 
 				//get the distance to the edge of the obstacle
-				Vector2 dist = (toAgent * closestIntersectingObstacle.BoundingRadius) - localPosOfClosestObstacle;
+				Vector2 dist = (toAgent * closestIntersectingObstacle.Radius) - localPosOfClosestObstacle;
 
 				//scale the force inversely proportional to the agents distance from the collision point
-				float multiplier = 1.0f + (AvoidanceDetectionDistance - dist.X) / AvoidanceDetectionDistance;
+				float multiplier = 1.0f + (Owner.QueryRadius - dist.X) / Owner.QueryRadius;
 				steeringForce = toAgent * multiplier;
 			}
 

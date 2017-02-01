@@ -7,14 +7,14 @@ namespace FlockBuddy
 	/// </summary>
 	public class Arrive : BaseBehavior, ITargetPositionBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The target position
 		/// </summary>
-		public Vector2 TargetPosition { get; private set; }
+		public Vector2 TargetPosition { private get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -22,7 +22,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Arrive(Boid dude)
-			: base(dude, EBehaviorType.arrive, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.arrive, 1f)
 		{
 		}
 

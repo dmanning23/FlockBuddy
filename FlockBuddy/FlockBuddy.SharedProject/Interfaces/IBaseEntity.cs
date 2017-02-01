@@ -8,11 +8,6 @@ namespace FlockBuddy
 	public interface IBaseEntity : IMovingEntity
 	{
 		/// <summary>
-		/// each entity has a unique ID
-		/// </summary>
-		int ID { get; }
-
-		/// <summary>
 		/// the length of this object's bounding radius
 		/// </summary>
 		float Radius { get; }

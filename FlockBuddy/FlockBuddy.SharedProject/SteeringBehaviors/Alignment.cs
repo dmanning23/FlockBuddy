@@ -8,14 +8,14 @@ namespace FlockBuddy
 	/// </summary>
 	public class Alignment : BaseBehavior, IFlockingBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The guys we are trying to align with
 		/// </summary>
-		private List<IMover> Buddies { get; set; }
+		public List<IMover> Buddies { private get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -30,17 +30,6 @@ namespace FlockBuddy
 		/// <summary>
 		/// Called every frame to get the steering direction from this behavior
 		/// </summary>
-		/// <param name="group">the group of this dude's buddies to align with</param>
-		/// <returns></returns>
-		public Vector2 GetSteering(List<IMover> group)
-		{
-			Buddies = group;
-			return GetSteering();
-		}
-
-		/// <summary>
-		/// Called every frame to get the steering direction from this behavior
-		/// </summary>
 		/// <param name="time"></param>
 		/// <returns></returns>
 		public override Vector2 GetSteering()
@@ -48,22 +37,18 @@ namespace FlockBuddy
 			//used to record the average heading of the neighbors
 			Vector2 AverageHeading = Vector2.Zero;
 
-			//used to count the number of vehicles in the neighborhood
-			int NeighborCount = 0;
-
-			//iterate through all the tagged vehicles and sum their heading vectors  
-			for (int i = 0; i < Buddies.Count; i++)
-			{
-				//make sure *this* agent isn't included in the calculations 
-				//and that the agent being examined  is close enough 
-				AverageHeading += Buddies[i].Heading;
-				++NeighborCount;
-			}
-
 			//if the neighborhood contained one or more vehicles, average their heading vectors.
-			if (NeighborCount > 0)
+			if (Buddies.Count > 0)
 			{
-				AverageHeading /= NeighborCount;
+				//iterate through all the tagged vehicles and sum their heading vectors  
+				for (int i = 0; i < Buddies.Count; i++)
+				{
+					//make sure *this* agent isn't included in the calculations 
+					//and that the agent being examined  is close enough 
+					AverageHeading += Buddies[i].Heading;
+				}
+
+				AverageHeading /= Buddies.Count;
 				AverageHeading -= Owner.Heading;
 			}
 

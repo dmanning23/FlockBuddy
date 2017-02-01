@@ -8,14 +8,14 @@ namespace FlockBuddy
 	/// </summary>
 	public class Separation : BaseBehavior, IFlockingBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The guys we are trying to align with
 		/// </summary>
-		public List<IMover> Buddies { get; private set; }
+		public List<IMover> Buddies { private get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -25,17 +25,6 @@ namespace FlockBuddy
 		public Separation(Boid dude)
 			: base(dude, EBehaviorType.separation, 120f)
 		{
-		}
-
-		/// <summary>
-		/// Called every frame to get the steering direction from this behavior
-		/// </summary>
-		/// <param name="group">the group of this dude's buddies to align with</param>
-		/// <returns></returns>
-		public Vector2 GetSteering(List<IMover> group)
-		{
-			Buddies = group;
-			return GetSteering();
 		}
 
 		/// <summary>

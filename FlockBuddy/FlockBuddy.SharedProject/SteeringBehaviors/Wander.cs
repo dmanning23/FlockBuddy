@@ -7,9 +7,9 @@ namespace FlockBuddy
 	/// </summary>
 	public class Wander : BaseBehavior
 	{
-		#region Members
+		#region Properties
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -17,7 +17,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Wander(Boid dude)
-			: base(dude, EBehaviorType.wander, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.wander, 1f)
 		{
 		}
 

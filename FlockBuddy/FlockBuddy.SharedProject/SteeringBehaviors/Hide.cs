@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
@@ -8,9 +10,13 @@ namespace FlockBuddy
 	/// </summary>
 	public class Hide : BaseBehavior, IPreyBehavior, IObstacleBehavior
 	{
-		#region Members
+		#region Properties
 
-		#endregion //Members
+		public List<IBaseEntity> Obstacles { private get; set; }
+
+		public IMover Pursuer { private get; set; }
+
+		#endregion //Properties
 
 		#region Methods
 
@@ -18,7 +24,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Hide"/> class.
 		/// </summary>
 		public Hide(Boid dude)
-			: base(dude, EBehaviorType.hide, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.hide, 1f)
 		{
 		}
 

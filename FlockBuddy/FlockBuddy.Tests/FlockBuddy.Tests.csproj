@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CellSpacePartition.DesktopGL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CellSpacePartition.1.0.0\lib\net451\CellSpacePartition.DesktopGL.dll</HintPath>
       <Private>True</Private>
@@ -54,6 +58,10 @@
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.5.1.1679\lib\net40\MonoGame.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.5.30.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.5.30\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=3.6.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -95,31 +103,13 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BaseBehaviorTests.cs" />
+    <Compile Include="BaseEntityTests.cs" />
     <Compile Include="BoidTests.cs" />
     <Compile Include="MoverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\externals\CellSpacePartition\Windows\CellSpacePartition.Windows.csproj">
-      <Project>{ed4cab1a-5436-4f45-aea4-6ced6f4364ef}</Project>
-      <Name>CellSpacePartition.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\externals\MatrixExtensions\Windows\MatrixExtensions.Windows.csproj">
-      <Project>{e2c50d0b-a1c1-4f67-92cb-be0e587a3ce6}</Project>
-      <Name>MatrixExtensions.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\externals\MonoGame\MonoGame.Framework\MonoGame.Framework.WindowsGL.csproj">
-      <Project>{7de47032-a904-4c29-bd22-2d235e8d91ba}</Project>
-      <Name>MonoGame.Framework.WindowsGL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\externals\Vector2Extensions\Windows\Vector2Extensions.Windows.csproj">
-      <Project>{2c5acada-d15a-4193-ba0a-d36a362075f4}</Project>
-      <Name>Vector2Extensions.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Windows\FlockBuddy.Windows.csproj">
-      <Project>{d2ac86b5-0baa-4638-8fca-1346f4816475}</Project>
-      <Name>FlockBuddy.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FlockBuddy.DesktopGL\FlockBuddy.DesktopGL.csproj">
       <Project>{ac3bdc25-88bb-4e10-a4c9-52d77fddbbd9}</Project>
       <Name>FlockBuddy.DesktopGL</Name>

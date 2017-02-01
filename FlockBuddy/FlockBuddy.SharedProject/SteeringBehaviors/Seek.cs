@@ -7,14 +7,14 @@ namespace FlockBuddy
 	/// </summary>
 	public class Seek : BaseBehavior, ITargetPositionBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The target position
 		/// </summary>
-		public Vector2 TargetPosition { get; private set; }
+		public Vector2 TargetPosition { private get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -22,19 +22,8 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Seek"/> class.
 		/// </summary>
 		public Seek(Boid dude)
-			: base(dude, EBehaviorType.seek, dude.MyFlock.BoidTemplate)
+			: base(dude, EBehaviorType.seek, 1f)
 		{
-		}
-
-		/// <summary>
-		/// run towards a point
-		/// </summary>
-		/// <param name="target"></param>
-		/// <returns></returns>
-		public Vector2 GetSteering(Vector2 target)
-		{
-			TargetPosition = target;
-			return GetSteering();
 		}
 
 		/// <summary>

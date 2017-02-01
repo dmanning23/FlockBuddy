@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FlockBuddy
 {
@@ -10,6 +8,6 @@ namespace FlockBuddy
 	/// </summary>
 	public interface IPathBehavior
 	{
-		List<Vector2> Path { get; }
+		List<Vector2> Path { set; }
 	}
 }

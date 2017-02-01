@@ -11,24 +11,19 @@ namespace FlockBuddy
 	/// </summary>
 	public class WallAvoidance : BaseBehavior, IWallBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The walls to avoid
 		/// </summary>
-		public List<ILine> Walls { get; private set; }
+		public List<ILine> Walls { private get; set; }
 
 		/// <summary>
 		/// little whiskers that this dude will use to detect walls
 		/// </summary>
 		public List<Vector2> Feelers { get; set; }
-
-		/// <summary>
-		/// the length of the wall avoidance whiskers
-		/// </summary>
-		public float WhiskerLength { get; set; }
-
-		#endregion //Members
+		
+		#endregion //Properties
 
 		#region Methods
 
@@ -39,18 +34,6 @@ namespace FlockBuddy
 			: base(dude, EBehaviorType.wall_avoidance, 50.0f)
 		{
 			Feelers = new List<Vector2>();
-			WhiskerLength = 60.0f;
-		}
-
-		/// <summary>
-		/// This returns a steering force that will keep the agent away from any walls it may encounter
-		/// </summary>
-		/// <param name="walls"></param>
-		/// <returns></returns>
-		public Vector2 GetSteering(List<Line> walls)
-		{
-			Walls = walls;
-			return GetSteering();
 		}
 
 		/// <summary>
@@ -123,15 +106,15 @@ namespace FlockBuddy
 			Feelers.Clear();
 
 			//feeler pointing straight in front
-			Feelers.Add(Owner.Position + (WhiskerLength * Owner.Heading));
+			Feelers.Add(Owner.Position + (Owner.QueryRadius * Owner.Heading));
 
 			//feeler to left
 			Vector2 temp = Vec2DRotateAroundOrigin(Owner.Heading, MathHelper.PiOver2 * 3.5f);
-			Feelers.Add(Owner.Position + ((WhiskerLength * 0.5f) * temp));
+			Feelers.Add(Owner.Position + ((Owner.QueryRadius * 0.5f) * temp));
 
 			//feeler to right
 			temp = Vec2DRotateAroundOrigin(Owner.Heading, MathHelper.PiOver2 * 0.5f);
-			Feelers.Add(Owner.Position + ((WhiskerLength * 0.5f) * temp));
+			Feelers.Add(Owner.Position + ((Owner.QueryRadius * 0.5f) * temp));
 		}
 
 		/// <summary>

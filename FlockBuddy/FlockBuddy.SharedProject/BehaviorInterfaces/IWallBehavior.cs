@@ -1,7 +1,6 @@
 ﻿using CollisionBuddy;
-using System;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FlockBuddy
 {
@@ -10,9 +9,8 @@ namespace FlockBuddy
 	/// </summary>
 	public interface IWallBehavior
 	{
-		List<ILine> Walls
-		{
-			get;
-		}
+		List<ILine> Walls { set; }
+
+		List<Vector2> Feelers { get; }
 	}
 }

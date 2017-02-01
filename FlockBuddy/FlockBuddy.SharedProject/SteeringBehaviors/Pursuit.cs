@@ -7,12 +7,12 @@ namespace FlockBuddy
 	/// </summary>
 	public class Pursuit : BaseBehavior, IPredatorBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// A dude we are chasing
 		/// </summary>
-		private IMover Prey { get; set; }
+		public IMover Prey { private get; set; }
 
 		/// <summary>
 		/// Used to chase dudes
@@ -24,7 +24,7 @@ namespace FlockBuddy
 		/// </summary>
 		public bool ViciousPursuit { get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -39,29 +39,16 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// this behavior creates a force that steers the agent towards the evader
-		/// </summary>
-		/// <param name="prey"></param>
-		/// <returns></returns>
-		public Vector2 GetSteering(IMover prey)
-		{
-			Prey = prey;
-			if (null == Prey)
-			{
-				return Vector2.Zero;
-			}
-			else
-			{
-				return GetSteering();
-			}
-		}
-
-		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
 		public override Vector2 GetSteering()
 		{
+			if (null == Prey)
+			{
+				return Vector2.Zero;
+			}
+
 			//if the evader is ahead and facing the agent then we can just seek for the evader's current position.
 			Vector2 toEvader = Prey.Position - Owner.Position;
 
@@ -71,7 +58,8 @@ namespace FlockBuddy
 				((Vector2.Dot(toEvader, Owner.Heading) > 0.0f) &&
 				 (relativeHeading < -0.95f)))  //acos(0.95)=18 degs
 			{
-				return SeekAction.GetSteering(Prey.Position);
+				SeekAction.TargetPosition = Prey.Position;
+				return SeekAction.GetSteering();
 			}
 
 			//Not considered ahead so we predict where the evader will be.
@@ -82,7 +70,8 @@ namespace FlockBuddy
 			float lookAheadTime = toEvader.Length() / (Owner.MaxSpeed + Prey.Speed);
 
 			//now seek to the predicted future position of the evader
-			return SeekAction.GetSteering(Prey.Position + (Prey.Velocity * lookAheadTime)) * Weight;
+			SeekAction.TargetPosition = Prey.Position + (Prey.Velocity * lookAheadTime);
+			return SeekAction.GetSteering() * Weight;
 		}
 
 		#endregion //Methods

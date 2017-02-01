@@ -18,52 +18,52 @@ namespace FlockBuddy
 	/// </summary>
 	public class Flock : IFlock
 	{
-		#region Members
+		#region Fields 
 
 		/// <summary>
 		/// crappy lock object for list access
 		/// </summary>
 		private object _listLock = new object();
 
+		private bool _useCellSpace = false;
+
+		#endregion //Fields
+
+		#region Properties
+
 		/// <summary>
 		/// a container of all the moving entities this boid is managing
 		/// </summary>
-		public List<IMover> Boids { get; private set; }
+		private List<IMover> Boids { get; set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
 		/// </summary>
-		public GameClock FlockTimer { get; private set; }
+		private GameClock FlockTimer { get; set; }
 
 		/// <summary>
 		/// break up the game world into cells to make it easier to update the flock
 		/// </summary>
-		public CellSpacePartition<IMover> CellSpace { get; private set; }
+		private CellSpacePartition<IMover> CellSpace { get; set; }
+
+		public IFlock Predators { private get; set; }
+
+		public IFlock Prey { private get; set; }
+
+		public IFlock Vips { private get; set; }
 
 		/// <summary>
 		/// any obstacles for this flock
 		/// </summary>
-		public List<IBaseEntity> Obstacles { get; private set; }
+		public List<IBaseEntity> Obstacles { private get; set; }
 
 		/// <summary>
 		/// container containing any walls in the environment
 		/// </summary>
-		public List<ILine> Walls { get; private set; }
-
-		/// <summary>
-		/// A list of all the enemies of this flock.  We will run away from them!
-		/// </summary>
-		public List<IMover> Enemies { get; private set; }
-
-		/// <summary>
-		/// A list of all the boids we gonna chase
-		/// </summary>
-		public List<IMover> Targets { get; private set; }
+		public List<ILine> Walls { private get; set; }
 
 		//any path we may create for the vehicles to follow
 		//List<vector2> Path { get; private set; }
-
-		private bool _useCellSpace = false;
 
 		/// <summary>
 		/// whether or not to use the cell space partitioning
@@ -96,8 +96,6 @@ namespace FlockBuddy
 		/// </summary>
 		private Vector2 WorldSize = new Vector2(1024.0f, 768.0f);
 
-		public BoidTemplate BoidTemplate { get; set; }
-
 		#endregion //Members
 
 		#region Methods
@@ -112,14 +110,6 @@ namespace FlockBuddy
 			Boids = new List<IMover>();
 			FlockTimer = new GameClock();
 			CellSpace = new CellSpacePartition<IMover>(WorldSize, 20, 20);
-
-			//set this stuff here, but will prolly be overridden right away 
-			Obstacles = new List<IBaseEntity>();
-			Enemies = new List<IMover>();
-			Walls = new List<ILine>();
-			Targets = new List<IMover>();
-
-			BoidTemplate = new BoidTemplate();
 		}
 
 		/// <summary>
@@ -144,7 +134,7 @@ namespace FlockBuddy
 		/// This is the only way that boids should be added to ensure they go in the cell space corerctly.
 		/// </summary>
 		/// <param name="boid"></param>
-		internal void AddDude(IBoid boid)
+		public void AddBoid(IBoid boid)
 		{
 			lock (_listLock)
 			{
@@ -202,7 +192,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// given a position, wrap them around the screen
 		/// </summary>
-		public void WrapWorldPosition(ref Vector2 pos)
+		public Vector2 WrapWorldPosition(Vector2 pos)
 		{
 			if (UseWorldWrap)
 			{
@@ -226,13 +216,47 @@ namespace FlockBuddy
 					pos.Y = WorldSize.Y;
 				}
 			}
+
+			return pos;
+		}
+
+		public IMover FindClosestBoidInRange(IBoid boid, float queryRadius)
+		{
+			//get all the dudes in range
+			var inRange = FindBoidsInRange(boid, queryRadius);
+
+			float closestDistance = 0f;
+			IMover closest = null;
+
+			//set the "closest" to the first available
+			if (inRange.Count >= 1)
+			{
+				closest = inRange[0];
+				closestDistance = DistanceSquared(boid, inRange[0]);
+			}
+			
+			//loop through the rest and see if there are any closer
+			if (inRange.Count >= 2)
+			{
+				for (int i = 1; i < inRange.Count; i++)
+				{
+					var distance = DistanceSquared(boid, inRange[i]);
+					if (distance < closestDistance)
+					{
+						closest = inRange[i];
+						closestDistance = distance;
+					}
+				}
+			}
+
+			return closest;
 		}
 
 		/// <summary>
 		/// Tag all the guys inteh flock that are neightbors of a boid.
 		/// </summary>
 		/// <param name="boid"></param>
-		public List<IMover> TagNeighbors(IBoid boid, float queryRadius)
+		public List<IMover> FindBoidsInRange(IBoid boid, float queryRadius)
 		{
 			if (UseCellSpace)
 			{
@@ -242,8 +266,83 @@ namespace FlockBuddy
 			else
 			{
 				//go through all the boids and tag them up
-				return boid.TagNeighbors(Boids, queryRadius);
+				return FindBoidsInRange(boid, Boids, queryRadius);
 			}
+		}
+
+		public List<IBaseEntity> FindObstaclesInRange(IBoid boid, float queryRadius)
+		{
+			return FindObjectsInRange(boid, Obstacles, queryRadius);
+		}
+
+		/// <summary>
+		/// tags any entities contained in a container that are within the radius of the single entity parameter
+		/// </summary>
+		/// <param name="boid"></param>
+		/// <param name="dudes">teh list of entities to tag as neighbors</param>
+		/// <param name="queryRadius">the disdtance to tag neightbors</param>
+		private List<IMover> FindBoidsInRange(IBoid boid, List<IMover> dudes, float queryRadius)
+		{
+			var neighbors = new List<IMover>();
+
+			//iterate through all entities checking for range
+			for (int i = 0; i < dudes.Count; i++)
+			{
+				if (CheckIfObjectInRange(boid, dudes[i], queryRadius))
+				{
+					neighbors.Add(dudes[i]);
+				}
+			}
+
+			return neighbors;
+		}
+
+		/// <summary>
+		/// check if some non-boid dudes are in range
+		/// </summary>
+		/// <param name="boid"></param>
+		/// <param name="dudes"></param>
+		/// <param name="queryRadius"></param>
+		private List<IBaseEntity> FindObjectsInRange(IBoid boid, List<IBaseEntity> dudes, float queryRadius)
+		{
+			var neighbors = new List<IBaseEntity>();
+
+			//iterate through all entities checking for range
+			for (int i = 0; i < dudes.Count; i++)
+			{
+				if (CheckIfObjectInRange(boid, dudes[i], queryRadius))
+				{
+					neighbors.Add(dudes[i]);
+				}
+			}
+
+			return neighbors;
+		}
+
+		/// <summary>
+		/// check if a dude is in range
+		/// </summary>
+		/// <param name="boid"></param>
+		/// <param name="dude"></param>
+		/// <param name="queryRadius"></param>
+		private bool CheckIfObjectInRange(IBoid boid, IBaseEntity dude, float queryRadius)
+		{
+			if (null == dude)
+			{
+				return false;
+			}
+			
+			//the bounding radius of the other is taken into account by adding it to the range
+			double range = queryRadius + dude.Radius;
+
+			//if entity within range, tag for further consideration. 
+			//(working in distance-squared space to avoid sqrts)
+			return ((DistanceSquared(boid, dude) < (range * range)) && (dude != boid));
+		}
+
+		private float DistanceSquared(IBoid boid, IBaseEntity dude)
+		{
+			return (dude.Position - boid.Position).LengthSquared();
 		}
 
 		/// <summary>
@@ -253,26 +352,9 @@ namespace FlockBuddy
 		/// <param name="boid"></param>
 		/// <param name="enemy1"></param>
 		/// <param name="enemy2"></param>
-		public void FindEnemies(IBoid boid, out IMover enemy1, out IMover enemy2)
+		public IMover FindClosestPredatorInRange(IBoid boid, float queryRadius)
 		{
-			//are there any enemies in the list?
-			if (Enemies.Count >= 2)
-			{
-				enemy2 = Enemies[1];
-			}
-			else
-			{
-				enemy2 = null;
-			}
-
-			if (Enemies.Count >= 1)
-			{
-				enemy1 = Enemies[0];
-			}
-			else
-			{
-				enemy1 = null;
-			}
+			return (null != Predators ? Predators.FindClosestBoidInRange(boid, queryRadius) : null);
 		}
 
 		/// <summary>
@@ -281,18 +363,41 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="boid"></param>
 		/// <param name="target"></param>
-		public void FindTarget(IBoid boid, out IMover target)
+		public IMover FindClosestPreyInRange(IBoid boid, float queryRadius)
 		{
-			//are there any targets in the list?
-			if (Targets.Count >= 1)
-			{
-				target = Targets[0];
-			}
-			else
-			{
-				target = null;
-			}
+			return (null != Prey ? Prey.FindClosestBoidInRange(boid, queryRadius) : null);
 		}
+
+		public IMover FindClosestVipInRange(IBoid boid, float queryRadius)
+		{
+			return (null != Vips ? Vips.FindClosestBoidInRange(boid, queryRadius) : null);
+		}
+
+		//void NonPenetrationContraint(Boid boid)
+		//{
+		//	EnforceNonPenetrationConstraint(boid, Boids);
+		//}
+
+		/// <summary>
+		/// Tag all the obstacles that a boid can see.
+		/// </summary>
+		/// <param name="boid"></param>
+		/// <param name="range"></param>
+		public List<IBaseEntity> FindObstacles(IBoid boid, float queryRadius)
+		{
+			return (null != boid ? FindObjectsInRange(boid, Obstacles, queryRadius) : new List<IBaseEntity>());
+		}
+
+		/// <summary>
+		/// Remove all the boids from this flock.
+		/// </summary>
+		public virtual void Clear()
+		{
+			Boids.Clear();
+			CellSpace.Clear();
+		}
+
+		#region Drawing
 
 		/// <summary>
 		/// draw a bunch of debug info
@@ -335,33 +440,15 @@ namespace FlockBuddy
 		{
 			foreach (var wall in Walls)
 			{
-				wall.Draw(prim, Color.Black);
+				var line = wall as Line;
+				if (null != line)
+				{
+					line.Draw(prim, Color.Black);
+				}
 			}
 		}
 
-		//void NonPenetrationContraint(Boid boid)
-		//{
-		//	EnforceNonPenetrationConstraint(boid, Boids);
-		//}
-
-		/// <summary>
-		/// Tag all the obstacles that a boid can see.
-		/// </summary>
-		/// <param name="boid"></param>
-		/// <param name="range"></param>
-		public List<IBaseEntity> TagObstacles(IBoid boid, float range)
-		{
-			return (null == boid ? boid.TagObjects(Obstacles, range) : new List<IBaseEntity>());
-		}
-
-		/// <summary>
-		/// Remove all the boids from this flock.
-		/// </summary>
-		public virtual void Clear()
-		{
-			Boids.Clear();
-			CellSpace.Clear();
-		}
+		#endregion //Drawing
 
 		#endregion //Methods
 	}

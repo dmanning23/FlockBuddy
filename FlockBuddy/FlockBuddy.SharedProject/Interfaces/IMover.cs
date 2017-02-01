@@ -10,6 +10,8 @@ namespace FlockBuddy
 	{
 		Vector2 Heading { get; }
 
+		Vector2 Side { get; }
+
 		float Speed { get; }
 
 		Vector2 Velocity { get; }

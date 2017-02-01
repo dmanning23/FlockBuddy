@@ -1,6 +1,6 @@
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
 
 namespace FlockBuddy
 {
@@ -9,16 +9,16 @@ namespace FlockBuddy
 	/// </summary>
 	public class Cohesion : BaseBehavior, IFlockingBehavior
 	{
-		#region Members
+		#region Properties
 
 		/// <summary>
 		/// The guys we are trying to align with
 		/// </summary>
-		private List<IMover> Buddies { get; set; }
+		public List<IMover> Buddies { private get; set; }
 
 		private Seek SeekBehavior { get; set; }
 
-		#endregion //Members
+		#endregion //Properties
 
 		#region Methods
 
@@ -32,17 +32,6 @@ namespace FlockBuddy
 		}
 
 		/// <summary>
-		/// Called every frame to get the steering direction from this behavior
-		/// </summary>
-		/// <param name="group">the group of this dude's buddies to align with</param>
-		/// <returns></returns>
-		public Vector2 GetSteering(List<IMover> group)
-		{
-			Buddies = group;
-			return GetSteering();
-		}
-
-		/// <summary>
 		/// Called every fram to get the steering direction from this behavior
 		/// </summary>
 		/// <returns></returns>
@@ -52,25 +41,23 @@ namespace FlockBuddy
 			Vector2 centerOfMass = Vector2.Zero;
 			Vector2 steeringForce = Vector2.Zero;
 
-			int neighborCount = 0;
-
-			//iterate through the neighbors and sum up all the position vectors
-			for (int i = 0; i < Buddies.Count; i++)
+			if (Buddies.Count > 0)
 			{
-				//make sure *this* agent isn't included in the calculations and that
-				//the agent being examined is close enough ***also make sure it doesn't
-				//include the evade target ***
-				centerOfMass += Buddies[i].Position;
-				neighborCount++;
-			}
+				//iterate through the neighbors and sum up all the position vectors
+				for (int i = 0; i < Buddies.Count; i++)
+				{
+					//make sure *this* agent isn't included in the calculations and that
+					//the agent being examined is close enough ***also make sure it doesn't
+					//include the evade target ***
+					centerOfMass += Buddies[i].Position;
+				}
 
-			if (neighborCount > 0)
-			{
 				//the center of mass is the average of the sum of positions
-				centerOfMass /= neighborCount;
+				centerOfMass /= Buddies.Count;
 
 				//now seek towards that position
-				steeringForce = SeekBehavior.GetSteering(centerOfMass);
+				SeekBehavior.TargetPosition = centerOfMass;
+				steeringForce = SeekBehavior.GetSteering();
 				Debug.Assert(!float.IsNaN(steeringForce.X));
 				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}

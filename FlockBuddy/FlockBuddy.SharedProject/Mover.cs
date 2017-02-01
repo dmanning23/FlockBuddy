@@ -42,13 +42,8 @@ namespace FlockBuddy
 			{
 				return _heading;
 			}
-			set
+			protected set
 			{
-				//first checks that the given heading is not a vector of zero length. 
-				Debug.Assert(!float.IsNaN(value.X));
-				Debug.Assert(!float.IsNaN(value.Y));
-				Debug.Assert(value.LengthSquared() > 0.0f);
-
 				// If the new heading is valid this fumction sets the entity's heading and side vectors accordingly
 				_heading = value;
 
@@ -60,7 +55,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// the speed of this dude in pixels/sec
 		/// </summary>
-		public float Speed { get; set; }
+		public virtual float Speed { get; protected set; }
 
 		public Vector2 Velocity
 		{
@@ -81,7 +76,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Get the direction this dude is facing.
 		/// </summary>
-		public float Rotation
+		protected float Rotation
 		{
 			get
 			{
@@ -131,14 +126,44 @@ namespace FlockBuddy
 			BoidTimer.Start();
 		}
 
-		public bool IsSpeedMaxedOut()
+		/// <summary>
+		/// Called every frame to update this thing
+		/// </summary>
+		/// <param name="time_elapsed"></param>
+		public override void Update(GameClock curTime)
 		{
-			return MaxSpeed * MaxSpeed >= SpeedSq();
+			base.Update(curTime);
+
+			//update the time elapsed
+			BoidTimer.Update(curTime);
 		}
 
-		public float SpeedSq()
+		/// <summary>
+		/// Given a target direction, either speed up or slow down the guy to get to it
+		/// </summary>
+		/// <param name="targetHeading"></param>
+		protected void UpdateSpeed(Vector2 targetHeading)
 		{
-			return (Speed * Speed);
+			//update the speed but make sure vehicle does not exceed maximum velocity
+			Speed = MathHelper.Clamp(Speed + GetSpeedChange(targetHeading), 0.0f, MaxSpeed);
+		}
+
+		protected float GetSpeedChange(Vector2 targetHeading)
+		{
+			//get the dot product of the current heading and the target
+			var dotHeading = Vector2.Dot(Heading, targetHeading);
+
+			//get the amount of force that can be applied pre timedelta
+			var maxForceDelta = MaxForce * BoidTimer.TimeDelta;
+
+			//if the dot product is less than zero, we want to got the other direction
+			if (0 > dotHeading)
+			{
+				maxForceDelta *= -1f;
+			}
+
+			//update the speed but make sure vehicle does not exceed maximum velocity
+			return maxForceDelta;
 		}
 
 		/// <summary>
@@ -148,19 +173,14 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="target"></param>
 		/// <returns>returns true when the heading is facing in the desired direction</returns>
-		public bool RotateHeadingToFacePosition(Vector2 targetHeading)
+		protected bool UpdateHeading(Vector2 targetHeading)
 		{
-			Debug.Assert(!float.IsNaN(targetHeading.X));
-			Debug.Assert(!float.IsNaN(targetHeading.Y));
-
 			//get the amount to turn towrads the new heading
 			float angle = 0.0f;
 			if (GetAmountToTurn(targetHeading, ref angle))
 			{
 				return true;
 			}
-
-			angle *= BoidTimer.TimeDelta;
 
 			//update the heading
 			RotateHeading(angle);
@@ -174,7 +194,7 @@ namespace FlockBuddy
 		/// <param name="targetHeading"></param>
 		/// <param name="angle"></param>
 		/// <returns>true if this dude's heading doesnt need to be updated.</returns>
-		public bool GetAmountToTurn(Vector2 targetHeading, ref float angle)
+		protected bool GetAmountToTurn(Vector2 targetHeading, ref float angle)
 		{
 			if (targetHeading.LengthSquared() == 0.0f)
 			{
@@ -192,54 +212,45 @@ namespace FlockBuddy
 				return true;
 			}
 
+			//clamp the amount to turn between the maxturnrate of the timedelta
+			var maxTurnRateDelta = MaxTurnRate * BoidTimer.TimeDelta;
+
 			//clamp the amount to turn to the max turn rate
-			angle = MathHelper.Clamp(angle, -MaxTurnRate, MaxTurnRate);
+			angle = MathHelper.Clamp(angle, -maxTurnRateDelta, maxTurnRateDelta);
 			return false;
 		}
 
-		public static float ClampAngle(float fAngle)
+		protected static float ClampAngle(float angle)
 		{
 			//keep the angle between -180 and 180
-			while (-MathHelper.Pi > fAngle)
+			while (-MathHelper.Pi > angle)
 			{
-				fAngle += MathHelper.TwoPi;
+				angle += MathHelper.TwoPi;
 			}
 
-			while (MathHelper.Pi < fAngle)
+			while (MathHelper.Pi < angle)
 			{
-				fAngle -= MathHelper.TwoPi;
+				angle -= MathHelper.TwoPi;
 			}
 
-			return fAngle;
+			return angle;
 		}
 
 		/// <summary>
 		/// Given an amount to turn, update the heading
 		/// </summary>
-		/// <param name="fAngle"></param>
+		/// <param name="angle"></param>
 		/// <returns></returns>
-		public void RotateHeading(float fAngle)
+		protected void RotateHeading(float angle)
 		{
-			Debug.Assert(!float.IsNaN(fAngle));
-
 			//The next few lines use a rotation matrix to rotate the player's heading vector accordingly
-			Matrix RotationMatrix = MatrixExt.Orientation(fAngle);
+			Matrix rotationMatrix = MatrixExt.Orientation(angle);
 
 			//notice how the direction of rotation has to be determined when creating the rotation matrix
-			Heading = RotationMatrix.Multiply(Heading);
+			Heading = rotationMatrix.Multiply(Heading);
 		}
 
-		/// <summary>
-		/// Called every frame to update this thing
-		/// </summary>
-		/// <param name="time_elapsed"></param>
-		public override void Update(GameClock curTime)
-		{
-			base.Update(curTime);
-
-			//update the time elapsed
-			BoidTimer.Update(curTime);
-		}
+		#region drawing
 
 		/// <summary>
 		/// Draw the bounding circle and heading of this boid
@@ -259,6 +270,8 @@ namespace FlockBuddy
 		public virtual void DrawNeigbors(IPrimitive prim)
 		{
 		}
+
+		#endregion //drawing
 
 		#endregion //Methods
 	}

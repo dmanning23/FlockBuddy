@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace FlockBuddy
 {
@@ -9,9 +7,6 @@ namespace FlockBuddy
 	/// </summary>
 	public interface IFlockingBehavior
 	{
-		List<IMover> Buddies
-		{
-			get;
-		}
+		List<IMover> Buddies { set; }
 	}
 }

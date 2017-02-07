@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlockBuddy.DesktopGL", "Flo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlockBuddy.Tests", "FlockBuddy.Tests\FlockBuddy.Tests.csproj", "{113113F6-5CEE-4FB0-ABF0-D1A2A7D91F3E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CA0CD3C9-D74F-41A9-8E9F-4018B814E2FB}"
+	ProjectSection(SolutionItems) = preProject
+		buildNugetPackages.ps1 = buildNugetPackages.ps1
+		FlockBuddy.nuspec = FlockBuddy.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		FlockBuddy.SharedProject\FlockBuddy.SharedProject.projitems*{15efb6ec-d461-4f4e-9d35-6fd2fa364c33}*SharedItemsImports = 4

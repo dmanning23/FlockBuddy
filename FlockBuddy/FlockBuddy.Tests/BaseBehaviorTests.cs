@@ -42,6 +42,22 @@ namespace FlockBuddy.Tests
 			{
 			}
 
+			public override float DirectionChange
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+			}
+
+			public override float SpeedChange
+			{
+				get
+				{
+					throw new NotImplementedException();
+				}
+			}
+
 			public override Vector2 GetSteering()
 			{
 				throw new NotImplementedException();

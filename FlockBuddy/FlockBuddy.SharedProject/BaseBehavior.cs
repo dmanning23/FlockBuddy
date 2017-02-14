@@ -24,6 +24,10 @@ namespace FlockBuddy
 		/// </summary>
 		public float Weight { get; set; }
 
+		public abstract float DirectionChange { get; }
+
+		public abstract float SpeedChange { get; }
+
 		#endregion //Properties
 
 		#region Methods

@@ -2,25 +2,31 @@
 using CollisionBuddy;
 using GameTimer;
 using Microsoft.Xna.Framework;
+using PrimitiveBuddy;
 
 namespace FlockBuddy
 {
 	public interface IFlock
 	{
 		/// <summary>
+		/// All the boids stored in this flock.
+		/// </summary>
+		List<IMover> Boids { get; }
+
+		/// <summary>
 		/// The flock of enemies that will attack boids in this flock
 		/// </summary>
-		IFlock Predators { set; }
+		IFlock Predators { get; set; }
 
 		/// <summary>
 		/// The flock of targets that can be attacked
 		/// </summary>
-		IFlock Prey { set; }
+		IFlock Prey { get; set; }
 
 		/// <summary>
 		/// A flock of entities that need to be protected
 		/// </summary>
-		IFlock Vips { set; }
+		IFlock Vips { get; set; }
 
 		/// <summary>
 		/// The obstacles that have to be avoided
@@ -32,9 +38,11 @@ namespace FlockBuddy
 		/// </summary>
 		List<ILine> Walls { set; }
 
-		void AddBoid(IBoid boid);
+		void SetWorldSize(Vector2 worldSize, bool useWorldWrap = true, bool useCellSpace = true, int cellsX = 20, int cellsY = 20);
 
-		void RemoveBoid(IBoid boid);
+		void AddBoid(IMover boid);
+
+		void RemoveBoid(IMover boid);
 
 		void Update(GameClock time);
 
@@ -50,6 +58,12 @@ namespace FlockBuddy
 
 		IMover FindClosestVipInRange(IBoid boid, float queryRadius);
 
+		void RemoveFlock(IFlock flock);
+
 		Vector2 WrapWorldPosition(Vector2 pos);
+
+		void AddDefaultWalls(DefaultWalls wallsType, Rectangle rect);
+
+		void Draw(IPrimitive prim, Color color);
 	}
 }

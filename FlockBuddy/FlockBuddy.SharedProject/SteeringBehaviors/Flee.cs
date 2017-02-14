@@ -13,7 +13,23 @@ namespace FlockBuddy
 		/// The position to run away from!
 		/// </summary>
 		public Vector2 AvoidPosition { private get; set; }
-		
+
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -21,7 +37,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Flee"/> class.
 		/// </summary>
-		public Flee(Boid dude)
+		public Flee(IBoid dude)
 			: base(dude, EBehaviorType.flee, 1f)
 		{
 		}

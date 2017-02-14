@@ -34,7 +34,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// a container of all the moving entities this boid is managing
 		/// </summary>
-		private List<IMover> Boids { get; set; }
+		public List<IMover> Boids { get; set; }
 
 		/// <summary>
 		/// The game clock to manage this flock
@@ -46,11 +46,11 @@ namespace FlockBuddy
 		/// </summary>
 		private CellSpacePartition<IMover> CellSpace { get; set; }
 
-		public IFlock Predators { private get; set; }
+		public IFlock Predators { get; set; }
 
-		public IFlock Prey { private get; set; }
+		public IFlock Prey { get; set; }
 
-		public IFlock Vips { private get; set; }
+		public IFlock Vips { get; set; }
 
 		/// <summary>
 		/// any obstacles for this flock
@@ -68,7 +68,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// whether or not to use the cell space partitioning
 		/// </summary>
-		public bool UseCellSpace 
+		public bool UseCellSpace
 		{
 			get
 			{
@@ -121,7 +121,7 @@ namespace FlockBuddy
 		/// <param name="useCellSpace"></param>
 		/// <param name="cellsX"></param>
 		/// <param name="cellsY"></param>
-		public void SetWorldSize(Vector2 worldSize, bool useWorldWrap, bool useCellSpace, int cellsX, int cellsY)
+		public void SetWorldSize(Vector2 worldSize, bool useWorldWrap = true, bool useCellSpace = true, int cellsX = 20, int cellsY = 20)
 		{
 			this.WorldSize = worldSize;
 			this.UseWorldWrap = useWorldWrap;
@@ -134,7 +134,7 @@ namespace FlockBuddy
 		/// This is the only way that boids should be added to ensure they go in the cell space corerctly.
 		/// </summary>
 		/// <param name="boid"></param>
-		public void AddBoid(IBoid boid)
+		public void AddBoid(IMover boid)
 		{
 			lock (_listLock)
 			{
@@ -184,7 +184,7 @@ namespace FlockBuddy
 		/// Remove a boid from the list
 		/// </summary>
 		/// <param name="boid"></param>
-		public void RemoveBoid(IBoid boid)
+		public void RemoveBoid(IMover boid)
 		{
 			Boids.Remove(boid);
 		}
@@ -234,7 +234,7 @@ namespace FlockBuddy
 				closest = inRange[0];
 				closestDistance = DistanceSquared(boid, inRange[0]);
 			}
-			
+
 			//loop through the rest and see if there are any closer
 			if (inRange.Count >= 2)
 			{
@@ -308,11 +308,14 @@ namespace FlockBuddy
 			var neighbors = new List<IBaseEntity>();
 
 			//iterate through all entities checking for range
-			for (int i = 0; i < dudes.Count; i++)
+			if (null != dudes)
 			{
-				if (CheckIfObjectInRange(boid, dudes[i], queryRadius))
+				for (int i = 0; i < dudes.Count; i++)
 				{
-					neighbors.Add(dudes[i]);
+					if (CheckIfObjectInRange(boid, dudes[i], queryRadius))
+					{
+						neighbors.Add(dudes[i]);
+					}
 				}
 			}
 
@@ -331,7 +334,7 @@ namespace FlockBuddy
 			{
 				return false;
 			}
-			
+
 			//the bounding radius of the other is taken into account by adding it to the range
 			double range = queryRadius + dude.Radius;
 
@@ -397,7 +400,72 @@ namespace FlockBuddy
 			CellSpace.Clear();
 		}
 
+		public void AddDefaultWalls(DefaultWalls wallsType, Rectangle rect)
+		{
+			//only keep the walls we want
+			switch (wallsType)
+			{
+				case DefaultWalls.All:
+					{
+						Walls = Line.InsideRect(rect);
+					}
+					break;
+				case DefaultWalls.None:
+					{
+						//empty list!
+						Walls = new List<ILine>();
+					}
+					break;
+				case DefaultWalls.TopBottom:
+					{
+						var walls = Line.InsideRect(rect);
+						Walls = new List<ILine>()
+						{
+							walls[0],
+							walls[2]
+						};
+					}
+					break;
+				case DefaultWalls.LeftRight:
+					{
+						var walls = Line.InsideRect(rect);
+						Walls = new List<ILine>()
+						{
+							walls[1],
+							walls[3]
+						};
+					}
+					break;
+			}
+		}
+
+		public void RemoveFlock(IFlock flock)
+		{
+			if (flock == Predators)
+			{
+				Predators = null;
+			}
+
+			if (flock == Prey)
+			{
+				Prey = null;
+			}
+
+			if (flock == Vips)
+			{
+				Vips = null;
+			}
+		}
+
 		#region Drawing
+
+		public void Draw(IPrimitive prim, Color color)
+		{
+			foreach (Boid boid in Boids)
+			{
+				boid.Draw(prim, color);
+			}
+		}
 
 		/// <summary>
 		/// draw a bunch of debug info

@@ -21,9 +21,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)BehaviorInterfaces\ITargetPositionBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BehaviorInterfaces\IWallBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Boid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DefaultWalls.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EBehaviorType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ESummingMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Flock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FlockManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBaseEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBoid.cs" />

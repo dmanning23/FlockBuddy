@@ -15,6 +15,22 @@ namespace FlockBuddy
 		/// </summary>
 		public List<IMover> Buddies { private get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 0.5f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -22,7 +38,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public Separation(Boid dude)
+		public Separation(IBoid dude)
 			: base(dude, EBehaviorType.separation, 120f)
 		{
 		}
@@ -35,20 +51,23 @@ namespace FlockBuddy
 		{
 			Vector2 steeringForce = Vector2.Zero;
 
-			for (int i = 0; i < Buddies.Count; i++)
+			if (null != Buddies)
 			{
-				//make sure this agent isn't included in the calculations and that the agent being examined is close enough. 
-				//***also make sure it doesn't include the evade target ***
-				Vector2 toAgent = Owner.Position - Buddies[i].Position;
-				float length = toAgent.Length();
-
-				if (length != 0.0f)
+				for (int i = 0; i < Buddies.Count; i++)
 				{
-					//normalize the vector
-					toAgent /= length;
+					//make sure this agent isn't included in the calculations and that the agent being examined is close enough. 
+					//***also make sure it doesn't include the evade target ***
+					Vector2 toAgent = Owner.Position - Buddies[i].Position;
+					float length = toAgent.Length();
 
-					//scale the force inversely proportional to the agents distance from its neighbor.
-					steeringForce += toAgent / length;
+					if (length != 0.0f)
+					{
+						//normalize the vector
+						toAgent /= length;
+
+						//scale the force inversely proportional to the agents distance from its neighbor.
+						steeringForce += toAgent / length;
+					}
 				}
 			}
 

@@ -18,7 +18,11 @@ namespace FlockBuddy
 	{
 		#region Members
 
-		private Vector2 _force = Vector2.Zero;
+		private Vector2 _totalForce = Vector2.Zero;
+
+		private Vector2 _directionForce = Vector2.Zero;
+
+		private Vector2 _speedForce = Vector2.Zero;
 
 		private Random _rand = new Random();
 
@@ -34,20 +38,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// How to add up all the steering behaviors
 		/// </summary>
-		public ESummingMethod SumMethod { private get; set; }
+		public ESummingMethod SummingMethod { private get; set; }
 
 		/// <summary>
 		/// the flock that owns this dude
 		/// </summary>
 		private IFlock MyFlock { get; set; }
-
-		private Vector2 Force
-		{
-			get
-			{
-				return _force;
-			}
-		}
 
 		/// <summary>
 		/// how far out to check for neighbors
@@ -73,7 +69,10 @@ namespace FlockBuddy
 			float mass = 1f,
 			float maxSpeed = 500f,
 			float maxTurnRate = 10f,
-			float maxForce = 100f)
+			float maxForce = 100f,
+			float queryRadius = 100f,
+			float retargetTime = 0.1f,
+			ESummingMethod summingMethod = ESummingMethod.weighted_average)
 				: base(position,
 				radius,
 				heading,
@@ -86,21 +85,66 @@ namespace FlockBuddy
 			MyFlock = owner;
 			MyFlock.AddBoid(this);
 
-			QueryRadius = 100.0f;
+			QueryRadius = queryRadius;
 
 			Behaviors = new List<IBehavior>();
 
-			SumMethod = ESummingMethod.weighted_average;
+			SummingMethod = summingMethod;
 
-			RetargetTime = 0.05f;
+			RetargetTime = retargetTime;
 			RetargetTimer = new CountdownTimer();
 			RetargetTimer.Start(RetargetTime);
+		}
+
+		public void AddBehavior(EBehaviorType behaviorType, float weight)
+		{
+			//first check if we alreadu have that behavior
+			if (!Behaviors.Exists(x => x.BehaviorType == behaviorType))
+			{
+				IBehavior behavior;
+				switch (behaviorType)
+				{
+					case EBehaviorType.wall_avoidance: { behavior = new WallAvoidance(this); } break;
+					case EBehaviorType.obstacle_avoidance: { behavior = new ObstacleAvoidance(this); } break;
+					case EBehaviorType.evade: { behavior = new Evade(this); } break;
+					case EBehaviorType.flee: { behavior = new Flee(this); } break;
+					case EBehaviorType.separation: { behavior = new Separation(this); } break;
+					case EBehaviorType.alignment: { behavior = new Alignment(this); } break;
+					case EBehaviorType.cohesion: { behavior = new Cohesion(this); } break;
+					case EBehaviorType.seek: { behavior = new Seek(this); } break;
+					case EBehaviorType.arrive: { behavior = new Arrive(this); } break;
+					case EBehaviorType.wander: { behavior = new Wander(this); } break;
+					case EBehaviorType.pursuit: { behavior = new Pursuit(this); } break;
+					case EBehaviorType.offset_pursuit: { behavior = new OffsetPursuit(this); } break;
+					case EBehaviorType.interpose: { behavior = new Interpose(this); } break;
+					case EBehaviorType.hide: { behavior = new Hide(this); } break;
+					default: { behavior = new FollowPath(this); } break;
+				}
+
+				behavior.Weight = weight;
+				AddBehavior(behavior);
+			}
+			else
+			{
+				//we already have that behavior, just update the weight
+				var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
+				behavior.Weight = weight;
+			}
 		}
 
 		public void AddBehavior(IBehavior behavior)
 		{
 			Behaviors.Add(behavior);
 			Behaviors.Sort((x, y) => x.BehaviorType.CompareTo(y.BehaviorType));
+		}
+
+		public void RemoveBehavior(EBehaviorType behaviorType)
+		{
+			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
+			if (behavior != null)
+			{
+				Behaviors.Remove(behavior);
+			}
 		}
 
 		/// <summary>
@@ -123,13 +167,13 @@ namespace FlockBuddy
 			base.Update(time);
 
 			//Acceleration = Force/Mass
-			_force = GetSteeringForce() / Mass;
-			
+			GetSteeringForce(); ;
+
 			//turn towards that point if the vehicle has a non zero velocity
-			UpdateHeading(_force);
+			UpdateHeading(_directionForce);
 
 			//speed up or slow down depending on whether the target is ahead or behind
-			UpdateSpeed(_force);
+			UpdateSpeed(_speedForce);
 
 			//update the position
 			Vector2 currentPosition = Position + (Velocity * BoidTimer.TimeDelta);
@@ -147,7 +191,7 @@ namespace FlockBuddy
 		/// Update all the behaviors and calculate the steering force
 		/// </summary>
 		/// <returns></returns>
-		private Vector2 GetSteeringForce()
+		private void GetSteeringForce()
 		{
 			RetargetTimer.Update(BoidTimer);
 
@@ -200,29 +244,20 @@ namespace FlockBuddy
 			}
 
 			//calculate the combined force from each steering behavior in the vehicle's list
-			return Calculate();
+			Calculate();
 		}
 
 		/// <summary>
 		/// calculates and sums the steering forces from any active behaviors
 		/// </summary>
 		/// <returns></returns>
-		private Vector2 Calculate()
+		private void Calculate()
 		{
-			switch (SumMethod)
+			switch (SummingMethod)
 			{
-				case ESummingMethod.weighted_average:
-					{
-						return CalculateWeightedSum();
-					}
-				case ESummingMethod.prioritized:
-					{
-						return CalculatePrioritized();
-					}
-				default:
-					{
-						return CalculateDithered();
-					}
+				case ESummingMethod.weighted_average: { CalculateWeightedSum(); } break;
+				case ESummingMethod.prioritized: { CalculatePrioritized(); } break;
+				default: { CalculateDithered(); } break;
 			}
 		}
 
@@ -231,16 +266,25 @@ namespace FlockBuddy
 		///  truncates the result to the max available steering force before returning
 		/// </summary>
 		/// <returns></returns>
-		private Vector2 CalculateWeightedSum()
+		private void CalculateWeightedSum()
 		{
-			Vector2 steeringForce = Vector2.Zero;
+			_totalForce = Vector2.Zero;
+			_directionForce = Vector2.Zero;
+			_speedForce = Vector2.Zero;
 
 			for (int i = 0; i < Behaviors.Count; i++)
 			{
-				steeringForce += Behaviors[i].GetSteering();
+				var steeringForce = Behaviors[i].GetSteering();
+
+				_totalForce += steeringForce;
+				_directionForce += steeringForce * Behaviors[i].DirectionChange;
+				_speedForce += steeringForce * Behaviors[i].SpeedChange;
 			}
 
-			return steeringForce;
+			//divide all forces by mass
+			_totalForce /= Mass;
+			_directionForce /= Mass;
+			_speedForce /= Mass;
 		}
 
 		/// <summary>
@@ -250,21 +294,38 @@ namespace FlockBuddy
 		///  accumulated to that  point
 		/// </summary>
 		/// <returns></returns>
-		private Vector2 CalculatePrioritized()
+		private void CalculatePrioritized()
 		{
-			Vector2 force;
+			_totalForce = Vector2.Zero;
+			_directionForce = Vector2.Zero;
+			_speedForce = Vector2.Zero;
+
 			Vector2 steeringForce = Vector2.Zero;
+			Vector2 appliedForce;
 
 			for (int i = 0; i < Behaviors.Count; i++)
 			{
-				force = Behaviors[i].GetSteering();
-				if (!AccumulateForce(ref steeringForce, force))
+				//get the steering forace from the behavior
+				steeringForce = Behaviors[i].GetSteering();
+
+				//apply as much of the steering force as is available
+				var result = AccumulateForce(ref _totalForce, out appliedForce, steeringForce);
+
+				//update the direction and speed vectors
+				_directionForce += appliedForce * Behaviors[i].DirectionChange;
+				_speedForce += appliedForce * Behaviors[i].SpeedChange;
+
+				//if we used up the available steering force, we are done collecting steering forces.
+				if (result)
 				{
-					return steeringForce;
+					break;
 				}
 			}
 
-			return steeringForce;
+			//divide all forces by mass
+			_totalForce /= Mass;
+			_directionForce /= Mass;
+			_speedForce /= Mass;
 		}
 
 		/// <summary>
@@ -279,10 +340,12 @@ namespace FlockBuddy
 		///        just a few, so you get the general idea
 		/// </summary>
 		/// <returns></returns>
-		private Vector2 CalculateDithered()
+		private void CalculateDithered()
 		{
 			//reset the steering force
-			Vector2 steeringForce = Vector2.Zero;
+			_totalForce = Vector2.Zero;
+			_directionForce = Vector2.Zero;
+			_speedForce = Vector2.Zero;
 
 			//if (IsActive(EBehaviorType.wall_avoidance) && RandFloat() < Prm.prWallAvoidance)
 			//{
@@ -417,8 +480,6 @@ namespace FlockBuddy
 			//		return steeringForce;
 			//	}
 			//}
-
-			return steeringForce;
 		}
 
 		/// <summary>
@@ -429,7 +490,7 @@ namespace FlockBuddy
 		/// <param name="RunningTot"></param>
 		/// <param name="ForceToAdd"></param>
 		/// <returns></returns>
-		private bool AccumulateForce(ref Vector2 runningTot, Vector2 forceToAdd)
+		private bool AccumulateForce(ref Vector2 runningTot, out Vector2 appliedForce, Vector2 forceToAdd)
 		{
 			//calculate how much steering force the vehicle has used so far
 			float magnitudeSoFar = runningTot.Length();
@@ -440,28 +501,31 @@ namespace FlockBuddy
 			//return false if there is no more force left to use
 			if (magnitudeRemaining <= 0.0f)
 			{
+				appliedForce = Vector2.Zero;
 				return false;
 			}
 
 			//calculate the magnitude of the force we want to add
-			float MagnitudeToAdd = forceToAdd.Length();
+			float magnitudeToAdd = forceToAdd.Length();
 
 			//if the magnitude of the sum of ForceToAdd and the running total
 			//does not exceed the maximum force available to this vehicle, just
 			//add together. Otherwise add as much of the ForceToAdd vector is
 			//possible without going over the max.
-			if (MagnitudeToAdd < magnitudeRemaining)
+			if (magnitudeToAdd < magnitudeRemaining)
 			{
+				appliedForce = forceToAdd;
 				runningTot += forceToAdd;
+				return true;
 			}
 			else
 			{
 				//add it to the steering force
-				forceToAdd.Normalize();
-				runningTot += (forceToAdd * magnitudeRemaining);
+				appliedForce = forceToAdd.Normalized();
+				appliedForce *= magnitudeRemaining;
+				runningTot += appliedForce;
+				return false;
 			}
-
-			return true;
 		}
 
 		#region Drawing
@@ -471,9 +535,9 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="prim"></param>
 		/// <param name="color"></param>
-		public override void Render(IPrimitive prim, Color color)
+		public override void Draw(IPrimitive prim, Color color)
 		{
-			base.Render(prim, color);
+			base.Draw(prim, color);
 		}
 
 		/// <summary>
@@ -506,7 +570,7 @@ namespace FlockBuddy
 			prim.Line(Position, Position + Velocity, Color.Black);
 
 			//draw the force being applied
-			prim.Line(Position, Position + Force, Color.Yellow);
+			prim.Line(Position, Position + _totalForce, Color.Yellow);
 		}
 
 		public void DrawWallFeelers(IPrimitive prim)

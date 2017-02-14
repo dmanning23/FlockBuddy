@@ -18,6 +18,22 @@ namespace FlockBuddy
 
 		private Seek SeekBehavior { get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 0f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -25,9 +41,10 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public Cohesion(Boid dude)
+		public Cohesion(IBoid dude)
 			: base(dude, EBehaviorType.cohesion, 0.5f)
 		{
+			Buddies = new List<IMover>();
 			SeekBehavior = new Seek(dude);
 		}
 
@@ -41,7 +58,7 @@ namespace FlockBuddy
 			Vector2 centerOfMass = Vector2.Zero;
 			Vector2 steeringForce = Vector2.Zero;
 
-			if (Buddies.Count > 0)
+			if (null != Buddies && Buddies.Count > 0)
 			{
 				//iterate through the neighbors and sum up all the position vectors
 				for (int i = 0; i < Buddies.Count; i++)

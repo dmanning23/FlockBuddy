@@ -16,7 +16,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.1": {
+      "CollisionBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -373,7 +373,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.0": {
+      "RandomExtensions.dmanning23/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -2301,7 +2301,7 @@
           }
         }
       },
-      "Vector2Extensions/1.0.1": {
+      "Vector2Extensions/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -2334,7 +2334,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.1": {
+      "CollisionBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -2639,7 +2639,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.0": {
+      "RandomExtensions.dmanning23/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -4727,7 +4727,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.1": {
+      "Vector2Extensions/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -4760,7 +4760,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.1": {
+      "CollisionBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -5066,7 +5066,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.0": {
+      "RandomExtensions.dmanning23/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -7192,7 +7192,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.1": {
+      "Vector2Extensions/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -7225,7 +7225,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.1": {
+      "CollisionBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -7533,7 +7533,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.0": {
+      "RandomExtensions.dmanning23/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -9627,7 +9627,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.1": {
+      "Vector2Extensions/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -9660,7 +9660,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.1": {
+      "CollisionBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -9969,7 +9969,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.0": {
+      "RandomExtensions.dmanning23/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -12101,7 +12101,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.1": {
+      "Vector2Extensions/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -12134,7 +12134,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.1": {
+      "CollisionBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -12442,7 +12442,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.0": {
+      "RandomExtensions.dmanning23/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -14536,7 +14536,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.1": {
+      "Vector2Extensions/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -14569,7 +14569,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.1": {
+      "CollisionBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -14878,7 +14878,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.0": {
+      "RandomExtensions.dmanning23/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -17010,7 +17010,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.1": {
+      "Vector2Extensions/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -17047,13 +17047,13 @@
         "lib/uap10.0/CellSpacePartition.WindowsUniversal.pdb"
       ]
     },
-    "CollisionBuddy/1.0.1": {
-      "sha512": "kuTdjRsuJYsEgsotgEpyHvXAqJZHqRhZdKOaxCZcSIuWG/fn5Zin0cX4DWoSaUgUg1kbbXarnhZeECbBxHtwoQ==",
+    "CollisionBuddy/1.0.2": {
+      "sha512": "0gTv5DpITFp1QZsiT/KReL9ipHPVnp5wspPNfzdowbzHxa9YTHI6rGbwd9F0JlCN+E4odc7ZoaBalI9m10f60w==",
       "type": "package",
-      "path": "collisionbuddy/1.0.1",
+      "path": "collisionbuddy/1.0.2",
       "files": [
-        "CollisionBuddy.1.0.1.nupkg.sha512",
-        "CollisionBuddy.nuspec",
+        "collisionbuddy.1.0.2.nupkg.sha512",
+        "collisionbuddy.nuspec",
         "lib/MonoAndroid10/CollisionBuddy.Android.dll",
         "lib/MonoAndroid10/CollisionBuddy.Android.pdb",
         "lib/Xamarin.iOS10/CollisionBuddy.iOS.dll",
@@ -17438,12 +17438,12 @@
         "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.pdb"
       ]
     },
-    "RandomExtensions.dmanning23/1.0.0": {
-      "sha512": "mv08W4mY0XUWyJyMI1PssDtikuFs7vy3wK42wg42bSUPOp8C93/bLnK7zLikohmqC0RY3yTAkMTkgl5ZGyXiqQ==",
+    "RandomExtensions.dmanning23/1.0.2": {
+      "sha512": "22haYdcKXA3NTlf00q8cNizCxlLPtCdFNaEmq7M8wB6uy3MgMwGMsGqb2jyIyY0oAsuaqq666bsbuPQ48z5Owg==",
       "type": "package",
-      "path": "randomextensions.dmanning23/1.0.0",
+      "path": "randomextensions.dmanning23/1.0.2",
       "files": [
-        "RandomExtensions.dmanning23.1.0.0.nupkg.sha512",
+        "RandomExtensions.dmanning23.1.0.2.nupkg.sha512",
         "RandomExtensions.dmanning23.nuspec",
         "lib/MonoAndroid10/RandomExtensions.Android.dll",
         "lib/MonoAndroid10/RandomExtensions.Android.pdb",
@@ -23388,13 +23388,11 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "Vector2Extensions/1.0.1": {
-      "sha512": "TOJFGeNhfeqUX93OdYXiro8bprLIy5NaqMPBEed72lJuISQe/3a8PZkucmA64IqyfcjWoHdT+QY7yXRhe933aA==",
+    "Vector2Extensions/1.0.3": {
+      "sha512": "usIFjdSKxBSzoDPSM0syhBqpRHV4iTlvIeHzLdI/iNf713+3B9UO+nju21sDvHb6DZjlGzCRH24j54qlzepPkQ==",
       "type": "package",
-      "path": "vector2extensions/1.0.1",
+      "path": "vector2extensions/1.0.3",
       "files": [
-        "Vector2Extensions.1.0.1.nupkg.sha512",
-        "Vector2Extensions.nuspec",
         "lib/MonoAndroid10/Vector2Extensions.Android.dll",
         "lib/MonoAndroid10/Vector2Extensions.Android.pdb",
         "lib/Xamarin.iOS10/Vector2Extensions.iOS.dll",
@@ -23402,19 +23400,23 @@
         "lib/net451/Vector2Extensions.DesktopGL.dll",
         "lib/net451/Vector2Extensions.DesktopGL.pdb",
         "lib/uap10.0/Vector2Extensions.WindowsUniversal.dll",
-        "lib/uap10.0/Vector2Extensions.WindowsUniversal.pdb"
+        "lib/uap10.0/Vector2Extensions.WindowsUniversal.pdb",
+        "vector2extensions.1.0.3.nupkg.sha512",
+        "vector2extensions.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "CellSpacePartition >= 1.0.0",
-      "CollisionBuddy >= 1.0.1",
+      "CollisionBuddy >= 1.0.2",
       "GameTimer >= 1.0.1",
       "MatrixExtensions >= 1.0.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
       "PrimitiveBuddy >= 1.0.0",
-      "RectangleF >= 1.0.0"
+      "RandomExtensions.dmanning23 >= 1.0.2",
+      "RectangleF >= 1.0.0",
+      "Vector2Extensions >= 1.0.3"
     ],
     "UAP,Version=v10.0": []
   },

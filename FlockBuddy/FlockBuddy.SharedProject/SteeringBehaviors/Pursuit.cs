@@ -24,6 +24,22 @@ namespace FlockBuddy
 		/// </summary>
 		public bool ViciousPursuit { get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -31,7 +47,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Pursuit"/> class.
 		/// </summary>
-		public Pursuit(Boid dude)
+		public Pursuit(IBoid dude)
 			: base(dude, EBehaviorType.pursuit, 0.1f)
 		{
 			SeekAction = new Seek(dude);

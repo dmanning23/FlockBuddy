@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System;
 
 namespace FlockBuddy
 {
@@ -15,6 +16,22 @@ namespace FlockBuddy
 		/// </summary>
 		public List<IMover> Buddies { private get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 0.5f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -22,7 +39,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Alignment"/> class.
 		/// </summary>
-		public Alignment(Boid dude)
+		public Alignment(IBoid dude)
 			: base(dude, EBehaviorType.alignment, 10f)
 		{
 		}
@@ -38,7 +55,7 @@ namespace FlockBuddy
 			Vector2 AverageHeading = Vector2.Zero;
 
 			//if the neighborhood contained one or more vehicles, average their heading vectors.
-			if (Buddies.Count > 0)
+			if (null != Buddies && Buddies.Count > 0)
 			{
 				//iterate through all the tagged vehicles and sum their heading vectors  
 				for (int i = 0; i < Buddies.Count; i++)

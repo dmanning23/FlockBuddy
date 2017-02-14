@@ -14,6 +14,22 @@ namespace FlockBuddy
 		/// </summary>
 		public Vector2 TargetPosition { private get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -21,7 +37,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Seek"/> class.
 		/// </summary>
-		public Seek(Boid dude)
+		public Seek(IBoid dude)
 			: base(dude, EBehaviorType.seek, 1f)
 		{
 		}

@@ -22,7 +22,23 @@ namespace FlockBuddy
 		/// little whiskers that this dude will use to detect walls
 		/// </summary>
 		public List<Vector2> Feelers { get; set; }
-		
+
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -30,8 +46,8 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public WallAvoidance(Boid dude)
-			: base(dude, EBehaviorType.wall_avoidance, 50.0f)
+		public WallAvoidance(IBoid dude)
+			: base(dude, EBehaviorType.wall_avoidance, 50f)
 		{
 			Feelers = new List<Vector2>();
 		}
@@ -42,7 +58,7 @@ namespace FlockBuddy
 		/// <returns></returns>
 		public override Vector2 GetSteering()
 		{
-			if (0 >= Walls.Count)
+			if (null == Walls || 0 >= Walls.Count)
 			{
 				return Vector2.Zero;
 			}

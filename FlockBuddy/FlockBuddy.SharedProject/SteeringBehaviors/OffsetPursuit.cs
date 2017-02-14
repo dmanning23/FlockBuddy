@@ -11,6 +11,22 @@ namespace FlockBuddy
 
 		public IBaseEntity Vip { private get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -18,7 +34,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public OffsetPursuit(Boid dude)
+		public OffsetPursuit(IBoid dude)
 			: base(dude, EBehaviorType.obstacle_avoidance, 1f)
 		{
 		}

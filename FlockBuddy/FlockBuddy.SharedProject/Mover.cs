@@ -257,7 +257,7 @@ namespace FlockBuddy
 		/// </summary>
 		/// <param name="prim"></param>
 		/// <param name="color"></param>
-		public virtual void Render(IPrimitive prim, Color color)
+		public virtual void Draw(IPrimitive prim, Color color)
 		{
 			DrawPhysics(prim, color);
 			prim.Line(Position, Position + (Radius * Heading), color);

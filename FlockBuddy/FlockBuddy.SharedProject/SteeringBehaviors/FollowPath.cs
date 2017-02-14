@@ -13,6 +13,22 @@ namespace FlockBuddy
 
 		public List<Vector2> Path { private get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -20,7 +36,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public FollowPath(Boid dude)
+		public FollowPath(IBoid dude)
 			: base(dude, EBehaviorType.follow_path, 1f)
 		{
 		}

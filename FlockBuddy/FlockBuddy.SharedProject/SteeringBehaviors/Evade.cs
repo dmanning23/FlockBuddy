@@ -19,6 +19,22 @@ namespace FlockBuddy
 		/// </summary>
 		private Flee FleeAction { get; set; }
 
+		public override float DirectionChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public override float SpeedChange
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -26,8 +42,8 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public Evade(Boid dude)
-			: base(dude, EBehaviorType.evade, 1.0f)
+		public Evade(IBoid dude)
+			: base(dude, EBehaviorType.evade, 1f)
 		{
 			FleeAction = new Flee(dude);
 		}

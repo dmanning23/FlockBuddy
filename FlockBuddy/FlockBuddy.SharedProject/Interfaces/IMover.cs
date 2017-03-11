@@ -18,6 +18,10 @@ namespace FlockBuddy
 
 		float Mass { get; set; }
 
+		float MinSpeed { get; set; }
+
+		float WalkSpeed { get; set; }
+
 		float MaxSpeed { get; set; }
 
 		float MaxForce { get; set; }

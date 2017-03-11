@@ -2,6 +2,7 @@ using CollisionBuddy;
 using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Vector2Extensions;
 
 namespace FlockBuddy
@@ -47,7 +48,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public WallAvoidance(IBoid dude)
-			: base(dude, EBehaviorType.wall_avoidance, 50f)
+			: base(dude, EBehaviorType.wall_avoidance, BoidDefaults.WallAvoidanceWeight)
 		{
 			Feelers = new List<Vector2>();
 		}
@@ -66,15 +67,10 @@ namespace FlockBuddy
 			//the feelers are contained in a std::vector, m_Feelers
 			CreateFeelers();
 
-			float DistToThisIP = 0.0f;
-			float DistToClosestIP = float.MaxValue;
+			float distToThisIP = 0.0f;
 
-			//this will hold an index into the vector of walls
-			int ClosestWall = -1;
-
-			Vector2 SteeringForce = Vector2.Zero;
+			Vector2 steeringForce = Vector2.Zero;
 			Vector2 point = Vector2.Zero; //used for storing temporary info
-			Vector2 ClosestPoint = Vector2.Zero;//holds the closest intersection point
 
 			//examine each feeler in turn
 			for (int i = 0; i < Feelers.Count; i++)
@@ -86,31 +82,22 @@ namespace FlockBuddy
 										   Feelers[i],
 										   Walls[j].Start,
 										   Walls[j].End,
-										   ref DistToThisIP,
+										   ref distToThisIP,
 										   ref point))
 					{
-						//is this the closest found so far? If so keep a record
-						if (DistToThisIP < DistToClosestIP)
-						{
-							DistToClosestIP = DistToThisIP;
-							ClosestWall = j;
-							ClosestPoint = point;
-						}
+						//calculate by what distance the projected position of the agent will overshoot the wall
+						var overShoot = Feelers[i] - point;
+
+						//create a force in the direction of the wall normal, with a magnitude of the overshoot
+						steeringForce += Walls[j].Normal * overShoot.Length();
 					}
-				}
-
-				//if an intersection point has been detected, calculate a force that will direct the agent away
-				if (ClosestWall >= 0)
-				{
-					//calculate by what distance the projected position of the agent will overshoot the wall
-					Vector2 OverShoot = Feelers[i] - ClosestPoint;
-
-					//create a force in the direction of the wall normal, with a magnitude of the overshoot
-					SteeringForce = Walls[ClosestWall].Normal * OverShoot.Length();
 				}
 			}
 
-			return SteeringForce * Weight;
+			Debug.Assert(!float.IsNaN(steeringForce.X));
+			Debug.Assert(!float.IsNaN(steeringForce.Y));
+
+			return steeringForce * Weight;
 		}
 
 		/// <summary>

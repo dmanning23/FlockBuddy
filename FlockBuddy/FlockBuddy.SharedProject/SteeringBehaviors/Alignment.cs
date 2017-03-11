@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 
 namespace FlockBuddy
 {
@@ -28,7 +29,7 @@ namespace FlockBuddy
 		{
 			get
 			{
-				return 0.5f;
+				return 0f;
 			}
 		}
 
@@ -40,7 +41,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Alignment"/> class.
 		/// </summary>
 		public Alignment(IBoid dude)
-			: base(dude, EBehaviorType.alignment, 10f)
+			: base(dude, EBehaviorType.alignment, BoidDefaults.AlignmentWeight)
 		{
 		}
 
@@ -67,6 +68,9 @@ namespace FlockBuddy
 
 				AverageHeading /= Buddies.Count;
 				AverageHeading -= Owner.Heading;
+
+				Debug.Assert(!float.IsNaN(AverageHeading.X));
+				Debug.Assert(!float.IsNaN(AverageHeading.Y));
 			}
 
 			//always multiply the return value by the weight

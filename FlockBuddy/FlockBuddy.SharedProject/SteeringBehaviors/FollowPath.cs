@@ -37,7 +37,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public FollowPath(IBoid dude)
-			: base(dude, EBehaviorType.follow_path, 1f)
+			: base(dude, EBehaviorType.follow_path, BoidDefaults.FollowPathWeight)
 		{
 		}
 

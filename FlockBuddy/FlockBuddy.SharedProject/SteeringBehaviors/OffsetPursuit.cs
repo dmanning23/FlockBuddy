@@ -35,7 +35,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public OffsetPursuit(IBoid dude)
-			: base(dude, EBehaviorType.obstacle_avoidance, 1f)
+			: base(dude, EBehaviorType.obstacle_avoidance, BoidDefaults.OffsetPursuitWeight)
 		{
 		}
 

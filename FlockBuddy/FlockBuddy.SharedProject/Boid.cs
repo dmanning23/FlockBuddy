@@ -65,19 +65,23 @@ namespace FlockBuddy
 			Vector2 position,
 			Vector2 heading,
 			float speed,
-			float radius = 10f,
-			float mass = 1f,
-			float maxSpeed = 500f,
-			float maxTurnRate = 10f,
-			float maxForce = 100f,
-			float queryRadius = 100f,
-			float retargetTime = 0.1f,
-			ESummingMethod summingMethod = ESummingMethod.weighted_average)
+			float radius = BoidDefaults.BoidRadius,
+			float mass = BoidDefaults.BoidMass,
+			float minSpeed = BoidDefaults.BoidMinSpeed,
+			float walkSpeed = BoidDefaults.BoidWalkSpeed,
+			float maxSpeed = BoidDefaults.BoidMaxSpeed,
+			float maxTurnRate = BoidDefaults.BoidMaxTurnRate,
+			float maxForce = BoidDefaults.BoidMaxForce,
+			float queryRadius = BoidDefaults.BoidQueryRadius,
+			float retargetTime = BoidDefaults.BoidRetargetTime,
+			ESummingMethod summingMethod = BoidDefaults.SummingMethod)
 				: base(position,
 				radius,
 				heading,
 				speed,
 				mass,
+				minSpeed,
+				walkSpeed,
 				maxSpeed,
 				maxTurnRate,
 				maxForce)
@@ -140,7 +144,7 @@ namespace FlockBuddy
 
 		public void RemoveBehavior(EBehaviorType behaviorType)
 		{
-			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
+			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).FirstOrDefault();
 			if (behavior != null)
 			{
 				Behaviors.Remove(behavior);
@@ -167,13 +171,13 @@ namespace FlockBuddy
 			base.Update(time);
 
 			//Acceleration = Force/Mass
-			GetSteeringForce(); ;
-
-			//turn towards that point if the vehicle has a non zero velocity
-			UpdateHeading(_directionForce);
+			GetForces();
 
 			//speed up or slow down depending on whether the target is ahead or behind
 			UpdateSpeed(_speedForce);
+
+			//turn towards that point if the vehicle has a non zero velocity
+			UpdateHeading(_directionForce);
 
 			//update the position
 			Vector2 currentPosition = Position + (Velocity * BoidTimer.TimeDelta);
@@ -191,7 +195,7 @@ namespace FlockBuddy
 		/// Update all the behaviors and calculate the steering force
 		/// </summary>
 		/// <returns></returns>
-		private void GetSteeringForce()
+		private void GetForces()
 		{
 			RetargetTimer.Update(BoidTimer);
 
@@ -214,6 +218,9 @@ namespace FlockBuddy
 
 				//tag all obstacles within range of the box for processing
 				var obstacles = MyFlock.FindObstaclesInRange(this, boxLength);
+
+				//add all the walls
+				var walls = MyFlock.Walls;
 
 				foreach (var behavior in Behaviors)
 				{
@@ -239,6 +246,12 @@ namespace FlockBuddy
 					if (null != obstacleBehavior)
 					{
 						obstacleBehavior.Obstacles = obstacles;
+					}
+
+					var wallBehavior = behavior as IWallBehavior;
+					if (null != wallBehavior)
+					{
+						wallBehavior.Walls = walls;
 					}
 				}
 			}
@@ -528,6 +541,8 @@ namespace FlockBuddy
 			}
 		}
 
+		#endregion //Methods
+
 		#region Drawing
 
 		/// <summary>
@@ -564,19 +579,16 @@ namespace FlockBuddy
 			//}
 		}
 
-		public void DrawVectors(IPrimitive prim)
+		public void DrawTotalForce(IPrimitive prim, Color color)
 		{
-			//draw the current velocity
-			prim.Line(Position, Position + Velocity, Color.Black);
-
 			//draw the force being applied
-			prim.Line(Position, Position + _totalForce, Color.Yellow);
+			prim.Line(Position, Position + _totalForce, color);
 		}
 
-		public void DrawWallFeelers(IPrimitive prim)
+		public void DrawWallFeelers(IPrimitive prim, Color color)
 		{
 			//get the wall avoidance steering behavior
-			var behav = Behaviors.Where(x => x is WallAvoidance).First();
+			var behav = Behaviors.Where(x => x is WallAvoidance).FirstOrDefault();
 
 			//draw all the whiskers
 			var wallAvoidance = behav as IWallBehavior;
@@ -584,13 +596,30 @@ namespace FlockBuddy
 			{
 				foreach (var whisker in wallAvoidance.Feelers)
 				{
-					prim.Line(Position, whisker, Color.Aqua);
+					prim.Line(Position, whisker, color);
 				}
 			}
 		}
 
-		#endregion //Drawing
+		/// <summary>
+		/// draw the current velocity
+		/// </summary>
+		/// <param name="prim"></param>
+		/// <param name="color"></param>
+		public void DrawVelocity(IPrimitive prim, Color color)
+		{
+			prim.Line(Position, Position + Velocity, color);
+		}
 
-		#endregion //Methods
+		public void DrawSpeedForce(IPrimitive prim, Color color)
+		{
+			//draw a circle at the MaxForce line
+			//prim.Circle(Position, MaxForce, color);
+
+			//draw the speed force being applied
+			prim.Line(Position, Position + _speedForce, color);
+		}
+
+		#endregion //Drawing
 	}
 }

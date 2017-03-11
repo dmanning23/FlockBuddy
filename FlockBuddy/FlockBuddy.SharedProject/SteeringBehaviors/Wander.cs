@@ -33,7 +33,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Wander(IBoid dude)
-			: base(dude, EBehaviorType.wander, 1f)
+			: base(dude, EBehaviorType.wander, BoidDefaults.WanderWeight)
 		{
 		}
 

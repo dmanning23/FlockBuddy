@@ -40,7 +40,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Hide"/> class.
 		/// </summary>
 		public Hide(IBoid dude)
-			: base(dude, EBehaviorType.hide, 1f)
+			: base(dude, EBehaviorType.hide, BoidDefaults.HideWeight)
 		{
 		}
 

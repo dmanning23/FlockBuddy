@@ -60,7 +60,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// container containing any walls in the environment
 		/// </summary>
-		public List<ILine> Walls { private get; set; }
+		public List<ILine> Walls { get; set; }
 
 		//any path we may create for the vehicles to follow
 		//List<vector2> Path { get; private set; }
@@ -187,6 +187,11 @@ namespace FlockBuddy
 		public void RemoveBoid(IMover boid)
 		{
 			Boids.Remove(boid);
+
+			if (UseCellSpace)
+			{
+				CellSpace.Remove(boid);
+			}
 		}
 
 		/// <summary>
@@ -407,7 +412,7 @@ namespace FlockBuddy
 			{
 				case DefaultWalls.All:
 					{
-						Walls = Line.InsideRect(rect);
+						Walls = Line.ExtendedInsideRect(rect, 128f);
 					}
 					break;
 				case DefaultWalls.None:
@@ -418,7 +423,7 @@ namespace FlockBuddy
 					break;
 				case DefaultWalls.TopBottom:
 					{
-						var walls = Line.InsideRect(rect);
+						var walls = Line.ExtendedInsideRect(rect, 128f);
 						Walls = new List<ILine>()
 						{
 							walls[0],
@@ -428,7 +433,7 @@ namespace FlockBuddy
 					break;
 				case DefaultWalls.LeftRight:
 					{
-						var walls = Line.InsideRect(rect);
+						var walls = Line.ExtendedInsideRect(rect, 128f);
 						Walls = new List<ILine>()
 						{
 							walls[1],
@@ -464,6 +469,7 @@ namespace FlockBuddy
 			foreach (Boid boid in Boids)
 			{
 				boid.Draw(prim, color);
+				boid.DrawSpeedForce(prim, Color.White);
 			}
 		}
 
@@ -480,11 +486,11 @@ namespace FlockBuddy
 		/// draw the vectors of all the boids
 		/// </summary>
 		/// <param name="prim"></param>
-		public void DrawVectors(IPrimitive prim)
+		public void DrawTotalForce(IPrimitive prim, Color color)
 		{
 			foreach (Boid boid in Boids)
 			{
-				boid.DrawVectors(prim);
+				boid.DrawTotalForce(prim, color);
 			}
 		}
 
@@ -492,11 +498,11 @@ namespace FlockBuddy
 		/// draw the wall whiskers of all the boids
 		/// </summary>
 		/// <param name="prim"></param>
-		public void DrawWhiskers(IPrimitive prim)
+		public void DrawWhiskers(IPrimitive prim, Color color)
 		{
 			foreach (Boid boid in Boids)
 			{
-				boid.DrawWallFeelers(prim);
+				boid.DrawWallFeelers(prim, color);
 			}
 		}
 

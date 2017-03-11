@@ -38,7 +38,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Seek"/> class.
 		/// </summary>
 		public Seek(IBoid dude)
-			: base(dude, EBehaviorType.seek, 1f)
+			: base(dude, EBehaviorType.seek, BoidDefaults.SeekWeight)
 		{
 		}
 

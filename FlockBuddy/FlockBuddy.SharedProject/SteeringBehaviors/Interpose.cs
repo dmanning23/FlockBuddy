@@ -38,7 +38,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Interpose(IBoid dude)
-			: base(dude, EBehaviorType.interpose, 1f)
+			: base(dude, EBehaviorType.interpose, BoidDefaults.InterposeWeight)
 		{
 		}
 

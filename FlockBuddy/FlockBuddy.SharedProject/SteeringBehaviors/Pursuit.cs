@@ -48,7 +48,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Pursuit"/> class.
 		/// </summary>
 		public Pursuit(IBoid dude)
-			: base(dude, EBehaviorType.pursuit, 0.1f)
+			: base(dude, EBehaviorType.pursuit, BoidDefaults.PursuitWeight)
 		{
 			SeekAction = new Seek(dude);
 			ViciousPursuit = false;
@@ -80,9 +80,8 @@ namespace FlockBuddy
 
 			//Not considered ahead so we predict where the evader will be.
 
-			//the lookahead time is propotional to the distance between the evader
-			//and the pursuer; and is inversely proportional to the sum of the
-			//agent's velocities
+			//the lookahead time is propotional to the distance between the evader and the pursuer; 
+			//and is inversely proportional to the sum of the agent's velocities
 			float lookAheadTime = toEvader.Length() / (Owner.MaxSpeed + Prey.Speed);
 
 			//now seek to the predicted future position of the evader

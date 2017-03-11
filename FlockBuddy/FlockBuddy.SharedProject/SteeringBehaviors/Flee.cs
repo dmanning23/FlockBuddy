@@ -38,7 +38,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Flee"/> class.
 		/// </summary>
 		public Flee(IBoid dude)
-			: base(dude, EBehaviorType.flee, 1f)
+			: base(dude, EBehaviorType.flee, BoidDefaults.FleeWeight)
 		{
 		}
 

@@ -36,7 +36,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// The walls that have to be avoided
 		/// </summary>
-		List<ILine> Walls { set; }
+		List<ILine> Walls { get; set; }
 
 		void SetWorldSize(Vector2 worldSize, bool useWorldWrap = true, bool useCellSpace = true, int cellsX = 20, int cellsY = 20);
 
@@ -65,5 +65,6 @@ namespace FlockBuddy
 		void AddDefaultWalls(DefaultWalls wallsType, Rectangle rect);
 
 		void Draw(IPrimitive prim, Color color);
+		void DrawWhiskers(IPrimitive prim, Color color);
 	}
 }

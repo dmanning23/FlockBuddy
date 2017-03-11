@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FlockBuddy
 {
@@ -19,7 +20,7 @@ namespace FlockBuddy
 		{
 			get
 			{
-				return 0.5f;
+				return 1f;
 			}
 		}
 
@@ -27,7 +28,7 @@ namespace FlockBuddy
 		{
 			get
 			{
-				return 1f;
+				return 0.5f;
 			}
 		}
 
@@ -39,7 +40,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Separation(IBoid dude)
-			: base(dude, EBehaviorType.separation, 120f)
+			: base(dude, EBehaviorType.separation, BoidDefaults.SeparationWeight)
 		{
 		}
 
@@ -66,9 +67,12 @@ namespace FlockBuddy
 						toAgent /= length;
 
 						//scale the force inversely proportional to the agents distance from its neighbor.
-						steeringForce += toAgent / length;
+						steeringForce += toAgent / length ;
 					}
 				}
+
+				Debug.Assert(!float.IsNaN(steeringForce.X));
+				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			return steeringForce * Weight;

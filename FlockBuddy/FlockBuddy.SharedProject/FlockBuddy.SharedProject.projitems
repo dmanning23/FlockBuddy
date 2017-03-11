@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BehaviorInterfaces\ITargetPositionBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BehaviorInterfaces\IWallBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Boid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BoidDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DefaultWalls.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EBehaviorType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ESummingMethod.cs" />

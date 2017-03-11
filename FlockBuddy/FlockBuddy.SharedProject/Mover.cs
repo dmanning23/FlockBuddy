@@ -86,6 +86,10 @@ namespace FlockBuddy
 
 		public float Mass { get; set; }
 
+		public float MinSpeed { get; set; }
+
+		public float WalkSpeed { get; set; }
+
 		/// <summary>
 		/// the maximum speed this entity may travel at.
 		/// </summary>
@@ -110,6 +114,8 @@ namespace FlockBuddy
 					Vector2 heading,
 					float speed,
 					float mass,
+					float minSpeed,
+					float walkSpeed,
 					float maxSpeed,
 					float maxTurnRate,
 					float maxForce)
@@ -118,6 +124,8 @@ namespace FlockBuddy
 			Heading = heading;
 			Speed = speed;
 			Mass = mass;
+			MinSpeed = minSpeed;
+			WalkSpeed = walkSpeed;
 			MaxSpeed = maxSpeed;
 			MaxTurnRate = maxTurnRate;
 			MaxForce = maxForce;
@@ -145,7 +153,7 @@ namespace FlockBuddy
 		protected void UpdateSpeed(Vector2 targetHeading)
 		{
 			//update the speed but make sure vehicle does not exceed maximum velocity
-			Speed = MathHelper.Clamp(Speed + GetSpeedChange(targetHeading), 0.0f, MaxSpeed);
+			Speed = MathHelper.Clamp(Speed + GetSpeedChange(targetHeading), MinSpeed, MaxSpeed);
 		}
 
 		protected float GetSpeedChange(Vector2 targetHeading)
@@ -156,14 +164,30 @@ namespace FlockBuddy
 			//get the amount of force that can be applied pre timedelta
 			var maxForceDelta = MaxForce * BoidTimer.TimeDelta;
 
-			//if the dot product is less than zero, we want to got the other direction
-			if (0 > dotHeading)
+			if (0f == dotHeading)
 			{
-				maxForceDelta *= -1f;
+				//if the dotproduct is exactly zero, we want to hit the target speed
+				if (Speed < WalkSpeed)
+				{
+					//we are going too slow, speed up!
+					return maxForceDelta;
+				}
+				else
+				{
+					//we are going too fast, slow down!
+					return maxForceDelta *= -1f;
+				}
 			}
-
-			//update the speed but make sure vehicle does not exceed maximum velocity
-			return maxForceDelta;
+			else if (0 < dotHeading)
+			{
+				//if the dot product is greater than zero, we want to got the current direction
+				return maxForceDelta;
+			}
+			else
+			{
+				//if the dot product is less than zero, we want to got the other direction
+				return maxForceDelta *= -1f;
+			}
 		}
 
 		/// <summary>

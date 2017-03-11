@@ -57,6 +57,46 @@ namespace FlockBuddy
 			}
 		}
 
+		private float _boidMinSpeed;
+		public float BoidMinSpeed
+		{
+			get
+			{
+				return _boidMinSpeed;
+			}
+			set
+			{
+				if (BoidMinSpeed != value)
+				{
+					_boidMinSpeed = value;
+					foreach (var boid in Flock.Boids)
+					{
+						boid.MinSpeed = BoidMinSpeed;
+					}
+				}
+			}
+		}
+
+		private float _boidWalkSpeed;
+		public float BoidWalkSpeed
+		{
+			get
+			{
+				return _boidWalkSpeed;
+			}
+			set
+			{
+				if (BoidWalkSpeed != value)
+				{
+					_boidWalkSpeed = value;
+					foreach (var boid in Flock.Boids)
+					{
+						boid.WalkSpeed = BoidWalkSpeed;
+					}
+				}
+			}
+		}
+
 		private float _boidMaxSpeed;
 		public float BoidMaxSpeed
 		{
@@ -238,15 +278,17 @@ namespace FlockBuddy
 			Flock = flock;
 			Behaviors = new List<BehaviorTemplate>();
 
-			BoidRadius = 10f;
-			BoidMass = 1f;
-			BoidMaxSpeed = 250f;
-			BoidMaxTurnRate = 10f;
-			BoidMaxForce = 100f;
-			BoidQueryRadius = 100f;
-			BoidRetargetTime = 0.1f;
-			SummingMethod = ESummingMethod.weighted_average;
-			Walls = DefaultWalls.None;
+			BoidRadius = BoidDefaults.BoidRadius;
+			BoidMass = BoidDefaults.BoidMass;
+			BoidMinSpeed = BoidDefaults.BoidMinSpeed;
+			BoidWalkSpeed = BoidDefaults.BoidWalkSpeed;
+			BoidMaxSpeed = BoidDefaults.BoidMaxSpeed;
+			BoidMaxTurnRate = BoidDefaults.BoidMaxTurnRate;
+			BoidMaxForce = BoidDefaults.BoidMaxForce;
+			BoidQueryRadius = BoidDefaults.BoidQueryRadius;
+			BoidRetargetTime = BoidDefaults.BoidRetargetTime;
+			SummingMethod = BoidDefaults.SummingMethod;
+			Walls = BoidDefaults.Walls;
 		}
 
 		public IBehavior AddBehavior(EBehaviorType behaviorType)
@@ -255,21 +297,21 @@ namespace FlockBuddy
 
 			switch (behaviorType)
 			{
-				case EBehaviorType.wall_avoidance: { weight = 50f; } break;
-				case EBehaviorType.obstacle_avoidance: { weight = 30f; } break;
-				case EBehaviorType.evade: { weight = 1f; } break;
-				case EBehaviorType.flee: { weight = 1f; } break;
-				case EBehaviorType.separation: { weight = 120f; } break;
-				case EBehaviorType.alignment: { weight = 10f; } break;
-				case EBehaviorType.cohesion: { weight = 0.5f; } break;
-				case EBehaviorType.seek: { weight = 1f; } break;
-				case EBehaviorType.arrive: { weight = 1f; } break;
-				case EBehaviorType.wander: { weight = 1f; } break;
-				case EBehaviorType.pursuit: { weight = 0.1f; } break;
-				case EBehaviorType.offset_pursuit: { weight = 1f; } break;
-				case EBehaviorType.interpose: { weight = 1f; } break;
-				case EBehaviorType.hide: { weight = 1f; } break;
-				case EBehaviorType.follow_path: { weight = 1f; } break;
+				case EBehaviorType.wall_avoidance: { weight = BoidDefaults.WallAvoidanceWeight; } break;
+				case EBehaviorType.obstacle_avoidance: { weight = BoidDefaults.ObstacleAvoidanceWeight; } break;
+				case EBehaviorType.evade: { weight = BoidDefaults.EvadeWeight; } break;
+				case EBehaviorType.flee: { weight = BoidDefaults.FleeWeight; } break;
+				case EBehaviorType.separation: { weight = BoidDefaults.SeparationWeight; } break;
+				case EBehaviorType.alignment: { weight = BoidDefaults.AlignmentWeight; } break;
+				case EBehaviorType.cohesion: { weight = BoidDefaults.CohesionWeight; } break;
+				case EBehaviorType.seek: { weight = BoidDefaults.SeekWeight; } break;
+				case EBehaviorType.arrive: { weight = BoidDefaults.ArriveWeight; } break;
+				case EBehaviorType.wander: { weight = BoidDefaults.WanderWeight; } break;
+				case EBehaviorType.pursuit: { weight = BoidDefaults.PursuitWeight; } break;
+				case EBehaviorType.offset_pursuit: { weight = BoidDefaults.OffsetPursuitWeight; } break;
+				case EBehaviorType.interpose: { weight = BoidDefaults.InterposeWeight; } break;
+				case EBehaviorType.hide: { weight = BoidDefaults.HideWeight; } break;
+				case EBehaviorType.follow_path: { weight = BoidDefaults.FollowPathWeight; } break;
 			}
 
 			return AddBehavior(behaviorType, weight);
@@ -330,6 +372,8 @@ namespace FlockBuddy
 					_random.NextFloat(0f, BoidMaxSpeed),
 					BoidRadius,
 					BoidMass,
+					BoidMinSpeed,
+					BoidWalkSpeed,
 					BoidMaxSpeed,
 					BoidMaxTurnRate,
 					BoidMaxForce,

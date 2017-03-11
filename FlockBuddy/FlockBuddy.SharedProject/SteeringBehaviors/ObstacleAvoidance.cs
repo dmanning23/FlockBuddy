@@ -38,7 +38,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.ObstacleAvoidance"/> class.
 		/// </summary>
 		public ObstacleAvoidance(IBoid dude)
-			: base(dude, EBehaviorType.obstacle_avoidance, 30f)
+			: base(dude, EBehaviorType.obstacle_avoidance, BoidDefaults.ObstacleAvoidanceWeight)
 		{
 		}
 

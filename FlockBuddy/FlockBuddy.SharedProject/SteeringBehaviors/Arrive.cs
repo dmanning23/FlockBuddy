@@ -38,7 +38,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Arrive(IBoid dude)
-			: base(dude, EBehaviorType.arrive, 1f)
+			: base(dude, EBehaviorType.arrive, BoidDefaults.ArriveWeight)
 		{
 		}
 

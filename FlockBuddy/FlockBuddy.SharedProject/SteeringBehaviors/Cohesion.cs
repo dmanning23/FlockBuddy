@@ -30,7 +30,7 @@ namespace FlockBuddy
 		{
 			get
 			{
-				return 0f;
+				return .5f;
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Cohesion(IBoid dude)
-			: base(dude, EBehaviorType.cohesion, 0.5f)
+			: base(dude, EBehaviorType.cohesion, BoidDefaults.CohesionWeight)
 		{
 			Buddies = new List<IMover>();
 			SeekBehavior = new Seek(dude);
@@ -63,9 +63,8 @@ namespace FlockBuddy
 				//iterate through the neighbors and sum up all the position vectors
 				for (int i = 0; i < Buddies.Count; i++)
 				{
-					//make sure *this* agent isn't included in the calculations and that
-					//the agent being examined is close enough ***also make sure it doesn't
-					//include the evade target ***
+					//make sure *this* agent isn't included in the calculations and that the agent being examined is close enough
+					//***also make sure it doesn't include the evade target ***
 					centerOfMass += Buddies[i].Position;
 				}
 

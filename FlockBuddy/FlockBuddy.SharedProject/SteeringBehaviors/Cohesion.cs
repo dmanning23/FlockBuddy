@@ -45,7 +45,10 @@ namespace FlockBuddy
 			: base(dude, EBehaviorType.cohesion, BoidDefaults.CohesionWeight)
 		{
 			Buddies = new List<IMover>();
-			SeekBehavior = new Seek(dude);
+			SeekBehavior = new Seek(dude)
+			{
+				Weight = 1f
+			};
 		}
 
 		/// <summary>

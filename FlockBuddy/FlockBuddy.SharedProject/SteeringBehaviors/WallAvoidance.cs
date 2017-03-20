@@ -109,15 +109,15 @@ namespace FlockBuddy
 			Feelers.Clear();
 
 			//feeler pointing straight in front
-			Feelers.Add(Owner.Position + (Owner.QueryRadius * Owner.Heading));
+			Feelers.Add(Owner.Position + (Owner.WallQueryRadius * Owner.Heading));
 
 			//feeler to left
 			Vector2 temp = Vec2DRotateAroundOrigin(Owner.Heading, MathHelper.PiOver2 * 3.5f);
-			Feelers.Add(Owner.Position + ((Owner.QueryRadius * 0.5f) * temp));
+			Feelers.Add(Owner.Position + ((Owner.WallQueryRadius * 0.5f) * temp));
 
 			//feeler to right
 			temp = Vec2DRotateAroundOrigin(Owner.Heading, MathHelper.PiOver2 * 0.5f);
-			Feelers.Add(Owner.Position + ((Owner.QueryRadius * 0.5f) * temp));
+			Feelers.Add(Owner.Position + ((Owner.WallQueryRadius * 0.5f) * temp));
 		}
 
 		/// <summary>

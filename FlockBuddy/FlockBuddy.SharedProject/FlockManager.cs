@@ -137,22 +137,106 @@ namespace FlockBuddy
 			}
 		}
 
-		private float _boidQueryRadius;
-		public float BoidQueryRadius
+		private float _boidNeighborQueryRadius;
+		public float BoidNeighborQueryRadius
 		{
 			get
 			{
-				return _boidQueryRadius;
+				return _boidNeighborQueryRadius;
 			}
 			set
 			{
-				if (BoidQueryRadius != value)
+				if (BoidNeighborQueryRadius != value)
 				{
-					_boidQueryRadius = value;
+					_boidNeighborQueryRadius = value;
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.QueryRadius = BoidQueryRadius;
+						boid.NeighborsQueryRadius = BoidNeighborQueryRadius;
+					}
+				}
+			}
+		}
+
+		private float _boidPredatorQueryRadius;
+		public float BoidPredatorQueryRadius
+		{
+			get
+			{
+				return _boidPredatorQueryRadius;
+			}
+			set
+			{
+				if (BoidPredatorQueryRadius != value)
+				{
+					_boidPredatorQueryRadius = value;
+					foreach (var mover in Flock.Boids)
+					{
+						var boid = mover as IBoid;
+						boid.PredatorsQueryRadius = BoidPredatorQueryRadius;
+					}
+				}
+			}
+		}
+
+		private float _boidPreyQueryRadius;
+		public float BoidPreyQueryRadius
+		{
+			get
+			{
+				return _boidPreyQueryRadius;
+			}
+			set
+			{
+				if (BoidPreyQueryRadius != value)
+				{
+					_boidPreyQueryRadius = value;
+					foreach (var mover in Flock.Boids)
+					{
+						var boid = mover as IBoid;
+						boid.PreyQueryRadius = BoidPreyQueryRadius;
+					}
+				}
+			}
+		}
+
+		private float _boidVipQueryRadius;
+		public float BoidVipQueryRadius
+		{
+			get
+			{
+				return _boidVipQueryRadius;
+			}
+			set
+			{
+				if (BoidVipQueryRadius != value)
+				{
+					_boidVipQueryRadius = value;
+					foreach (var mover in Flock.Boids)
+					{
+						var boid = mover as IBoid;
+						boid.VipQueryRadius = BoidVipQueryRadius;
+					}
+				}
+			}
+		}
+
+		private float _boidWallQueryRadius;
+		public float BoidWallQueryRadius
+		{
+			get
+			{
+				return _boidWallQueryRadius;
+			}
+			set
+			{
+				if (BoidWallQueryRadius != value)
+				{
+					_boidWallQueryRadius = value;
+					foreach (var mover in Flock.Boids)
+					{
+						var boid = mover as IBoid;
+						boid.WallQueryRadius = BoidWallQueryRadius;
 					}
 				}
 			}
@@ -285,7 +369,10 @@ namespace FlockBuddy
 			BoidMaxSpeed = BoidDefaults.BoidMaxSpeed;
 			BoidMaxTurnRate = BoidDefaults.BoidMaxTurnRate;
 			BoidMaxForce = BoidDefaults.BoidMaxForce;
-			BoidQueryRadius = BoidDefaults.BoidQueryRadius;
+			BoidNeighborQueryRadius = BoidDefaults.BoidQueryRadius;
+			BoidPredatorQueryRadius = BoidDefaults.BoidQueryRadius;
+			BoidPreyQueryRadius = BoidDefaults.BoidQueryRadius;
+			BoidVipQueryRadius = BoidDefaults.BoidQueryRadius;
 			BoidRetargetTime = BoidDefaults.BoidRetargetTime;
 			SummingMethod = BoidDefaults.SummingMethod;
 			Walls = BoidDefaults.Walls;
@@ -312,6 +399,10 @@ namespace FlockBuddy
 				case EBehaviorType.interpose: { weight = BoidDefaults.InterposeWeight; } break;
 				case EBehaviorType.hide: { weight = BoidDefaults.HideWeight; } break;
 				case EBehaviorType.follow_path: { weight = BoidDefaults.FollowPathWeight; } break;
+				case EBehaviorType.guard_alignment: { weight = BoidDefaults.AlignmentWeight; } break;
+				case EBehaviorType.guard_cohesion: { weight = BoidDefaults.CohesionWeight; } break;
+				case EBehaviorType.guard_separation: { weight = BoidDefaults.SeparationWeight; } break;
+				default: { throw new NotImplementedException(string.Format("Unhandled EBehaviorType: {0}", behaviorType)); }
 			}
 
 			return AddBehavior(behaviorType, weight);
@@ -377,7 +468,6 @@ namespace FlockBuddy
 					BoidMaxSpeed,
 					BoidMaxTurnRate,
 					BoidMaxForce,
-					BoidQueryRadius,
 					BoidRetargetTime,
 					SummingMethod);
 

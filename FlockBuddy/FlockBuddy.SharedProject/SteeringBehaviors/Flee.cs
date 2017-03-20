@@ -60,7 +60,7 @@ namespace FlockBuddy
 		public override Vector2 GetSteering()
 		{
 			//only flee if the target is within 'panic distance'. Work in distance squared space.
-			if (Vector2.DistanceSquared(Owner.Position, AvoidPosition) > (Owner.QueryRadius * Owner.QueryRadius))
+			if (Vector2.DistanceSquared(Owner.Position, AvoidPosition) > (Owner.PredatorsQueryRadius * Owner.PredatorsQueryRadius))
 			{
 				return Vector2.Zero;
 			}

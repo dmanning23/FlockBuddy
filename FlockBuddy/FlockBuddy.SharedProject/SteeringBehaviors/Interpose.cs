@@ -12,7 +12,9 @@ namespace FlockBuddy
 
 		public IMover Pursuer { private get; set; }
 
-		public IBaseEntity Vip { private get; set; }
+		public IMover Vip { private get; set; }
+
+		private Seek _seek;
 
 		public override float DirectionChange
 		{
@@ -40,6 +42,10 @@ namespace FlockBuddy
 		public Interpose(IBoid dude)
 			: base(dude, EBehaviorType.interpose, BoidDefaults.InterposeWeight)
 		{
+			_seek = new Seek(dude)
+			{
+				Weight = 1f
+			};
 		}
 
 		/// <summary>
@@ -49,8 +55,26 @@ namespace FlockBuddy
 		/// <returns></returns>
 		public override Vector2 GetSteering()
 		{
-			//TODO:
-			return Vector2.Zero * Weight;
+			//if either of these are missing there is no steering from this behavrior
+			if (null == Pursuer || null == Vip)
+			{
+				return Vector2.Zero;
+			}
+
+			//first find the midpoint
+			var midPoint = (Pursuer.Position + Vip.Position) / 2f;
+
+			//get the time to reach the midpoint
+			var timeToMidPoint = (midPoint - Owner.Position).Length() / Owner.MaxSpeed;
+
+			//get the position of pred and prey after timeToMid
+			var predPos = Pursuer.Position + (Pursuer.Velocity * timeToMidPoint);
+			var preyPos = Vip.Position + (Vip.Velocity * timeToMidPoint);
+
+			//calc the midpoint of those preditced positions
+			_seek.TargetPosition = (predPos + predPos) / 2f;
+
+			return _seek.GetSteering() * Weight;
 		}
 
 		#endregion //Methods

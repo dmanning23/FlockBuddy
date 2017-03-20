@@ -45,14 +45,35 @@ namespace FlockBuddy
 		/// </summary>
 		private IFlock MyFlock { get; set; }
 
-		/// <summary>
-		/// how far out to check for neighbors
-		/// </summary>
-		public float QueryRadius { get; set; }
-
 		public float RetargetTime { private get; set; }
 
 		private CountdownTimer RetargetTimer { get; set; }
+
+		/// <summary>
+		/// how far out to check for neighbors
+		/// </summary>
+		public float NeighborsQueryRadius { get; set; }
+
+		/// <summary>
+		/// how far out to watch for predators
+		/// </summary>
+		public float PredatorsQueryRadius { get; set; }
+
+		/// <summary>
+		/// how far to watch out for prey
+		/// </summary>
+		public float PreyQueryRadius { get; set; }
+
+		/// <summary>
+		/// how far to watch out or vips to guard
+		/// </summary>
+		public float VipQueryRadius { get; set; }
+
+		public float ObstacleQueryRadius { get; set; }
+
+		public float WallQueryRadius { get; set; }
+
+		public float WaypointQueryRadius { get; set; }
 
 		#endregion //Properties
 
@@ -72,7 +93,6 @@ namespace FlockBuddy
 			float maxSpeed = BoidDefaults.BoidMaxSpeed,
 			float maxTurnRate = BoidDefaults.BoidMaxTurnRate,
 			float maxForce = BoidDefaults.BoidMaxForce,
-			float queryRadius = BoidDefaults.BoidQueryRadius,
 			float retargetTime = BoidDefaults.BoidRetargetTime,
 			ESummingMethod summingMethod = BoidDefaults.SummingMethod)
 				: base(position,
@@ -89,7 +109,13 @@ namespace FlockBuddy
 			MyFlock = owner;
 			MyFlock.AddBoid(this);
 
-			QueryRadius = queryRadius;
+			NeighborsQueryRadius = BoidDefaults.BoidQueryRadius;
+			PredatorsQueryRadius = BoidDefaults.BoidQueryRadius;
+			PreyQueryRadius = BoidDefaults.BoidQueryRadius;
+			VipQueryRadius = BoidDefaults.BoidQueryRadius;
+			ObstacleQueryRadius = BoidDefaults.BoidQueryRadius;
+			WallQueryRadius = BoidDefaults.BoidQueryRadius;
+			WaypointQueryRadius = BoidDefaults.BoidQueryRadius;
 
 			Behaviors = new List<IBehavior>();
 
@@ -122,7 +148,11 @@ namespace FlockBuddy
 					case EBehaviorType.offset_pursuit: { behavior = new OffsetPursuit(this); } break;
 					case EBehaviorType.interpose: { behavior = new Interpose(this); } break;
 					case EBehaviorType.hide: { behavior = new Hide(this); } break;
-					default: { behavior = new FollowPath(this); } break;
+					case EBehaviorType.follow_path: { behavior = new FollowPath(this); } break;
+					case EBehaviorType.guard_alignment: { behavior = new GuardAlignment(this); } break;
+					case EBehaviorType.guard_cohesion: { behavior = new GuardCohesion(this); } break;
+					case EBehaviorType.guard_separation: { behavior = new GuardSeparation(this); } break;
+					default: { throw new NotImplementedException(string.Format("Unhandled EBehaviorType: {0}", behaviorType)); }
 				}
 
 				behavior.Weight = weight;
@@ -205,16 +235,18 @@ namespace FlockBuddy
 				RetargetTimer.Start(RetargetTime);
 
 				//Update the flock
-				var neighbors = MyFlock.FindBoidsInRange(this, QueryRadius);
+				var neighbors = MyFlock.FindBoidsInRange(this, NeighborsQueryRadius);
 
 				//update the enemies
-				var predator = MyFlock.FindClosestPredatorInRange(this, QueryRadius);
+				var predator = MyFlock.FindClosestPredatorInRange(this, PredatorsQueryRadius);
 
 				//update the target dudes
-				var prey = MyFlock.FindClosestPreyInRange(this, QueryRadius);
+				var prey = MyFlock.FindClosestPreyInRange(this, PreyQueryRadius);
+
+				var vip = MyFlock.FindClosestVipInRange(this, VipQueryRadius);
 
 				//update the obstacles: the detection box length is proportional to the agent's velocity
-				float boxLength = QueryRadius + (Speed / MaxSpeed) * QueryRadius;
+				float boxLength = ObstacleQueryRadius + (Speed / MaxSpeed) * ObstacleQueryRadius;
 
 				//tag all obstacles within range of the box for processing
 				var obstacles = MyFlock.FindObstaclesInRange(this, boxLength);
@@ -240,6 +272,12 @@ namespace FlockBuddy
 					if (null != preyBehavior)
 					{
 						preyBehavior.Pursuer = predator;
+					}
+
+					var guardBehavior = behavior as IGuardBehavior;
+					if (null != guardBehavior)
+					{
+						guardBehavior.Vip = vip;
 					}
 
 					var obstacleBehavior = behavior as IObstacleBehavior;

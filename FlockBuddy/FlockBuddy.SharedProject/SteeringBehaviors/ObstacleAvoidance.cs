@@ -119,7 +119,7 @@ namespace FlockBuddy
 				Vector2 dist = (toAgent * closestIntersectingObstacle.Radius) - localPosOfClosestObstacle;
 
 				//scale the force inversely proportional to the agents distance from the collision point
-				float multiplier = 1.0f + (Owner.QueryRadius - dist.X) / Owner.QueryRadius;
+				float multiplier = 1.0f + (Owner.ObstacleQueryRadius - dist.X) / Owner.ObstacleQueryRadius;
 				steeringForce = toAgent * multiplier;
 			}
 

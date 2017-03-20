@@ -39,6 +39,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Evade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Flee.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\FollowPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\GuardAlignment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\GuardCohesion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\GuardSeparation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Hide.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Interpose.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\ObstacleAvoidance.cs" />

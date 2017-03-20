@@ -11,7 +11,23 @@ namespace FlockBuddy
 	{
 		#region Properties
 
-		public List<Vector2> Path { private get; set; }
+		private int CurrentWaypoint { get; set; }
+
+		private List<Vector2> _path;
+		public List<Vector2> Path
+		{
+			private get
+			{
+				return _path;
+			}
+			set
+			{
+				_path = value;
+				CurrentWaypoint = 0;
+			}
+		}
+
+		private Seek SeekBehavior { get; set; }
 
 		public override float DirectionChange
 		{
@@ -39,6 +55,11 @@ namespace FlockBuddy
 		public FollowPath(IBoid dude)
 			: base(dude, EBehaviorType.follow_path, BoidDefaults.FollowPathWeight)
 		{
+			Path = new List<Vector2>();
+			SeekBehavior = new Seek(dude)
+			{
+				Weight = 1f
+			};
 		}
 
 		/// <summary>
@@ -47,8 +68,31 @@ namespace FlockBuddy
 		/// <returns></returns>
 		public override Vector2 GetSteering()
 		{
-			//TODO:
-			return Vector2.Zero * Weight;
+			//are there any waypoints, or at the end of the path?
+			if (null == Path || Path.Count == 0 || (CurrentWaypoint >= Path.Count))
+			{
+				return Vector2.Zero;
+			}
+
+			//get the vector to the current target
+			var targetVect = Path[CurrentWaypoint] - Owner.Position;
+
+			//move at the next target if we've reached this one
+			if (targetVect.LengthSquared() >= (Owner.WaypointQueryRadius * Owner.WaypointQueryRadius))
+			{
+				CurrentWaypoint++;
+			}
+
+			//check if that puts us at the end
+			if (CurrentWaypoint >= Path.Count)
+			{
+				return Vector2.Zero;
+			}
+			else
+			{
+				SeekBehavior.TargetPosition = Path[CurrentWaypoint];
+				return SeekBehavior.GetSteering() * Weight;
+			}
 		}
 
 		#endregion //Methods

@@ -20,6 +20,9 @@ namespace FlockBuddy
 		pursuit,
 		offset_pursuit,
 		interpose,
+		guard_separation,
+		guard_alignment,
+		guard_cohesion,
 		hide,
 		follow_path,
 	};

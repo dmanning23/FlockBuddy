@@ -9,7 +9,7 @@ namespace FlockBuddy
 	{
 		#region Properties
 
-		public IBaseEntity Vip { private get; set; }
+		public IMover Vip { private get; set; }
 
 		public override float DirectionChange
 		{

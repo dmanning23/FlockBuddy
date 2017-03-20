@@ -1,14 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace FlockBuddy
 {
 	public interface IBoid : IMover
 	{
 		ESummingMethod SummingMethod { set; }
 
-		float QueryRadius { get; set; }
+		float NeighborsQueryRadius { get; set; }
+
+		float PredatorsQueryRadius { get; set; }
+
+		float PreyQueryRadius { get; set; }
+
+		float VipQueryRadius { get; set; }
+
+		float ObstacleQueryRadius { get; set; }
+
+		float WallQueryRadius { get; set; }
+
+		float WaypointQueryRadius { get; set; }
 
 		float RetargetTime { set; }
 

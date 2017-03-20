@@ -45,7 +45,10 @@ namespace FlockBuddy
 		public Evade(IBoid dude)
 			: base(dude, EBehaviorType.evade, BoidDefaults.EvadeWeight)
 		{
-			FleeAction = new Flee(dude);
+			FleeAction = new Flee(dude)
+			{
+				Weight = 1f
+			};
 		}
 
 		/// <summary>
@@ -59,15 +62,7 @@ namespace FlockBuddy
 				return Vector2.Zero;
 			}
 
-			/* Not necessary to include the check for facing direction this time */
-
 			Vector2 toPursuer = Pursuer.Position - Owner.Position;
-
-			//uncomment the following two lines to have Evade only consider pursuers within a 'threat range'
-			if (toPursuer.LengthSquared() > (Owner.QueryRadius * Owner.QueryRadius))
-			{
-				return Vector2.Zero;
-			}
 
 			//the lookahead time is propotional to the distance between the pursuer and the pursuer; 
 			//and is inversely proportional to the sum of the agents' velocities

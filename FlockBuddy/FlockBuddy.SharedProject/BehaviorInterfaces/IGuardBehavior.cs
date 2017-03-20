@@ -6,6 +6,6 @@ namespace FlockBuddy
 	/// </summary>
 	public interface IGuardBehavior
 	{
-		IBaseEntity Vip { set; }
+		IMover Vip { set; }
 	}
 }

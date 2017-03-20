@@ -23,7 +23,7 @@ namespace FlockBuddy
 		public const float FleeWeight = 1f;
 		public const float FollowPathWeight = 1f;
 		public const float HideWeight = 1f;
-		public const float InterposeWeight = 1f;
+		public const float InterposeWeight = 10f;
 		public const float ObstacleAvoidanceWeight = 30f;
 		public const float OffsetPursuitWeight = 1f;
 		public const float PursuitWeight = 0.1f;

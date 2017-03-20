@@ -50,7 +50,10 @@ namespace FlockBuddy
 		public Pursuit(IBoid dude)
 			: base(dude, EBehaviorType.pursuit, BoidDefaults.PursuitWeight)
 		{
-			SeekAction = new Seek(dude);
+			SeekAction = new Seek(dude)
+			{
+				Weight = 1f
+			};
 			ViciousPursuit = false;
 		}
 

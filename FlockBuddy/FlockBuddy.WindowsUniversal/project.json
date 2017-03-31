@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
-    "CellSpacePartition": "1.0.0",
-    "CollisionBuddy": "1.0.2",
+    "CellSpacePartition": "1.0.1",
+    "CollisionBuddy": "1.0.3",
     "GameTimer": "1.0.1",
     "MatrixExtensions": "1.0.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",

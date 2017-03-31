@@ -2,7 +2,7 @@
   "version": 2,
   "targets": {
     "UAP,Version=v10.0": {
-      "CellSpacePartition/1.0.0": {
+      "CellSpacePartition/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -16,7 +16,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.2": {
+      "CollisionBuddy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -2320,7 +2320,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "CellSpacePartition/1.0.0": {
+      "CellSpacePartition/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -2334,7 +2334,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.2": {
+      "CollisionBuddy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -4746,7 +4746,7 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "CellSpacePartition/1.0.0": {
+      "CellSpacePartition/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -4760,7 +4760,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.2": {
+      "CollisionBuddy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -7211,7 +7211,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "CellSpacePartition/1.0.0": {
+      "CellSpacePartition/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -7225,7 +7225,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.2": {
+      "CollisionBuddy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -9646,7 +9646,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "CellSpacePartition/1.0.0": {
+      "CellSpacePartition/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -9660,7 +9660,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.2": {
+      "CollisionBuddy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -12120,7 +12120,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "CellSpacePartition/1.0.0": {
+      "CellSpacePartition/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -12134,7 +12134,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.2": {
+      "CollisionBuddy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -14555,7 +14555,7 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "CellSpacePartition/1.0.0": {
+      "CellSpacePartition/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -14569,7 +14569,7 @@
           "lib/uap10.0/CellSpacePartition.WindowsUniversal.dll": {}
         }
       },
-      "CollisionBuddy/1.0.2": {
+      "CollisionBuddy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -17030,12 +17030,12 @@
     }
   },
   "libraries": {
-    "CellSpacePartition/1.0.0": {
-      "sha512": "dWKK30emCXiuTHx3+r1AdEaeHjZ7fslRpepIYRMF25YputGL5mDEP439SJqCjG7nIIQInfDYwAIHZodPi3wqJA==",
+    "CellSpacePartition/1.0.1": {
+      "sha512": "MB4ayhqELA11u82Ojf32/1TlET2A9R9bkvtF3qX2MqTSVthL0yjIhC4+DJO5QurGWV9MLVT5+aqoR5P1IStheA==",
       "type": "package",
-      "path": "cellspacepartition/1.0.0",
+      "path": "cellspacepartition/1.0.1",
       "files": [
-        "cellspacepartition.1.0.0.nupkg.sha512",
+        "cellspacepartition.1.0.1.nupkg.sha512",
         "cellspacepartition.nuspec",
         "lib/MonoAndroid10/CellSpacePartition.Android.dll",
         "lib/MonoAndroid10/CellSpacePartition.Android.pdb",
@@ -17047,12 +17047,12 @@
         "lib/uap10.0/CellSpacePartition.WindowsUniversal.pdb"
       ]
     },
-    "CollisionBuddy/1.0.2": {
-      "sha512": "0gTv5DpITFp1QZsiT/KReL9ipHPVnp5wspPNfzdowbzHxa9YTHI6rGbwd9F0JlCN+E4odc7ZoaBalI9m10f60w==",
+    "CollisionBuddy/1.0.3": {
+      "sha512": "GAA0MayvotB/GTu3faLlTFdjFuru7VyJ7h8RZGx6lmgzLYr4VF9hzpELLef25bCZTJQkL6qyKKZUuOQ1fYX73Q==",
       "type": "package",
-      "path": "collisionbuddy/1.0.2",
+      "path": "collisionbuddy/1.0.3",
       "files": [
-        "collisionbuddy.1.0.2.nupkg.sha512",
+        "collisionbuddy.1.0.3.nupkg.sha512",
         "collisionbuddy.nuspec",
         "lib/MonoAndroid10/CollisionBuddy.Android.dll",
         "lib/MonoAndroid10/CollisionBuddy.Android.pdb",
@@ -23408,8 +23408,8 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "CellSpacePartition >= 1.0.0",
-      "CollisionBuddy >= 1.0.2",
+      "CellSpacePartition >= 1.0.1",
+      "CollisionBuddy >= 1.0.3",
       "GameTimer >= 1.0.1",
       "MatrixExtensions >= 1.0.1",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",

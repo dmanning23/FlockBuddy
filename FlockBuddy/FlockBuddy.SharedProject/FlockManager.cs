@@ -242,6 +242,48 @@ namespace FlockBuddy
 			}
 		}
 
+		private float _boidObstacleQueryRadius;
+		public float BoidObstacleQueryRadius
+		{
+			get
+			{
+				return _boidObstacleQueryRadius;
+			}
+			set
+			{
+				if (BoidObstacleQueryRadius != value)
+				{
+					_boidObstacleQueryRadius = value;
+					foreach (var mover in Flock.Boids)
+					{
+						var boid = mover as IBoid;
+						boid.ObstacleQueryRadius = BoidObstacleQueryRadius;
+					}
+				}
+			}
+		}
+
+		private float _boidWaypointQueryRadius;
+		public float BoidWaypointQueryRadius
+		{
+			get
+			{
+				return _boidWaypointQueryRadius;
+			}
+			set
+			{
+				if (BoidWaypointQueryRadius != value)
+				{
+					_boidWaypointQueryRadius = value;
+					foreach (var mover in Flock.Boids)
+					{
+						var boid = mover as IBoid;
+						boid.WaypointQueryRadius = BoidWaypointQueryRadius;
+					}
+				}
+			}
+		}
+
 		private float _boidRadius;
 		public float BoidRadius
 		{

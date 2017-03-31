@@ -13,9 +13,9 @@ namespace FlockBuddy
 
 		float VipQueryRadius { get; set; }
 
-		float ObstacleQueryRadius { get; set; }
-
 		float WallQueryRadius { get; set; }
+
+		float ObstacleQueryRadius { get; set; }
 
 		float WaypointQueryRadius { get; set; }
 

@@ -31,11 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CellSpacePartition.DesktopGL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CellSpacePartition.1.0.0\lib\net451\CellSpacePartition.DesktopGL.dll</HintPath>
+      <HintPath>..\packages\CellSpacePartition.1.0.1\lib\net451\CellSpacePartition.DesktopGL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CollisionBuddy.DesktopGL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CollisionBuddy.1.0.2\lib\net451\CollisionBuddy.DesktopGL.dll</HintPath>
+      <HintPath>..\packages\CollisionBuddy.1.0.3\lib\net451\CollisionBuddy.DesktopGL.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GameTimer.DesktopGL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

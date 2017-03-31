@@ -16,17 +16,17 @@ namespace FlockBuddy
 		/// <summary>
 		/// The flock of enemies that will attack boids in this flock
 		/// </summary>
-		IFlock Predators { get; set; }
+		List<IFlock> Predators { get; }
 
 		/// <summary>
 		/// The flock of targets that can be attacked
 		/// </summary>
-		IFlock Prey { get; set; }
+		List<IFlock> Prey { get; }
 
 		/// <summary>
 		/// A flock of entities that need to be protected
 		/// </summary>
-		IFlock Vips { get; set; }
+		List<IFlock> Vips { get; }
 
 		/// <summary>
 		/// The obstacles that have to be avoided

@@ -6,6 +6,7 @@ using PrimitiveBuddy;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System;
 
 namespace FlockBuddy
 {
@@ -117,7 +118,12 @@ namespace FlockBuddy
 			FlockTimer = new GameClock();
 			CellSpace = new CellSpacePartition<IMover>(WorldSize, 20, 20);
 
+			Predators = new List<IFlock>();
+			Prey = new List<IFlock>();
+			Vips = new List<IFlock>();
+
 			SetDebugColor();
+			Name = DebugColor.ToString();
 		}
 
 		private void SetDebugColor()
@@ -305,19 +311,63 @@ namespace FlockBuddy
 
 		public void RemoveFlock(IFlock flock)
 		{
-			if (flock == Predators)
-			{
-				Predators = null;
-			}
+			Predators.Remove(flock);
+			Prey.Remove(flock);
+			Vips.Remove(flock);
+		}
 
-			if (flock == Prey)
-			{
-				Prey = null;
-			}
+		public void AddFlockToGroup(IFlock flock, FlockGroup group)
+		{
+			//remove the flock from all groups
+			RemoveFlock(flock);
 
-			if (flock == Vips)
+			//add the flock to the correct group
+			switch (group)
 			{
-				Vips = null;
+				case FlockGroup.Predator:
+					{
+						Predators.Add(flock);
+					}
+					break;
+				case FlockGroup.Prey:
+					{
+						Prey.Add(flock);
+					}
+					break;
+				case FlockGroup.Vip:
+					{
+						Vips.Add(flock);
+					}
+					break;
+			}
+		}
+
+		public bool IsFlockInGroup(IFlock flock, FlockGroup group)
+		{
+			switch (group)
+			{
+				case FlockGroup.None:
+					{
+						return !IsFlockInGroup(flock, FlockGroup.Predator) &&
+							!IsFlockInGroup(flock, FlockGroup.Prey) &&
+							!IsFlockInGroup(flock, FlockGroup.Vip);
+					}
+				case FlockGroup.Predator:
+					{
+						return Predators.Contains(flock);
+					}
+				case FlockGroup.Prey:
+					{
+						return Prey.Contains(flock);
+					}
+				case FlockGroup.Vip:
+					{
+						return Vips.Contains(flock);
+					}
+				default:
+					{
+						throw new Exception("did you add a new flock group?");
+					}
 			}
 		}
 

@@ -350,7 +350,10 @@ namespace FlockBuddy
 
 		public DefaultWalls Walls { get; private set; }
 
-		public Color DebugColor { get; set; }
+		public Color DebugColor
+		{
+			get { return Flock.DebugColor; }
+		}
 
 		private class BehaviorTemplate : IBehavior
 		{

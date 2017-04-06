@@ -70,5 +70,9 @@ namespace FlockBuddy
 
 		void Draw(IPrimitive prim, Color color);
 		void DrawWhiskers(IPrimitive prim, Color color);
+
+		void AddFlockToGroup(IFlock flock, FlockGroup group);
+
+		bool IsFlockInGroup(IFlock flock, FlockGroup group);
 	}
 }

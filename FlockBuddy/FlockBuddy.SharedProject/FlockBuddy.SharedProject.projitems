@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EBehaviorType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ESummingMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Flock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FlockGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FlockManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBaseEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBehavior.cs" />

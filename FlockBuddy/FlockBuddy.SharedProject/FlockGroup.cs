@@ -10,5 +10,5 @@ namespace FlockBuddy
 		Predator,
 		Prey,
 		Vip
-	}
+	};
 }

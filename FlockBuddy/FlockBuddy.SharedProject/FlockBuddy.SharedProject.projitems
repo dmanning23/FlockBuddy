@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BehaviorInterfaces\IPreyBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BehaviorInterfaces\ITargetPositionBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BehaviorInterfaces\IWallBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BehaviorTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Boid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BoidDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DefaultWalls.cs" />
@@ -32,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBoid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFlockManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMover.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mover.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Alignment.cs" />

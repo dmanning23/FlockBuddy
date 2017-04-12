@@ -8,10 +8,6 @@ namespace FlockBuddy
 {
 	public interface IFlock
 	{
-		Color DebugColor { get; }
-
-		string Name { get; set; }
-
 		/// <summary>
 		/// All the boids stored in this flock.
 		/// </summary>
@@ -41,6 +37,11 @@ namespace FlockBuddy
 		/// The walls that have to be avoided
 		/// </summary>
 		List<ILine> Walls { get; set; }
+
+		/// <summary>
+		/// A list of waypoints to follow for the path behavior
+		/// </summary>
+		List<Vector2> Waypoints { get; set; }
 
 		void SetWorldSize(Vector2 worldSize, bool useWorldWrap = true, bool useCellSpace = true, int cellsX = 20, int cellsY = 20);
 

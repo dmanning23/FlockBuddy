@@ -13,9 +13,20 @@ namespace FlockBuddy
 
 		Random _random = new Random();
 
+		private static int _debugColorIndex = 0;
+
 		#endregion //Fields
 
 		#region Properties
+
+		/// <summary>
+		/// Used for database persistance
+		/// </summary>
+		public int? Id { get; set; }
+
+		public string Name { get; set; }
+
+		public Color DebugColor { get; private set; }
 
 		private float _boidMass;
 		public float BoidMass
@@ -350,59 +361,19 @@ namespace FlockBuddy
 
 		public DefaultWalls Walls { get; private set; }
 
-		public Color DebugColor
-		{
-			get { return Flock.DebugColor; }
-		}
-
-		private class BehaviorTemplate : IBehavior
-		{
-			public EBehaviorType BehaviorType { get; set; }
-
-			public float Weight { get; set; }
-
-			public IBoid Owner
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-
-				set
-				{
-					throw new NotImplementedException();
-				}
-			}
-
-			public Vector2 GetSteering()
-			{
-				throw new NotImplementedException();
-			}
-
-			public float DirectionChange
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-			}
-
-			public float SpeedChange
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-			}
-		}
-
-		private List<BehaviorTemplate> Behaviors { get; set; }
+		public List<BehaviorTemplate> Behaviors { get; private set; }
 
 		#endregion //Properties
 
 		#region Methods
 
-		public FlockManager(IFlock flock)
+		protected FlockManager()
+		{
+			SetDebugColor();
+			Name = DebugColor.ToString();
+		}
+
+		public FlockManager(IFlock flock) : this()
 		{
 			Flock = flock;
 			Behaviors = new List<BehaviorTemplate>();
@@ -421,6 +392,54 @@ namespace FlockBuddy
 			BoidRetargetTime = BoidDefaults.BoidRetargetTime;
 			SummingMethod = BoidDefaults.SummingMethod;
 			Walls = BoidDefaults.Walls;
+		}
+
+		public FlockManager(IFlockManager flockManager) : this()
+		{
+			Flock = new Flock();
+			Behaviors = new List<BehaviorTemplate>();
+
+			Id = flockManager.Id;
+			Name = flockManager.Name;
+			BoidRadius = flockManager.BoidRadius;
+			BoidMass = flockManager.BoidMass;
+			BoidMinSpeed = flockManager.BoidMinSpeed;
+			BoidWalkSpeed = flockManager.BoidWalkSpeed;
+			BoidMaxSpeed = flockManager.BoidMaxSpeed;
+			BoidMaxTurnRate = flockManager.BoidMaxTurnRate;
+			BoidMaxForce = flockManager.BoidMaxForce;
+			BoidNeighborQueryRadius = flockManager.BoidNeighborQueryRadius;
+			BoidPredatorQueryRadius = flockManager.BoidPredatorQueryRadius;
+			BoidPreyQueryRadius = flockManager.BoidPreyQueryRadius;
+			BoidVipQueryRadius = flockManager.BoidVipQueryRadius;
+			BoidObstacleQueryRadius = flockManager.BoidObstacleQueryRadius;
+			BoidWallQueryRadius = flockManager.BoidWallQueryRadius;
+			BoidWaypointQueryRadius = flockManager.BoidWaypointQueryRadius;
+			BoidRetargetTime = flockManager.BoidRetargetTime;
+			SummingMethod = (ESummingMethod)Enum.Parse(typeof(ESummingMethod), flockManager.SummingMethod);
+			Walls = (DefaultWalls)Enum.Parse(typeof(DefaultWalls), flockManager.Walls);
+		}
+
+		private void SetDebugColor()
+		{
+			switch (_debugColorIndex++)
+			{
+				case 0: { DebugColor = Color.Red; } break;
+				case 1: { DebugColor = Color.Orange; } break;
+				case 2: { DebugColor = Color.Yellow; } break;
+				case 3: { DebugColor = Color.Green; } break;
+				case 4: { DebugColor = Color.Blue; } break;
+				case 5: { DebugColor = Color.Purple; } break;
+				case 6: { DebugColor = Color.Pink; } break;
+				case 7: { DebugColor = Color.Brown; } break;
+				case 8: { DebugColor = Color.White; } break;
+				default:
+					{
+						DebugColor = Color.Black;
+						_debugColorIndex = 0;
+					}
+					break;
+			}
 		}
 
 		public IBehavior AddBehavior(EBehaviorType behaviorType)
@@ -505,7 +524,7 @@ namespace FlockBuddy
 			var boid = new Boid(Flock,
 					_random.NextVector2(0f, 1280f, 0f, 720f),
 					_random.NextVector2(-1f, 1f, -1f, 1f).Normalized(),
-					_random.NextFloat(0f, BoidMaxSpeed),
+					_random.NextFloat(BoidWalkSpeed, BoidMaxSpeed),
 					BoidRadius,
 					BoidMass,
 					BoidMinSpeed,

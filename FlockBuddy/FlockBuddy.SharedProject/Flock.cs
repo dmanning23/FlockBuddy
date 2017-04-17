@@ -33,6 +33,11 @@ namespace FlockBuddy
 		#region Properties
 
 		/// <summary>
+		/// Used for database persistance
+		/// </summary>
+		public int? Id { get; set; }
+
+		/// <summary>
 		/// a container of all the moving entities this boid is managing
 		/// </summary>
 		public List<IMover> Boids { get; set; }

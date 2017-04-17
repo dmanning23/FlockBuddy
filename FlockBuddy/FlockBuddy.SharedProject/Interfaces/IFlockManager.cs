@@ -26,8 +26,8 @@ namespace FlockBuddy
 		float BoidRadius { get; set; }
 		float BoidRetargetTime { get; set; }
 
-		string SummingMethod { get; set; }
+		ESummingMethod SummingMethod { get; set; }
 
-		string Walls { get; set; }
+		DefaultWalls Walls { get; set; }
 	}
 }

@@ -8,6 +8,8 @@ namespace FlockBuddy
 {
 	public interface IFlock
 	{
+		int? Id { get; set; }
+
 		/// <summary>
 		/// All the boids stored in this flock.
 		/// </summary>

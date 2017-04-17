@@ -7,7 +7,7 @@ using Vector2Extensions;
 
 namespace FlockBuddy
 {
-	public class FlockManager
+	public class FlockManager : IFlockManager
 	{
 		#region Fields
 
@@ -22,14 +22,24 @@ namespace FlockBuddy
 		/// <summary>
 		/// Used for database persistance
 		/// </summary>
-		public int? Id { get; set; }
+		public virtual int? Id
+		{
+			get
+			{
+				return Flock.Id;
+			}
+			set
+			{
+				Flock.Id = value;
+			}
+		}
 
-		public string Name { get; set; }
+		public virtual string Name { get; set; }
 
 		public Color DebugColor { get; private set; }
 
 		private float _boidMass;
-		public float BoidMass
+		public virtual float BoidMass
 		{
 			get
 			{
@@ -49,7 +59,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMaxForce;
-		public float BoidMaxForce
+		public virtual float BoidMaxForce
 		{
 			get
 			{
@@ -69,7 +79,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMinSpeed;
-		public float BoidMinSpeed
+		public virtual float BoidMinSpeed
 		{
 			get
 			{
@@ -89,7 +99,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidWalkSpeed;
-		public float BoidWalkSpeed
+		public virtual float BoidWalkSpeed
 		{
 			get
 			{
@@ -109,7 +119,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMaxSpeed;
-		public float BoidMaxSpeed
+		public virtual float BoidMaxSpeed
 		{
 			get
 			{
@@ -129,7 +139,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMaxTurnRate;
-		public float BoidMaxTurnRate
+		public virtual float BoidMaxTurnRate
 		{
 			get
 			{
@@ -149,7 +159,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidNeighborQueryRadius;
-		public float BoidNeighborQueryRadius
+		public virtual float BoidNeighborQueryRadius
 		{
 			get
 			{
@@ -170,7 +180,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidPredatorQueryRadius;
-		public float BoidPredatorQueryRadius
+		public virtual float BoidPredatorQueryRadius
 		{
 			get
 			{
@@ -191,7 +201,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidPreyQueryRadius;
-		public float BoidPreyQueryRadius
+		public virtual float BoidPreyQueryRadius
 		{
 			get
 			{
@@ -212,7 +222,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidVipQueryRadius;
-		public float BoidVipQueryRadius
+		public virtual float BoidVipQueryRadius
 		{
 			get
 			{
@@ -233,7 +243,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidWallQueryRadius;
-		public float BoidWallQueryRadius
+		public virtual float BoidWallQueryRadius
 		{
 			get
 			{
@@ -254,7 +264,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidObstacleQueryRadius;
-		public float BoidObstacleQueryRadius
+		public virtual float BoidObstacleQueryRadius
 		{
 			get
 			{
@@ -275,7 +285,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidWaypointQueryRadius;
-		public float BoidWaypointQueryRadius
+		public virtual float BoidWaypointQueryRadius
 		{
 			get
 			{
@@ -296,7 +306,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidRadius;
-		public float BoidRadius
+		public virtual float BoidRadius
 		{
 			get
 			{
@@ -316,7 +326,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidRetargetTime;
-		public float BoidRetargetTime
+		public virtual float BoidRetargetTime
 		{
 			get
 			{
@@ -336,10 +346,10 @@ namespace FlockBuddy
 			}
 		}
 
-		public IFlock Flock { get; set; }
+		public virtual IFlock Flock { get; set; }
 
 		private ESummingMethod _summingMethod;
-		public ESummingMethod SummingMethod
+		public virtual ESummingMethod SummingMethod
 		{
 			get
 			{
@@ -359,7 +369,7 @@ namespace FlockBuddy
 			}
 		}
 
-		public DefaultWalls Walls { get; private set; }
+		public virtual DefaultWalls Walls { get; set; }
 
 		public List<BehaviorTemplate> Behaviors { get; private set; }
 
@@ -416,8 +426,8 @@ namespace FlockBuddy
 			BoidWallQueryRadius = flockManager.BoidWallQueryRadius;
 			BoidWaypointQueryRadius = flockManager.BoidWaypointQueryRadius;
 			BoidRetargetTime = flockManager.BoidRetargetTime;
-			SummingMethod = (ESummingMethod)Enum.Parse(typeof(ESummingMethod), flockManager.SummingMethod);
-			Walls = (DefaultWalls)Enum.Parse(typeof(DefaultWalls), flockManager.Walls);
+			SummingMethod = flockManager.SummingMethod;
+			Walls = flockManager.Walls;
 		}
 
 		private void SetDebugColor()

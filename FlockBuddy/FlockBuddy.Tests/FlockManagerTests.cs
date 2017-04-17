@@ -35,8 +35,8 @@ namespace FlockBuddy.Tests
 			manager.Setup(x => x.BoidWaypointQueryRadius).Returns(15);
 			manager.Setup(x => x.BoidRadius).Returns(16);
 			manager.Setup(x => x.BoidRetargetTime).Returns(17);
-			manager.Setup(x => x.SummingMethod).Returns(ESummingMethod.dithered.ToString());
-			manager.Setup(x => x.Walls).Returns(DefaultWalls.All.ToString());
+			manager.Setup(x => x.SummingMethod).Returns(ESummingMethod.dithered);
+			manager.Setup(x => x.Walls).Returns(DefaultWalls.All);
 			test = manager.Object;
 		}
 
@@ -163,18 +163,35 @@ namespace FlockBuddy.Tests
 		public void Constructor_SummingMethod()
 		{
 			var manager = new FlockManager(test);
-			Assert.AreEqual(test.SummingMethod, manager.SummingMethod.ToString());
+			Assert.AreEqual(test.SummingMethod, manager.SummingMethod);
 		}
 
 		[Test]
 		public void Constructor_Walls()
 		{
 			var manager = new FlockManager(test);
-			Assert.AreEqual(test.Walls, manager.Walls.ToString());
+			Assert.AreEqual(test.Walls, manager.Walls);
 		}
 
 		[Test]
 		public void DebugColors()
+		{
+			var manager = new FlockManager(new Flock());
+
+			Assert.AreEqual(Color.Red, manager.DebugColor);
+		}
+
+		[Test]
+		public void DebugColors2()
+		{
+			var manager = new FlockManager(new Flock());
+			var manager2 = new FlockManager(new Flock());
+			
+			Assert.AreEqual(Color.Orange, manager2.DebugColor);
+		}
+
+		[Test]
+		public void DebugColors3()
 		{
 			var manager = new FlockManager(new Flock());
 			var manager2 = new FlockManager(new Flock());

@@ -291,6 +291,12 @@ namespace FlockBuddy
 					{
 						wallBehavior.Walls = walls;
 					}
+
+					var pathBehavior = behavior as IPathBehavior;
+					if (null != pathBehavior)
+					{
+						pathBehavior.Path = MyFlock.Waypoints;
+					}
 				}
 			}
 

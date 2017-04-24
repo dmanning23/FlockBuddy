@@ -6,6 +6,7 @@ using PrimitiveBuddy;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System;
 
 namespace FlockBuddy
 {
@@ -38,6 +39,11 @@ namespace FlockBuddy
 		public string Name { get; set; }
 
 		/// <summary>
+		/// Used for database persistance
+		/// </summary>
+		public int? Id { get; set; }
+
+		/// <summary>
 		/// a container of all the moving entities this boid is managing
 		/// </summary>
 		public List<IMover> Boids { get; set; }
@@ -67,6 +73,8 @@ namespace FlockBuddy
 		/// container containing any walls in the environment
 		/// </summary>
 		public List<ILine> Walls { get; set; }
+
+		public List<Vector2> Waypoints { get; set; }
 
 		//any path we may create for the vehicles to follow
 		//List<vector2> Path { get; private set; }
@@ -117,29 +125,10 @@ namespace FlockBuddy
 			FlockTimer = new GameClock();
 			CellSpace = new CellSpacePartition<IMover>(WorldSize, 20, 20);
 
-			SetDebugColor();
-		}
-
-		private void SetDebugColor()
-		{
-			switch (_debugColorIndex++)
-			{
-				case 0: { DebugColor = Color.Red; } break;
-				case 1: { DebugColor = Color.Orange; } break;
-				case 2: { DebugColor = Color.Yellow; } break;
-				case 3: { DebugColor = Color.Green; } break;
-				case 4: { DebugColor = Color.Blue; } break;
-				case 5: { DebugColor = Color.Purple; } break;
-				case 6: { DebugColor = Color.Pink; } break;
-				case 7: { DebugColor = Color.Brown; } break;
-				case 8: { DebugColor = Color.White; } break;
-				default:
-					{
-						DebugColor = Color.Black;
-						_debugColorIndex = 0;
-					}
-					break;
-			}
+			Predators = new List<IFlock>();
+			Prey = new List<IFlock>();
+			Vips = new List<IFlock>();
+			Waypoints = new List<Vector2>();
 		}
 
 		/// <summary>
@@ -305,19 +294,63 @@ namespace FlockBuddy
 
 		public void RemoveFlock(IFlock flock)
 		{
-			if (flock == Predators)
-			{
-				Predators = null;
-			}
+			Predators.Remove(flock);
+			Prey.Remove(flock);
+			Vips.Remove(flock);
+		}
 
-			if (flock == Prey)
-			{
-				Prey = null;
-			}
+		public void AddFlockToGroup(IFlock flock, FlockGroup group)
+		{
+			//remove the flock from all groups
+			RemoveFlock(flock);
 
-			if (flock == Vips)
+			//add the flock to the correct group
+			switch (group)
 			{
-				Vips = null;
+				case FlockGroup.Predator:
+					{
+						Predators.Add(flock);
+					}
+					break;
+				case FlockGroup.Prey:
+					{
+						Prey.Add(flock);
+					}
+					break;
+				case FlockGroup.Vip:
+					{
+						Vips.Add(flock);
+					}
+					break;
+			}
+		}
+
+		public bool IsFlockInGroup(IFlock flock, FlockGroup group)
+		{
+			switch (group)
+			{
+				case FlockGroup.None:
+					{
+						return !IsFlockInGroup(flock, FlockGroup.Predator) &&
+							!IsFlockInGroup(flock, FlockGroup.Prey) &&
+							!IsFlockInGroup(flock, FlockGroup.Vip);
+					}
+				case FlockGroup.Predator:
+					{
+						return Predators.Contains(flock);
+					}
+				case FlockGroup.Prey:
+					{
+						return Prey.Contains(flock);
+					}
+				case FlockGroup.Vip:
+					{
+						return Vips.Contains(flock);
+					}
+				default:
+					{
+						throw new Exception("did you add a new flock group?");
+					}
 			}
 		}
 

@@ -106,6 +106,7 @@
     <Compile Include="BaseBehaviorTests.cs" />
     <Compile Include="BaseEntityTests.cs" />
     <Compile Include="BoidTests.cs" />
+    <Compile Include="FlockManagerTests.cs" />
     <Compile Include="MoverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

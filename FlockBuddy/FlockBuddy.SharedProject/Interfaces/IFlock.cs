@@ -8,9 +8,7 @@ namespace FlockBuddy
 {
 	public interface IFlock
 	{
-		Color DebugColor { get; }
-
-		string Name { get; set; }
+		int? Id { get; set; }
 
 		/// <summary>
 		/// All the boids stored in this flock.
@@ -42,6 +40,11 @@ namespace FlockBuddy
 		/// </summary>
 		List<ILine> Walls { get; set; }
 
+		/// <summary>
+		/// A list of waypoints to follow for the path behavior
+		/// </summary>
+		List<Vector2> Waypoints { get; set; }
+
 		void SetWorldSize(Vector2 worldSize, bool useWorldWrap = true, bool useCellSpace = true, int cellsX = 20, int cellsY = 20);
 
 		void AddBoid(IMover boid);
@@ -70,5 +73,9 @@ namespace FlockBuddy
 
 		void Draw(IPrimitive prim, Color color);
 		void DrawWhiskers(IPrimitive prim, Color color);
+
+		void AddFlockToGroup(IFlock flock, FlockGroup group);
+
+		bool IsFlockInGroup(IFlock flock, FlockGroup group);
 	}
 }

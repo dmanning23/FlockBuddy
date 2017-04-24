@@ -7,18 +7,39 @@ using Vector2Extensions;
 
 namespace FlockBuddy
 {
-	public class FlockManager
+	public class FlockManager : IFlockManager
 	{
 		#region Fields
 
 		Random _random = new Random();
 
+		private static int _debugColorIndex = 0;
+
 		#endregion //Fields
 
 		#region Properties
 
+		/// <summary>
+		/// Used for database persistance
+		/// </summary>
+		public virtual int? Id
+		{
+			get
+			{
+				return Flock.Id;
+			}
+			set
+			{
+				Flock.Id = value;
+			}
+		}
+
+		public virtual string Name { get; set; }
+
+		public Color DebugColor { get; private set; }
+
 		private float _boidMass;
-		public float BoidMass
+		public virtual float BoidMass
 		{
 			get
 			{
@@ -38,7 +59,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMaxForce;
-		public float BoidMaxForce
+		public virtual float BoidMaxForce
 		{
 			get
 			{
@@ -58,7 +79,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMinSpeed;
-		public float BoidMinSpeed
+		public virtual float BoidMinSpeed
 		{
 			get
 			{
@@ -78,7 +99,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidWalkSpeed;
-		public float BoidWalkSpeed
+		public virtual float BoidWalkSpeed
 		{
 			get
 			{
@@ -98,7 +119,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMaxSpeed;
-		public float BoidMaxSpeed
+		public virtual float BoidMaxSpeed
 		{
 			get
 			{
@@ -118,7 +139,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidMaxTurnRate;
-		public float BoidMaxTurnRate
+		public virtual float BoidMaxTurnRate
 		{
 			get
 			{
@@ -138,7 +159,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidNeighborQueryRadius;
-		public float BoidNeighborQueryRadius
+		public virtual float BoidNeighborQueryRadius
 		{
 			get
 			{
@@ -159,7 +180,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidPredatorQueryRadius;
-		public float BoidPredatorQueryRadius
+		public virtual float BoidPredatorQueryRadius
 		{
 			get
 			{
@@ -180,7 +201,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidPreyQueryRadius;
-		public float BoidPreyQueryRadius
+		public virtual float BoidPreyQueryRadius
 		{
 			get
 			{
@@ -201,7 +222,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidVipQueryRadius;
-		public float BoidVipQueryRadius
+		public virtual float BoidVipQueryRadius
 		{
 			get
 			{
@@ -222,7 +243,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidWallQueryRadius;
-		public float BoidWallQueryRadius
+		public virtual float BoidWallQueryRadius
 		{
 			get
 			{
@@ -243,7 +264,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidObstacleQueryRadius;
-		public float BoidObstacleQueryRadius
+		public virtual float BoidObstacleQueryRadius
 		{
 			get
 			{
@@ -264,7 +285,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidWaypointQueryRadius;
-		public float BoidWaypointQueryRadius
+		public virtual float BoidWaypointQueryRadius
 		{
 			get
 			{
@@ -285,7 +306,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidRadius;
-		public float BoidRadius
+		public virtual float BoidRadius
 		{
 			get
 			{
@@ -305,7 +326,7 @@ namespace FlockBuddy
 		}
 
 		private float _boidRetargetTime;
-		public float BoidRetargetTime
+		public virtual float BoidRetargetTime
 		{
 			get
 			{
@@ -325,10 +346,10 @@ namespace FlockBuddy
 			}
 		}
 
-		public IFlock Flock { get; set; }
+		public virtual IFlock Flock { get; set; }
 
 		private ESummingMethod _summingMethod;
-		public ESummingMethod SummingMethod
+		public virtual ESummingMethod SummingMethod
 		{
 			get
 			{
@@ -348,58 +369,21 @@ namespace FlockBuddy
 			}
 		}
 
-		public DefaultWalls Walls { get; private set; }
+		public virtual DefaultWalls Walls { get; set; }
 
-		public Color DebugColor { get; set; }
-
-		private class BehaviorTemplate : IBehavior
-		{
-			public EBehaviorType BehaviorType { get; set; }
-
-			public float Weight { get; set; }
-
-			public IBoid Owner
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-
-				set
-				{
-					throw new NotImplementedException();
-				}
-			}
-
-			public Vector2 GetSteering()
-			{
-				throw new NotImplementedException();
-			}
-
-			public float DirectionChange
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-			}
-
-			public float SpeedChange
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-			}
-		}
-
-		private List<BehaviorTemplate> Behaviors { get; set; }
+		public List<BehaviorTemplate> Behaviors { get; private set; }
 
 		#endregion //Properties
 
 		#region Methods
 
-		public FlockManager(IFlock flock)
+		protected FlockManager()
+		{
+			SetDebugColor();
+			Name = DebugColor.ToString();
+		}
+
+		public FlockManager(IFlock flock) : this()
 		{
 			Flock = flock;
 			Behaviors = new List<BehaviorTemplate>();
@@ -418,6 +402,54 @@ namespace FlockBuddy
 			BoidRetargetTime = BoidDefaults.BoidRetargetTime;
 			SummingMethod = BoidDefaults.SummingMethod;
 			Walls = BoidDefaults.Walls;
+		}
+
+		public FlockManager(IFlockManager flockManager) : this()
+		{
+			Flock = new Flock();
+			Behaviors = new List<BehaviorTemplate>();
+
+			Id = flockManager.Id;
+			Name = flockManager.Name;
+			BoidRadius = flockManager.BoidRadius;
+			BoidMass = flockManager.BoidMass;
+			BoidMinSpeed = flockManager.BoidMinSpeed;
+			BoidWalkSpeed = flockManager.BoidWalkSpeed;
+			BoidMaxSpeed = flockManager.BoidMaxSpeed;
+			BoidMaxTurnRate = flockManager.BoidMaxTurnRate;
+			BoidMaxForce = flockManager.BoidMaxForce;
+			BoidNeighborQueryRadius = flockManager.BoidNeighborQueryRadius;
+			BoidPredatorQueryRadius = flockManager.BoidPredatorQueryRadius;
+			BoidPreyQueryRadius = flockManager.BoidPreyQueryRadius;
+			BoidVipQueryRadius = flockManager.BoidVipQueryRadius;
+			BoidObstacleQueryRadius = flockManager.BoidObstacleQueryRadius;
+			BoidWallQueryRadius = flockManager.BoidWallQueryRadius;
+			BoidWaypointQueryRadius = flockManager.BoidWaypointQueryRadius;
+			BoidRetargetTime = flockManager.BoidRetargetTime;
+			SummingMethod = flockManager.SummingMethod;
+			Walls = flockManager.Walls;
+		}
+
+		private void SetDebugColor()
+		{
+			switch (_debugColorIndex++)
+			{
+				case 0: { DebugColor = Color.Red; } break;
+				case 1: { DebugColor = Color.Orange; } break;
+				case 2: { DebugColor = Color.Yellow; } break;
+				case 3: { DebugColor = Color.Green; } break;
+				case 4: { DebugColor = Color.Blue; } break;
+				case 5: { DebugColor = Color.Purple; } break;
+				case 6: { DebugColor = Color.Pink; } break;
+				case 7: { DebugColor = Color.Brown; } break;
+				case 8: { DebugColor = Color.White; } break;
+				default:
+					{
+						DebugColor = Color.Black;
+						_debugColorIndex = 0;
+					}
+					break;
+			}
 		}
 
 		public IBehavior AddBehavior(EBehaviorType behaviorType)
@@ -502,7 +534,7 @@ namespace FlockBuddy
 			var boid = new Boid(Flock,
 					_random.NextVector2(0f, 1280f, 0f, 720f),
 					_random.NextVector2(-1f, 1f, -1f, 1f).Normalized(),
-					_random.NextFloat(0f, BoidMaxSpeed),
+					_random.NextFloat(BoidWalkSpeed, BoidMaxSpeed),
 					BoidRadius,
 					BoidMass,
 					BoidMinSpeed,

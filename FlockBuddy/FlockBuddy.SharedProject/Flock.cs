@@ -27,9 +27,15 @@ namespace FlockBuddy
 
 		private bool _useCellSpace = false;
 
+		private static int _debugColorIndex = 0;
+
 		#endregion //Fields
 
 		#region Properties
+
+		public Color DebugColor { get; private set; }
+
+		public string Name { get; set; }
 
 		/// <summary>
 		/// a container of all the moving entities this boid is managing
@@ -110,6 +116,30 @@ namespace FlockBuddy
 			Boids = new List<IMover>();
 			FlockTimer = new GameClock();
 			CellSpace = new CellSpacePartition<IMover>(WorldSize, 20, 20);
+
+			SetDebugColor();
+		}
+
+		private void SetDebugColor()
+		{
+			switch (_debugColorIndex++)
+			{
+				case 0: { DebugColor = Color.Red; } break;
+				case 1: { DebugColor = Color.Orange; } break;
+				case 2: { DebugColor = Color.Yellow; } break;
+				case 3: { DebugColor = Color.Green; } break;
+				case 4: { DebugColor = Color.Blue; } break;
+				case 5: { DebugColor = Color.Purple; } break;
+				case 6: { DebugColor = Color.Pink; } break;
+				case 7: { DebugColor = Color.Brown; } break;
+				case 8: { DebugColor = Color.White; } break;
+				default:
+					{
+						DebugColor = Color.Black;
+						_debugColorIndex = 0;
+					}
+					break;
+			}
 		}
 
 		/// <summary>

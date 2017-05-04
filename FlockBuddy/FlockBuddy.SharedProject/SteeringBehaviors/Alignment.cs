@@ -68,9 +68,6 @@ namespace FlockBuddy
 
 				AverageHeading /= Buddies.Count;
 				AverageHeading -= Owner.Heading;
-
-				Debug.Assert(!float.IsNaN(AverageHeading.X));
-				Debug.Assert(!float.IsNaN(AverageHeading.Y));
 			}
 
 			//always multiply the return value by the weight

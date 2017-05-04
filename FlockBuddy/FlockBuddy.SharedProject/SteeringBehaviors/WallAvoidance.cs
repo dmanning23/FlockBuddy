@@ -94,9 +94,6 @@ namespace FlockBuddy
 				}
 			}
 
-			Debug.Assert(!float.IsNaN(steeringForce.X));
-			Debug.Assert(!float.IsNaN(steeringForce.Y));
-
 			return steeringForce * Weight;
 		}
 

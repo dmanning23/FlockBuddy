@@ -28,8 +28,6 @@ namespace FlockBuddy
 
 		private bool _useCellSpace = false;
 
-		private static int _debugColorIndex = 0;
-
 		#endregion //Fields
 
 		#region Properties
@@ -244,7 +242,6 @@ namespace FlockBuddy
 			for (int i = 0; i < Boids.Count; i++)
 			{
 				Boid boid = Boids[i] as Boid;
-				Debug.Assert(null != boid);
 				taskList.Add(boid.UpdateAsync(FlockTimer));
 			}
 

@@ -77,8 +77,6 @@ namespace FlockBuddy
 				//now seek towards that position
 				SeekBehavior.TargetPosition = centerOfMass;
 				steeringForce = SeekBehavior.GetSteering();
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			//the magnitude of cohesion is usually much larger than separation or

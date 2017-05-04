@@ -70,9 +70,6 @@ namespace FlockBuddy
 						steeringForce += toAgent / length ;
 					}
 				}
-
-				Debug.Assert(!float.IsNaN(steeringForce.X));
-				Debug.Assert(!float.IsNaN(steeringForce.Y));
 			}
 
 			return steeringForce * Weight;

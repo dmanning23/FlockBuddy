@@ -26,6 +26,11 @@ namespace FlockBuddy
 
 		private Random _rand = new Random();
 
+		/// <summary>
+		/// a vector perpendicular to the heading vector
+		/// </summary>
+		private Vector2 _side;
+
 		#endregion Members
 
 		#region Properties
@@ -75,6 +80,51 @@ namespace FlockBuddy
 
 		public float WaypointQueryRadius { get; set; }
 
+		public float Mass { get; set; }
+
+		public float MinSpeed { get; set; }
+
+		public float WalkSpeed { get; set; }
+
+		/// <summary>
+		/// the maximum speed this entity may travel at.
+		/// </summary>
+		public float MaxSpeed { get; set; }
+
+		/// <summary>
+		/// the maximum force this entity can produce to power itself (think rockets and thrust)
+		/// </summary>
+		public float MaxForce { get; set; }
+
+		/// <summary>
+		/// the maximum rate (radians per second)this vehicle can rotate
+		/// </summary>
+		public float MaxTurnRate { get; set; }
+
+		public override Vector2 Heading
+		{
+			get
+			{
+				return base.Heading;
+			}
+			set
+			{
+				// If the new heading is valid this fumction sets the entity's heading and side vectors accordingly
+				base.Heading = value;
+
+				//the side vector must always be perpendicular to the heading
+				_side = Heading.Perp();
+			}
+		}
+
+		public Vector2 Side
+		{
+			get
+			{
+				return _side;
+			}
+		}
+
 		#endregion //Properties
 
 		#region Methods
@@ -98,13 +148,7 @@ namespace FlockBuddy
 				: base(position,
 				radius,
 				heading,
-				speed,
-				mass,
-				minSpeed,
-				walkSpeed,
-				maxSpeed,
-				maxTurnRate,
-				maxForce)
+				speed)
 		{
 			MyFlock = owner;
 			MyFlock.AddBoid(this);
@@ -116,6 +160,13 @@ namespace FlockBuddy
 			ObstacleQueryRadius = BoidDefaults.BoidQueryRadius;
 			WallQueryRadius = BoidDefaults.BoidQueryRadius;
 			WaypointQueryRadius = BoidDefaults.BoidQueryRadius;
+
+			Mass = mass;
+			MinSpeed = minSpeed;
+			WalkSpeed = walkSpeed;
+			MaxSpeed = maxSpeed;
+			MaxTurnRate = maxTurnRate;
+			MaxForce = maxForce;
 
 			Behaviors = new List<IBehavior>();
 
@@ -219,6 +270,104 @@ namespace FlockBuddy
 
 			//Update the position
 			Position = currentPosition;
+		}
+
+		/// <summary>
+		/// Given a target direction, either speed up or slow down the guy to get to it
+		/// </summary>
+		/// <param name="targetHeading"></param>
+		protected void UpdateSpeed(Vector2 targetHeading)
+		{
+			//update the speed but make sure vehicle does not exceed maximum velocity
+			Speed = MathHelper.Clamp(Speed + GetSpeedChange(targetHeading), MinSpeed, MaxSpeed);
+		}
+
+		protected float GetSpeedChange(Vector2 targetHeading)
+		{
+			//get the dot product of the current heading and the target
+			var dotHeading = Vector2.Dot(Heading, targetHeading);
+
+			//get the amount of force that can be applied pre timedelta
+			var maxForceDelta = MaxForce * BoidTimer.TimeDelta;
+
+			if (0f == dotHeading)
+			{
+				//if the dotproduct is exactly zero, we want to hit the target speed
+				if (Speed < WalkSpeed)
+				{
+					//we are going too slow, speed up!
+					return maxForceDelta;
+				}
+				else
+				{
+					//we are going too fast, slow down!
+					return maxForceDelta *= -1f;
+				}
+			}
+			else if (0 < dotHeading)
+			{
+				//if the dot product is greater than zero, we want to got the current direction
+				return maxForceDelta;
+			}
+			else
+			{
+				//if the dot product is less than zero, we want to got the other direction
+				return maxForceDelta *= -1f;
+			}
+		}
+
+		/// <summary>
+		/// given a target position, this method rotates the entity's heading and
+		/// side vectors by an amount not greater than m_dMaxTurnRate until it
+		/// directly faces the target.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <returns>returns true when the heading is facing in the desired direction</returns>
+		protected bool UpdateHeading(Vector2 targetHeading)
+		{
+			//get the amount to turn towrads the new heading
+			float angle = 0.0f;
+			if (GetAmountToTurn(targetHeading, ref angle))
+			{
+				return true;
+			}
+
+			//update the heading
+			RotateHeading(angle);
+
+			return false;
+		}
+
+		/// <summary>
+		/// Given a target heading, figure out how much to turn towards that heading.
+		/// </summary>
+		/// <param name="targetHeading"></param>
+		/// <param name="angle"></param>
+		/// <returns>true if this dude's heading doesnt need to be updated.</returns>
+		protected bool GetAmountToTurn(Vector2 targetHeading, ref float angle)
+		{
+			if (targetHeading.LengthSquared() == 0.0f)
+			{
+				//we are at the target :P
+				return true;
+			}
+
+			//first determine the angle between the heading vector and the target
+			angle = Vector2Ext.AngleBetweenVectors(Heading, targetHeading);
+			angle = ClampAngle(angle);
+
+			//return true if the player is facing the target
+			if (Math.Abs(angle) < 0.001f)
+			{
+				return true;
+			}
+
+			//clamp the amount to turn between the maxturnrate of the timedelta
+			var maxTurnRateDelta = MaxTurnRate * BoidTimer.TimeDelta;
+
+			//clamp the amount to turn to the max turn rate
+			angle = MathHelper.Clamp(angle, -maxTurnRateDelta, maxTurnRateDelta);
+			return false;
 		}
 
 		/// <summary>

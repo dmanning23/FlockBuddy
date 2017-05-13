@@ -10,22 +10,8 @@ namespace FlockBuddy
 	{
 		Vector2 Heading { get; }
 
-		Vector2 Side { get; }
-
 		float Speed { get; }
 
 		Vector2 Velocity { get; }
-
-		float Mass { get; set; }
-
-		float MinSpeed { get; set; }
-
-		float WalkSpeed { get; set; }
-
-		float MaxSpeed { get; set; }
-
-		float MaxForce { get; set; }
-
-		float MaxTurnRate { get; set; }
 	}
 }

@@ -2,8 +2,6 @@ using GameTimer;
 using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using PrimitiveBuddy;
-using System;
-using System.Diagnostics;
 using Vector2Extensions;
 
 namespace FlockBuddy
@@ -17,16 +15,6 @@ namespace FlockBuddy
 		#region Members
 
 		/// <summary>
-		/// a normalized vector pointing in the direction the entity is heading. 
-		/// </summary>
-		private Vector2 _heading;
-
-		/// <summary>
-		/// a vector perpendicular to the heading vector
-		/// </summary>
-		private Vector2 _side;
-
-		/// <summary>
 		/// keeps a track of the most recent update time. 
 		/// (some of the steering behaviors make use of this - see Wander)
 		/// </summary>
@@ -36,26 +24,12 @@ namespace FlockBuddy
 
 		#region Properties
 
-		public Vector2 Heading
-		{
-			get
-			{
-				return _heading;
-			}
-			protected set
-			{
-				// If the new heading is valid this fumction sets the entity's heading and side vectors accordingly
-				_heading = value;
-
-				//the side vector must always be perpendicular to the heading
-				_side = _heading.Perp();
-			}
-		}
+		public virtual Vector2 Heading { get; set; }
 
 		/// <summary>
 		/// the speed of this dude in pixels/sec
 		/// </summary>
-		public virtual float Speed { get; protected set; }
+		public virtual float Speed { get; set; }
 
 		public Vector2 Velocity
 		{
@@ -65,45 +39,16 @@ namespace FlockBuddy
 			}
 		}
 
-		public Vector2 Side
-		{
-			get
-			{
-				return _side;
-			}
-		}
-
 		/// <summary>
 		/// Get the direction this dude is facing.
 		/// </summary>
-		protected float Rotation
+		public float Rotation
 		{
 			get
 			{
 				return Heading.Angle();
 			}
 		}
-
-		public float Mass { get; set; }
-
-		public float MinSpeed { get; set; }
-
-		public float WalkSpeed { get; set; }
-
-		/// <summary>
-		/// the maximum speed this entity may travel at.
-		/// </summary>
-		public float MaxSpeed { get; set; }
-
-		/// <summary>
-		/// the maximum force this entity can produce to power itself (think rockets and thrust)
-		/// </summary>
-		public float MaxForce { get; set; }
-
-		/// <summary>
-		/// the maximum rate (radians per second)this vehicle can rotate
-		/// </summary>
-		public float MaxTurnRate { get; set; }
 
 		#endregion //Properties
 
@@ -112,23 +57,11 @@ namespace FlockBuddy
 		public Mover(Vector2 position,
 					float radius,
 					Vector2 heading,
-					float speed,
-					float mass,
-					float minSpeed,
-					float walkSpeed,
-					float maxSpeed,
-					float maxTurnRate,
-					float maxForce)
+					float speed)
 			: base(position, radius)
 		{
 			Heading = heading;
 			Speed = speed;
-			Mass = mass;
-			MinSpeed = minSpeed;
-			WalkSpeed = walkSpeed;
-			MaxSpeed = maxSpeed;
-			MaxTurnRate = maxTurnRate;
-			MaxForce = maxForce;
 
 			BoidTimer = new GameClock();
 			BoidTimer.Start();
@@ -144,104 +77,6 @@ namespace FlockBuddy
 
 			//update the time elapsed
 			BoidTimer.Update(curTime);
-		}
-
-		/// <summary>
-		/// Given a target direction, either speed up or slow down the guy to get to it
-		/// </summary>
-		/// <param name="targetHeading"></param>
-		protected void UpdateSpeed(Vector2 targetHeading)
-		{
-			//update the speed but make sure vehicle does not exceed maximum velocity
-			Speed = MathHelper.Clamp(Speed + GetSpeedChange(targetHeading), MinSpeed, MaxSpeed);
-		}
-
-		protected float GetSpeedChange(Vector2 targetHeading)
-		{
-			//get the dot product of the current heading and the target
-			var dotHeading = Vector2.Dot(Heading, targetHeading);
-
-			//get the amount of force that can be applied pre timedelta
-			var maxForceDelta = MaxForce * BoidTimer.TimeDelta;
-
-			if (0f == dotHeading)
-			{
-				//if the dotproduct is exactly zero, we want to hit the target speed
-				if (Speed < WalkSpeed)
-				{
-					//we are going too slow, speed up!
-					return maxForceDelta;
-				}
-				else
-				{
-					//we are going too fast, slow down!
-					return maxForceDelta *= -1f;
-				}
-			}
-			else if (0 < dotHeading)
-			{
-				//if the dot product is greater than zero, we want to got the current direction
-				return maxForceDelta;
-			}
-			else
-			{
-				//if the dot product is less than zero, we want to got the other direction
-				return maxForceDelta *= -1f;
-			}
-		}
-
-		/// <summary>
-		/// given a target position, this method rotates the entity's heading and
-		/// side vectors by an amount not greater than m_dMaxTurnRate until it
-		/// directly faces the target.
-		/// </summary>
-		/// <param name="target"></param>
-		/// <returns>returns true when the heading is facing in the desired direction</returns>
-		protected bool UpdateHeading(Vector2 targetHeading)
-		{
-			//get the amount to turn towrads the new heading
-			float angle = 0.0f;
-			if (GetAmountToTurn(targetHeading, ref angle))
-			{
-				return true;
-			}
-
-			//update the heading
-			RotateHeading(angle);
-
-			return false;
-		}
-
-		/// <summary>
-		/// Given a target heading, figure out how much to turn towards that heading.
-		/// </summary>
-		/// <param name="targetHeading"></param>
-		/// <param name="angle"></param>
-		/// <returns>true if this dude's heading doesnt need to be updated.</returns>
-		protected bool GetAmountToTurn(Vector2 targetHeading, ref float angle)
-		{
-			if (targetHeading.LengthSquared() == 0.0f)
-			{
-				//we are at the target :P
-				return true;
-			}
-
-			//first determine the angle between the heading vector and the target
-			angle = Vector2Ext.AngleBetweenVectors(Heading, targetHeading);
-			angle = ClampAngle(angle);
-
-			//return true if the player is facing the target
-			if (Math.Abs(angle) < 0.001f)
-			{
-				return true;
-			}
-
-			//clamp the amount to turn between the maxturnrate of the timedelta
-			var maxTurnRateDelta = MaxTurnRate * BoidTimer.TimeDelta;
-
-			//clamp the amount to turn to the max turn rate
-			angle = MathHelper.Clamp(angle, -maxTurnRateDelta, maxTurnRateDelta);
-			return false;
 		}
 
 		protected static float ClampAngle(float angle)

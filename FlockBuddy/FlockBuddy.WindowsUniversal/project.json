@@ -3,12 +3,13 @@
     "CellSpacePartition": "1.0.1",
     "CollisionBuddy": "1.0.3",
     "GameTimer": "1.0.1",
-    "MatrixExtensions": "1.0.1",
+    "MatrixExtensions": "1.0.2",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-    "PrimitiveBuddy": "1.0.0",
-    "RandomExtensions.dmanning23": "1.0.2",
+    "MonoGame.Framework.WindowsUniversal": "3.5.1.1679",
+    "PrimitiveBuddy": "1.0.2",
+    "RandomExtensions.dmanning23": "1.0.3",
     "RectangleF": "1.0.0",
-    "Vector2Extensions": "1.0.3"
+    "Vector2Extensions": "1.0.6"
   },
   "frameworks": {
     "uap10.0": {}

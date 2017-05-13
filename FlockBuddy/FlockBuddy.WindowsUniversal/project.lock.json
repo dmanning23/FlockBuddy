@@ -48,7 +48,7 @@
           "lib/uap10.0/GameTimer.WindowsUniversal.dll": {}
         }
       },
-      "MatrixExtensions/1.0.1": {
+      "MatrixExtensions/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -348,7 +348,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
+      "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
         "type": "package",
         "compile": {
           "lib/netcore/MonoGame.Framework.dll": {}
@@ -357,14 +357,17 @@
           "lib/netcore/MonoGame.Framework.dll": {}
         }
       },
-      "PrimitiveBuddy/1.0.0": {
+      "PrimitiveBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
+          "MatrixExtensions": "1.0.0",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
           "MonoGame.Framework.WindowsUniversal": "3.5.0",
+          "RandomExtensions.dmanning23": "1.0.0",
           "SharpDX": "[3.0.0]",
           "SharpDX.Direct2D1": "[3.0.0]",
-          "SharpDX.Direct3D11": "[3.0.0]"
+          "SharpDX.Direct3D11": "[3.0.0]",
+          "Vector2Extensions": "1.0.1"
         },
         "compile": {
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
@@ -373,7 +376,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.2": {
+      "RandomExtensions.dmanning23/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -2301,7 +2304,7 @@
           }
         }
       },
-      "Vector2Extensions/1.0.3": {
+      "Vector2Extensions/1.0.6": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -2366,7 +2369,7 @@
           "lib/uap10.0/GameTimer.WindowsUniversal.dll": {}
         }
       },
-      "MatrixExtensions/1.0.1": {
+      "MatrixExtensions/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -2614,7 +2617,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
+      "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
         "type": "package",
         "compile": {
           "lib/netcore/MonoGame.Framework.dll": {}
@@ -2623,14 +2626,17 @@
           "lib/netcore/MonoGame.Framework.dll": {}
         }
       },
-      "PrimitiveBuddy/1.0.0": {
+      "PrimitiveBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
+          "MatrixExtensions": "1.0.0",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
           "MonoGame.Framework.WindowsUniversal": "3.5.0",
+          "RandomExtensions.dmanning23": "1.0.0",
           "SharpDX": "[3.0.0]",
           "SharpDX.Direct2D1": "[3.0.0]",
-          "SharpDX.Direct3D11": "[3.0.0]"
+          "SharpDX.Direct3D11": "[3.0.0]",
+          "Vector2Extensions": "1.0.1"
         },
         "compile": {
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
@@ -2639,7 +2645,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.2": {
+      "RandomExtensions.dmanning23/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -4727,7 +4733,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.3": {
+      "Vector2Extensions/1.0.6": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -4792,7 +4798,7 @@
           "lib/uap10.0/GameTimer.WindowsUniversal.dll": {}
         }
       },
-      "MatrixExtensions/1.0.1": {
+      "MatrixExtensions/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -5041,7 +5047,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
+      "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
         "type": "package",
         "compile": {
           "lib/netcore/MonoGame.Framework.dll": {}
@@ -5050,14 +5056,17 @@
           "lib/netcore/MonoGame.Framework.dll": {}
         }
       },
-      "PrimitiveBuddy/1.0.0": {
+      "PrimitiveBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
+          "MatrixExtensions": "1.0.0",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
           "MonoGame.Framework.WindowsUniversal": "3.5.0",
+          "RandomExtensions.dmanning23": "1.0.0",
           "SharpDX": "[3.0.0]",
           "SharpDX.Direct2D1": "[3.0.0]",
-          "SharpDX.Direct3D11": "[3.0.0]"
+          "SharpDX.Direct3D11": "[3.0.0]",
+          "Vector2Extensions": "1.0.1"
         },
         "compile": {
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
@@ -5066,7 +5075,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.2": {
+      "RandomExtensions.dmanning23/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -7192,7 +7201,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.3": {
+      "Vector2Extensions/1.0.6": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -7257,7 +7266,7 @@
           "lib/uap10.0/GameTimer.WindowsUniversal.dll": {}
         }
       },
-      "MatrixExtensions/1.0.1": {
+      "MatrixExtensions/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -7508,7 +7517,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
+      "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
         "type": "package",
         "compile": {
           "lib/netcore/MonoGame.Framework.dll": {}
@@ -7517,14 +7526,17 @@
           "lib/netcore/MonoGame.Framework.dll": {}
         }
       },
-      "PrimitiveBuddy/1.0.0": {
+      "PrimitiveBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
+          "MatrixExtensions": "1.0.0",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
           "MonoGame.Framework.WindowsUniversal": "3.5.0",
+          "RandomExtensions.dmanning23": "1.0.0",
           "SharpDX": "[3.0.0]",
           "SharpDX.Direct2D1": "[3.0.0]",
-          "SharpDX.Direct3D11": "[3.0.0]"
+          "SharpDX.Direct3D11": "[3.0.0]",
+          "Vector2Extensions": "1.0.1"
         },
         "compile": {
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
@@ -7533,7 +7545,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.2": {
+      "RandomExtensions.dmanning23/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -9627,7 +9639,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.3": {
+      "Vector2Extensions/1.0.6": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -9692,7 +9704,7 @@
           "lib/uap10.0/GameTimer.WindowsUniversal.dll": {}
         }
       },
-      "MatrixExtensions/1.0.1": {
+      "MatrixExtensions/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -9944,7 +9956,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
+      "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
         "type": "package",
         "compile": {
           "lib/netcore/MonoGame.Framework.dll": {}
@@ -9953,14 +9965,17 @@
           "lib/netcore/MonoGame.Framework.dll": {}
         }
       },
-      "PrimitiveBuddy/1.0.0": {
+      "PrimitiveBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
+          "MatrixExtensions": "1.0.0",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
           "MonoGame.Framework.WindowsUniversal": "3.5.0",
+          "RandomExtensions.dmanning23": "1.0.0",
           "SharpDX": "[3.0.0]",
           "SharpDX.Direct2D1": "[3.0.0]",
-          "SharpDX.Direct3D11": "[3.0.0]"
+          "SharpDX.Direct3D11": "[3.0.0]",
+          "Vector2Extensions": "1.0.1"
         },
         "compile": {
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
@@ -9969,7 +9984,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.2": {
+      "RandomExtensions.dmanning23/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -12101,7 +12116,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.3": {
+      "Vector2Extensions/1.0.6": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -12166,7 +12181,7 @@
           "lib/uap10.0/GameTimer.WindowsUniversal.dll": {}
         }
       },
-      "MatrixExtensions/1.0.1": {
+      "MatrixExtensions/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -12417,7 +12432,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
+      "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
         "type": "package",
         "compile": {
           "lib/netcore/MonoGame.Framework.dll": {}
@@ -12426,14 +12441,17 @@
           "lib/netcore/MonoGame.Framework.dll": {}
         }
       },
-      "PrimitiveBuddy/1.0.0": {
+      "PrimitiveBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
+          "MatrixExtensions": "1.0.0",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
           "MonoGame.Framework.WindowsUniversal": "3.5.0",
+          "RandomExtensions.dmanning23": "1.0.0",
           "SharpDX": "[3.0.0]",
           "SharpDX.Direct2D1": "[3.0.0]",
-          "SharpDX.Direct3D11": "[3.0.0]"
+          "SharpDX.Direct3D11": "[3.0.0]",
+          "Vector2Extensions": "1.0.1"
         },
         "compile": {
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
@@ -12442,7 +12460,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.2": {
+      "RandomExtensions.dmanning23/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -14536,7 +14554,7 @@
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.3": {
+      "Vector2Extensions/1.0.6": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -14601,7 +14619,7 @@
           "lib/uap10.0/GameTimer.WindowsUniversal.dll": {}
         }
       },
-      "MatrixExtensions/1.0.1": {
+      "MatrixExtensions/1.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -14853,7 +14871,7 @@
           "ref/netstandard1.3/Microsoft.Win32.Primitives.dll": {}
         }
       },
-      "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
+      "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
         "type": "package",
         "compile": {
           "lib/netcore/MonoGame.Framework.dll": {}
@@ -14862,14 +14880,17 @@
           "lib/netcore/MonoGame.Framework.dll": {}
         }
       },
-      "PrimitiveBuddy/1.0.0": {
+      "PrimitiveBuddy/1.0.2": {
         "type": "package",
         "dependencies": {
+          "MatrixExtensions": "1.0.0",
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
           "MonoGame.Framework.WindowsUniversal": "3.5.0",
+          "RandomExtensions.dmanning23": "1.0.0",
           "SharpDX": "[3.0.0]",
           "SharpDX.Direct2D1": "[3.0.0]",
-          "SharpDX.Direct3D11": "[3.0.0]"
+          "SharpDX.Direct3D11": "[3.0.0]",
+          "Vector2Extensions": "1.0.1"
         },
         "compile": {
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
@@ -14878,7 +14899,7 @@
           "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll": {}
         }
       },
-      "RandomExtensions.dmanning23/1.0.2": {
+      "RandomExtensions.dmanning23/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
@@ -17010,7 +17031,7 @@
           "runtimes/aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Vector2Extensions/1.0.3": {
+      "Vector2Extensions/1.0.6": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
@@ -17081,13 +17102,11 @@
         "lib/uap10.0/GameTimer.WindowsUniversal.pdb"
       ]
     },
-    "MatrixExtensions/1.0.1": {
-      "sha512": "Hzk/58vDlK5qGGKlU/sMm72HJv2hrrQvLP7Nw29iq0BKCpHlwAgq8SEepGeDHdq52MUJDy5jHj1CcoDCAQqcaQ==",
+    "MatrixExtensions/1.0.2": {
+      "sha512": "ii4QIV9JBrLO678c/QOs7PqR2oLh2MrkhX5CfeJ1WiA1AVZNRCX7PhF1uV0nNA9OFy/E8Jv4HN6I5xi+huQ0UA==",
       "type": "package",
-      "path": "matrixextensions/1.0.1",
+      "path": "matrixextensions/1.0.2",
       "files": [
-        "MatrixExtensions.1.0.1.nupkg.sha512",
-        "MatrixExtensions.nuspec",
         "lib/MonoAndroid10/MatrixExtensions.Android.dll",
         "lib/MonoAndroid10/MatrixExtensions.Android.pdb",
         "lib/Xamarin.iOS10/MatrixExtensions.iOS.dll",
@@ -17095,7 +17114,9 @@
         "lib/net451/MatrixExtensions.DesktopGL.dll",
         "lib/net451/MatrixExtensions.DesktopGL.pdb",
         "lib/uap10.0/MatrixExtensions.WindowsUniversal.dll",
-        "lib/uap10.0/MatrixExtensions.WindowsUniversal.pdb"
+        "lib/uap10.0/MatrixExtensions.WindowsUniversal.pdb",
+        "matrixextensions.1.0.2.nupkg.sha512",
+        "matrixextensions.nuspec"
       ]
     },
     "Microsoft.CSharp/4.0.1": {
@@ -17400,10 +17421,10 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "MonoGame.Framework.WindowsUniversal/3.5.0.1678": {
-      "sha512": "ZkxpPKeVCcDM0k5V+i5yyPryad12aOzYeGIVL/CewYCRAYYCVgX+/P9BsRYi4GPS8zBfbRgPIqdrcBYNz4rSog==",
+    "MonoGame.Framework.WindowsUniversal/3.5.1.1679": {
+      "sha512": "ocVIHOGX1PA4HdvpI3/uKQVp6x1CPbmKvSdpk2bmpqHZ2PIOKqp5BjbkbOwKbZp8IdaLNbWQjG3Aonkezn2eBQ==",
       "type": "package",
-      "path": "monogame.framework.windowsuniversal/3.5.0.1678",
+      "path": "monogame.framework.windowsuniversal/3.5.1.1679",
       "files": [
         "lib/netcore/MonoGame.Framework.dll",
         "lib/netcore/MonoGame.Framework.pri",
@@ -17416,18 +17437,16 @@
         "lib/netcore/SharpDX.MediaFoundation.dll",
         "lib/netcore/SharpDX.XAudio2.dll",
         "lib/netcore/SharpDX.dll",
-        "monogame.framework.windowsuniversal.3.5.0.1678.nupkg.sha512",
+        "monogame.framework.windowsuniversal.3.5.1.1679.nupkg.sha512",
         "monogame.framework.windowsuniversal.nuspec",
         "readme.txt"
       ]
     },
-    "PrimitiveBuddy/1.0.0": {
-      "sha512": "vi7xDNKIDnHTvdjxWLftdPk3x2LIt6XpT6NKiYTflLma7hSMPkPtADTGsRcUhCryuzJJWovVlrt+LB9QgM2oPw==",
+    "PrimitiveBuddy/1.0.2": {
+      "sha512": "jNaSxVDcmKXY9zo0jwUiNJ3m44yI+BOp+h5Gl62rIU5BoqP7kjaRRxRlkdgV/jJE/vMbe9VBxoNlAoKKOnsLBQ==",
       "type": "package",
-      "path": "primitivebuddy/1.0.0",
+      "path": "primitivebuddy/1.0.2",
       "files": [
-        "PrimitiveBuddy.1.0.0.nupkg.sha512",
-        "PrimitiveBuddy.nuspec",
         "lib/MonoAndroid10/PrimitiveBuddy.Android.dll",
         "lib/MonoAndroid10/PrimitiveBuddy.Android.pdb",
         "lib/Xamarin.iOS10/PrimitiveBuddy.iOS.dll",
@@ -17435,16 +17454,16 @@
         "lib/net451/PrimitiveBuddy.DesktopGL.dll",
         "lib/net451/PrimitiveBuddy.DesktopGL.pdb",
         "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.dll",
-        "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.pdb"
+        "lib/uap10.0/PrimitiveBuddy.WindowsUniversal.pdb",
+        "primitivebuddy.1.0.2.nupkg.sha512",
+        "primitivebuddy.nuspec"
       ]
     },
-    "RandomExtensions.dmanning23/1.0.2": {
-      "sha512": "22haYdcKXA3NTlf00q8cNizCxlLPtCdFNaEmq7M8wB6uy3MgMwGMsGqb2jyIyY0oAsuaqq666bsbuPQ48z5Owg==",
+    "RandomExtensions.dmanning23/1.0.3": {
+      "sha512": "+MIsF4UfLZPa/U/biR5SNTL5Ll3jNgPQVKwz1MB4bWCBoNGyYDwUmvc8qq8IEf4RpVXIl6jf/WAVw8Wn71FoKA==",
       "type": "package",
-      "path": "randomextensions.dmanning23/1.0.2",
+      "path": "randomextensions.dmanning23/1.0.3",
       "files": [
-        "RandomExtensions.dmanning23.1.0.2.nupkg.sha512",
-        "RandomExtensions.dmanning23.nuspec",
         "lib/MonoAndroid10/RandomExtensions.Android.dll",
         "lib/MonoAndroid10/RandomExtensions.Android.pdb",
         "lib/Xamarin.iOS10/RandomExtensions.iOS.dll",
@@ -17452,7 +17471,9 @@
         "lib/net452/RandomExtensions.DesktopGL.dll",
         "lib/net452/RandomExtensions.DesktopGL.pdb",
         "lib/uap10.0/RandomExtensions.WindowsUniversal.dll",
-        "lib/uap10.0/RandomExtensions.WindowsUniversal.pdb"
+        "lib/uap10.0/RandomExtensions.WindowsUniversal.pdb",
+        "randomextensions.dmanning23.1.0.3.nupkg.sha512",
+        "randomextensions.dmanning23.nuspec"
       ]
     },
     "RectangleF/1.0.0": {
@@ -23388,10 +23409,10 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "Vector2Extensions/1.0.3": {
-      "sha512": "usIFjdSKxBSzoDPSM0syhBqpRHV4iTlvIeHzLdI/iNf713+3B9UO+nju21sDvHb6DZjlGzCRH24j54qlzepPkQ==",
+    "Vector2Extensions/1.0.6": {
+      "sha512": "tRrOlHZQgfvNJP+Ym8/JY2bYgaJqa4DEGT1ImLJvnQH7mYKlBYQpQ5klfX97/EZ+eNZGmla+umd6wyRwlWJVLg==",
       "type": "package",
-      "path": "vector2extensions/1.0.3",
+      "path": "vector2extensions/1.0.6",
       "files": [
         "lib/MonoAndroid10/Vector2Extensions.Android.dll",
         "lib/MonoAndroid10/Vector2Extensions.Android.pdb",
@@ -23401,7 +23422,7 @@
         "lib/net451/Vector2Extensions.DesktopGL.pdb",
         "lib/uap10.0/Vector2Extensions.WindowsUniversal.dll",
         "lib/uap10.0/Vector2Extensions.WindowsUniversal.pdb",
-        "vector2extensions.1.0.3.nupkg.sha512",
+        "vector2extensions.1.0.6.nupkg.sha512",
         "vector2extensions.nuspec"
       ]
     }
@@ -23411,18 +23432,19 @@
       "CellSpacePartition >= 1.0.1",
       "CollisionBuddy >= 1.0.3",
       "GameTimer >= 1.0.1",
-      "MatrixExtensions >= 1.0.1",
+      "MatrixExtensions >= 1.0.2",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
-      "PrimitiveBuddy >= 1.0.0",
-      "RandomExtensions.dmanning23 >= 1.0.2",
+      "MonoGame.Framework.WindowsUniversal >= 3.5.1.1679",
+      "PrimitiveBuddy >= 1.0.2",
+      "RandomExtensions.dmanning23 >= 1.0.3",
       "RectangleF >= 1.0.0",
-      "Vector2Extensions >= 1.0.3"
+      "Vector2Extensions >= 1.0.6"
     ],
     "UAP,Version=v10.0": []
   },
   "tools": {},
   "projectFileToolGroups": {},
   "packageFolders": {
-    "C:\\Users\\dmann\\.nuget\\packages\\": {}
+    "C:\\Users\\Dan\\.nuget\\packages\\": {}
   }
 }

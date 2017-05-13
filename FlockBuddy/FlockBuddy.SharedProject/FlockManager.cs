@@ -50,9 +50,13 @@ namespace FlockBuddy
 				if (BoidMass != value)
 				{
 					_boidMass = value;
-					foreach (var boid in Flock.Boids)
+					foreach (var mover in Flock.Boids)
 					{
-						boid.Mass = BoidMass;
+						var boid = mover as IBoid;
+						if (null != boid)
+						{
+							boid.Mass = BoidMass;
+						}
 					}
 				}
 			}
@@ -70,9 +74,13 @@ namespace FlockBuddy
 				if (BoidMaxForce != value)
 				{
 					_boidMaxForce = value;
-					foreach (var boid in Flock.Boids)
+					foreach (var mover in Flock.Boids)
 					{
-						boid.MaxForce = BoidMaxForce;
+						var boid = mover as IBoid;
+						if (null != boid)
+						{
+							boid.MaxForce = BoidMaxForce;
+						}
 					}
 				}
 			}
@@ -90,9 +98,13 @@ namespace FlockBuddy
 				if (BoidMinSpeed != value)
 				{
 					_boidMinSpeed = value;
-					foreach (var boid in Flock.Boids)
+					foreach (var mover in Flock.Boids)
 					{
-						boid.MinSpeed = BoidMinSpeed;
+						var boid = mover as IBoid;
+						if (null != boid)
+						{
+							boid.MinSpeed = BoidMinSpeed;
+						}
 					}
 				}
 			}
@@ -110,9 +122,13 @@ namespace FlockBuddy
 				if (BoidWalkSpeed != value)
 				{
 					_boidWalkSpeed = value;
-					foreach (var boid in Flock.Boids)
+					foreach (var mover in Flock.Boids)
 					{
-						boid.WalkSpeed = BoidWalkSpeed;
+						var boid = mover as IBoid;
+						if (null != boid)
+						{
+							boid.WalkSpeed = BoidWalkSpeed;
+						}
 					}
 				}
 			}
@@ -130,9 +146,13 @@ namespace FlockBuddy
 				if (BoidMaxSpeed != value)
 				{
 					_boidMaxSpeed = value;
-					foreach (var boid in Flock.Boids)
+					foreach (var mover in Flock.Boids)
 					{
-						boid.MaxSpeed = BoidMaxSpeed;
+						var boid = mover as IBoid;
+						if (null != boid)
+						{
+							boid.MaxSpeed = BoidMaxSpeed;
+						}
 					}
 				}
 			}
@@ -150,9 +170,13 @@ namespace FlockBuddy
 				if (BoidMaxTurnRate != value)
 				{
 					_boidMaxTurnRate = value;
-					foreach (var boid in Flock.Boids)
+					foreach (var mover in Flock.Boids)
 					{
-						boid.MaxTurnRate = BoidMaxTurnRate;
+						var boid = mover as IBoid;
+						if (null != boid)
+						{
+							boid.MaxTurnRate = BoidMaxTurnRate;
+						}
 					}
 				}
 			}
@@ -173,7 +197,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.NeighborsQueryRadius = BoidNeighborQueryRadius;
+						if (null != boid)
+						{
+							boid.NeighborsQueryRadius = BoidNeighborQueryRadius;
+						}
 					}
 				}
 			}
@@ -194,7 +221,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.PredatorsQueryRadius = BoidPredatorQueryRadius;
+						if (null != boid)
+						{
+							boid.PredatorsQueryRadius = BoidPredatorQueryRadius;
+						}
 					}
 				}
 			}
@@ -215,7 +245,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.PreyQueryRadius = BoidPreyQueryRadius;
+						if (null != boid)
+						{
+							boid.PreyQueryRadius = BoidPreyQueryRadius;
+						}
 					}
 				}
 			}
@@ -236,7 +269,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.VipQueryRadius = BoidVipQueryRadius;
+						if (null != boid)
+						{
+							boid.VipQueryRadius = BoidVipQueryRadius;
+						}
 					}
 				}
 			}
@@ -257,7 +293,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.WallQueryRadius = BoidWallQueryRadius;
+						if (null != boid)
+						{
+							boid.WallQueryRadius = BoidWallQueryRadius;
+						}
 					}
 				}
 			}
@@ -278,7 +317,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.ObstacleQueryRadius = BoidObstacleQueryRadius;
+						if (null != boid)
+						{
+							boid.ObstacleQueryRadius = BoidObstacleQueryRadius;
+						}
 					}
 				}
 			}
@@ -299,7 +341,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.WaypointQueryRadius = BoidWaypointQueryRadius;
+						if (null != boid)
+						{
+							boid.WaypointQueryRadius = BoidWaypointQueryRadius;
+						}
 					}
 				}
 			}
@@ -340,7 +385,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.RetargetTime = BoidRetargetTime;
+						if (null != boid)
+						{
+							boid.RetargetTime = BoidRetargetTime;
+						}
 					}
 				}
 			}
@@ -363,7 +411,10 @@ namespace FlockBuddy
 					foreach (var mover in Flock.Boids)
 					{
 						var boid = mover as IBoid;
-						boid.SummingMethod = SummingMethod;
+						if (null != boid)
+						{
+							boid.SummingMethod = SummingMethod;
+						}
 					}
 				}
 			}

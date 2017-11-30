@@ -378,7 +378,7 @@ namespace FlockBuddy
 		{
 			RetargetTimer.Update(BoidTimer);
 
-			if (!RetargetTimer.HasTimeRemaining())
+			if (!RetargetTimer.HasTimeRemaining)
 			{
 				//restart the timer
 				RetargetTimer.Start(RetargetTime);

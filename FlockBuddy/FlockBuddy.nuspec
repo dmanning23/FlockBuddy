@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
 		<id>FlockBuddy</id>
-		<version>1.0.6</version>
+		<version>1.0.7</version>
 		<title>FlockBuddy</title>
 		<authors>dmanning23</authors>
 		<owners>dmanning23</owners>
@@ -56,7 +56,7 @@
 			</group>
 
 			<group targetFramework="net451">
-				<dependency id="MonoGame.Framework.DesktopGL" version="3.5"/>
+				<dependency id="MonoGame.Framework.WindowsDX" version="3.5"/>
 				<dependency id="CellSpacePartition" version="1.0"/>
 				<dependency id="CollisionBuddy" version="1.0"/>
 				<dependency id="GameTimer" version="1.0"/>
@@ -83,9 +83,9 @@
 		<file src="FlockBuddy.WindowsUniversal\bin\Release\FlockBuddy.WindowsUniversal.pdb" target="lib\uap10.0\FlockBuddy.WindowsUniversal.pdb" />
 		<file src="FlockBuddy.WindowsUniversal\bin\Release\FlockBuddy.WindowsUniversal.dll" target="lib\uap10.0\FlockBuddy.WindowsUniversal.dll" />
 
-		<!--DesktopGL-->
-		<file src="FlockBuddy.DesktopGL\bin\Release\FlockBuddy.DesktopGL.pdb" target="lib\net451\FlockBuddy.DesktopGL.pdb" />
-		<file src="FlockBuddy.DesktopGL\bin\Release\FlockBuddy.DesktopGL.dll" target="lib\net451\FlockBuddy.DesktopGL.dll" />
+		<!--WindowsDX-->
+		<file src="FlockBuddy.WindowsDX\bin\Release\FlockBuddy.WindowsDX.pdb" target="lib\net451\FlockBuddy.WindowsDX.pdb" />
+		<file src="FlockBuddy.WindowsDX\bin\Release\FlockBuddy.WindowsDX.dll" target="lib\net451\FlockBuddy.WindowsDX.dll" />
 
 	</files>
 </package>

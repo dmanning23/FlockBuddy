@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
 using System;
+using FlockBuddy;
 
 namespace FlockBuddy.Tests
 {

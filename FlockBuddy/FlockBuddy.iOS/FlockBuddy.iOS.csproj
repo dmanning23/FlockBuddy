@@ -35,7 +35,7 @@
       <HintPath>..\packages\CellSpacePartition.1.0.2\lib\Xamarin.iOS10\CellSpacePartition.iOS.dll</HintPath>
     </Reference>
     <Reference Include="CollisionBuddy.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CollisionBuddy.1.0.4\lib\Xamarin.iOS10\CollisionBuddy.iOS.dll</HintPath>
+      <HintPath>..\packages\CollisionBuddy.1.0.5\lib\Xamarin.iOS10\CollisionBuddy.iOS.dll</HintPath>
     </Reference>
     <Reference Include="GameTimer.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GameTimer.1.0.8\lib\Xamarin.iOS10\GameTimer.iOS.dll</HintPath>
@@ -50,7 +50,7 @@
       <HintPath>..\packages\PrimitiveBuddy.1.0.4\lib\Xamarin.iOS10\PrimitiveBuddy.iOS.dll</HintPath>
     </Reference>
     <Reference Include="RandomExtensions.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RandomExtensions.dmanning23.1.0.4\lib\Xamarin.iOS10\RandomExtensions.iOS.dll</HintPath>
+      <HintPath>..\packages\RandomExtensions.dmanning23.1.0.5\lib\Xamarin.iOS10\RandomExtensions.iOS.dll</HintPath>
     </Reference>
     <Reference Include="RectangleF.iOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RectangleF.1.0.1\lib\Xamarin.iOS10\RectangleF.iOS.dll</HintPath>

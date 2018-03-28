@@ -39,7 +39,7 @@
       <HintPath>..\packages\CellSpacePartition.1.0.2\lib\MonoAndroid10\CellSpacePartition.Android.dll</HintPath>
     </Reference>
     <Reference Include="CollisionBuddy.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CollisionBuddy.1.0.4\lib\MonoAndroid10\CollisionBuddy.Android.dll</HintPath>
+      <HintPath>..\packages\CollisionBuddy.1.0.5\lib\MonoAndroid10\CollisionBuddy.Android.dll</HintPath>
     </Reference>
     <Reference Include="GameTimer.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GameTimer.1.0.8\lib\MonoAndroid10\GameTimer.Android.dll</HintPath>
@@ -57,7 +57,7 @@
       <HintPath>..\packages\PrimitiveBuddy.1.0.4\lib\MonoAndroid10\PrimitiveBuddy.Android.dll</HintPath>
     </Reference>
     <Reference Include="RandomExtensions.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RandomExtensions.dmanning23.1.0.4\lib\MonoAndroid10\RandomExtensions.Android.dll</HintPath>
+      <HintPath>..\packages\RandomExtensions.dmanning23.1.0.5\lib\MonoAndroid10\RandomExtensions.Android.dll</HintPath>
     </Reference>
     <Reference Include="RectangleF.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RectangleF.1.0.1\lib\MonoAndroid10\RectangleF.Android.dll</HintPath>

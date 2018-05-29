@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CellSpacePartition.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CellSpacePartition.1.0.2\lib\MonoAndroid10\CellSpacePartition.Android.dll</HintPath>
+      <HintPath>..\packages\CellSpacePartition.1.0.3\lib\MonoAndroid10\CellSpacePartition.Android.dll</HintPath>
     </Reference>
     <Reference Include="CollisionBuddy.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CollisionBuddy.1.0.5\lib\MonoAndroid10\CollisionBuddy.Android.dll</HintPath>
@@ -67,7 +67,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Vector2Extensions.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Vector2Extensions.1.0.9\lib\MonoAndroid10\Vector2Extensions.Android.dll</HintPath>
+      <HintPath>..\packages\Vector2Extensions.1.0.11\lib\MonoAndroid10\Vector2Extensions.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

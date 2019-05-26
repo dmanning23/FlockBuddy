@@ -134,6 +134,30 @@ namespace FlockBuddy
 			}
 		}
 
+		private float _boidLaziness;
+		public virtual float BoidLaziness
+		{
+			get
+			{
+				return _boidLaziness;
+			}
+			set
+			{
+				if (BoidLaziness != value)
+				{
+					_boidLaziness = value;
+					foreach (var mover in Flock.Boids)
+					{
+						var boid = mover as IBoid;
+						if (null != boid)
+						{
+							boid.Laziness = BoidLaziness;
+						}
+					}
+				}
+			}
+		}
+
 		private float _boidMaxSpeed;
 		public virtual float BoidMaxSpeed
 		{
@@ -443,6 +467,7 @@ namespace FlockBuddy
 			BoidMass = BoidDefaults.BoidMass;
 			BoidMinSpeed = BoidDefaults.BoidMinSpeed;
 			BoidWalkSpeed = BoidDefaults.BoidWalkSpeed;
+			BoidLaziness = BoidDefaults.BoidLaziness;
 			BoidMaxSpeed = BoidDefaults.BoidMaxSpeed;
 			BoidMaxTurnRate = BoidDefaults.BoidMaxTurnRate;
 			BoidMaxForce = BoidDefaults.BoidMaxForce;
@@ -466,6 +491,7 @@ namespace FlockBuddy
 			BoidMass = flockManager.BoidMass;
 			BoidMinSpeed = flockManager.BoidMinSpeed;
 			BoidWalkSpeed = flockManager.BoidWalkSpeed;
+			BoidLaziness = flockManager.BoidLaziness;
 			BoidMaxSpeed = flockManager.BoidMaxSpeed;
 			BoidMaxTurnRate = flockManager.BoidMaxTurnRate;
 			BoidMaxForce = flockManager.BoidMaxForce;
@@ -590,6 +616,7 @@ namespace FlockBuddy
 					BoidMass,
 					BoidMinSpeed,
 					BoidWalkSpeed,
+					BoidLaziness,
 					BoidMaxSpeed,
 					BoidMaxTurnRate,
 					BoidMaxForce,

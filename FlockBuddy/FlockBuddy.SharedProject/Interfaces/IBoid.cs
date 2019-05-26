@@ -12,6 +12,8 @@ namespace FlockBuddy
 
 		float WalkSpeed { get; set; }
 
+		float Laziness { get; set; }
+
 		float MaxSpeed { get; set; }
 
 		float MaxForce { get; set; }

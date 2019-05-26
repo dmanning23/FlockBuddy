@@ -14,6 +14,7 @@ namespace FlockBuddy
 		float BoidMaxForce { get; set; }
 		float BoidMinSpeed { get; set; }
 		float BoidWalkSpeed { get; set; }
+		float BoidLaziness { get; set; }
 		float BoidMaxSpeed { get; set; }
 		float BoidMaxTurnRate { get; set; }
 		float BoidNeighborQueryRadius { get; set; }

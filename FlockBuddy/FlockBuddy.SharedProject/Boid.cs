@@ -87,6 +87,11 @@ namespace FlockBuddy
 		public float WalkSpeed { get; set; }
 
 		/// <summary>
+		/// If the total force is less than laziness, this boid will stop moving.
+		/// </summary>
+		public float Laziness { get; set; }
+
+		/// <summary>
 		/// the maximum speed this entity may travel at.
 		/// </summary>
 		public float MaxSpeed { get; set; }
@@ -140,6 +145,7 @@ namespace FlockBuddy
 			float mass = BoidDefaults.BoidMass,
 			float minSpeed = BoidDefaults.BoidMinSpeed,
 			float walkSpeed = BoidDefaults.BoidWalkSpeed,
+			float laziness = BoidDefaults.BoidLaziness,
 			float maxSpeed = BoidDefaults.BoidMaxSpeed,
 			float maxTurnRate = BoidDefaults.BoidMaxTurnRate,
 			float maxForce = BoidDefaults.BoidMaxForce,
@@ -164,6 +170,7 @@ namespace FlockBuddy
 			Mass = mass;
 			MinSpeed = minSpeed;
 			WalkSpeed = walkSpeed;
+			Laziness = laziness;
 			MaxSpeed = maxSpeed;
 			MaxTurnRate = maxTurnRate;
 			MaxForce = maxForce;
@@ -295,6 +302,12 @@ namespace FlockBuddy
 				//if the dotproduct is exactly zero, we want to hit the target speed
 				if (Speed < WalkSpeed)
 				{
+					//if the total force is less than laziness, why bother speeding up?
+					if (_totalForce.LengthSquared() < (Laziness * Laziness))
+					{
+						return maxForceDelta *= -1f;
+					}
+
 					//we are going too slow, speed up!
 					return maxForceDelta;
 				}
@@ -304,7 +317,7 @@ namespace FlockBuddy
 					return maxForceDelta *= -1f;
 				}
 			}
-			else if (0 < dotHeading)
+			else if ((0 < dotHeading) && (_totalForce.LengthSquared() > (Laziness * Laziness)))
 			{
 				//if the dot product is greater than zero, we want to got the current direction
 				return maxForceDelta;

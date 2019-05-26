@@ -8,6 +8,7 @@ namespace FlockBuddy
 		public const float BoidMass = 1f;
 		public const float BoidMinSpeed = 140f;
 		public const float BoidWalkSpeed = 200f;
+		public const float BoidLaziness = 0.5f;
 		public const float BoidMaxSpeed = 275f;
 		public const float BoidMaxTurnRate = (float)Math.PI;
 		public const float BoidMaxForce = 200f;

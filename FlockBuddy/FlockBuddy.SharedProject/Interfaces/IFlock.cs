@@ -53,6 +53,8 @@ namespace FlockBuddy
 
 		void Update(GameClock time);
 
+		IMover FindBoidAtPosition(Vector2 position, float boidRadius);
+
 		IMover FindClosestBoidInRange(IBoid boid, float queryRadius);
 
 		List<IMover> FindBoidsInRange(IBoid boid, float queryRadius);
@@ -72,6 +74,7 @@ namespace FlockBuddy
 		void AddDefaultWalls(DefaultWalls wallsType, Rectangle rect);
 
 		void Draw(IPrimitive prim, Color color);
+		void DrawCells(IPrimitive prim);
 		void DrawWhiskers(IPrimitive prim, Color color);
 
 		void AddFlockToGroup(IFlock flock, FlockGroup group);

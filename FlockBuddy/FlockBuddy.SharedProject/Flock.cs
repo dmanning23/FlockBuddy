@@ -360,6 +360,13 @@ namespace FlockBuddy
 			return FindClosestFromList(boid, inRange);
 		}
 
+		public IMover FindBoidAtPosition(Vector2 position, float boidRadius)
+		{
+			//get all the dudes in range
+			var inRange = FindBoidsAtPosition(position, boidRadius);
+			return FindClosestFromList(position, inRange);
+		}
+
 		/// <summary>
 		/// Tag all the guys inteh flock that are neightbors of a boid.
 		/// </summary>
@@ -375,6 +382,20 @@ namespace FlockBuddy
 			{
 				//go through all the boids and tag them up
 				return FindBoidsInRange(boid, Boids, queryRadius);
+			}
+		}
+
+		public List<IMover> FindBoidsAtPosition(Vector2 position, float boidRadius)
+		{
+			if (UseCellSpace)
+			{
+				//Update the cell space to find all the boids neighbors
+				return CellSpace.CalculateNeighbors(position, boidRadius);
+			}
+			else
+			{
+				//go through all the boids and tag them up
+				return FindBoidsAtPosition(position, Boids);
 			}
 		}
 
@@ -435,6 +456,22 @@ namespace FlockBuddy
 			for (int i = 0; i < dudes.Count; i++)
 			{
 				if (CheckIfObjectInRange(boid, dudes[i], queryRadius))
+				{
+					neighbors.Add(dudes[i]);
+				}
+			}
+
+			return neighbors;
+		}
+
+		private List<IMover> FindBoidsAtPosition(Vector2 position, List<IMover> dudes)
+		{
+			var neighbors = new List<IMover>();
+
+			//iterate through all entities checking for range
+			for (int i = 0; i < dudes.Count; i++)
+			{
+				if (CheckIfObjectAtPosition(position, dudes[i]))
 				{
 					neighbors.Add(dudes[i]);
 				}
@@ -508,6 +545,35 @@ namespace FlockBuddy
 			return closest;
 		}
 
+		private IMover FindClosestFromList(Vector2 position, List<IMover> inRange)
+		{
+			float closestDistance = 0f;
+			IMover closest = null;
+
+			//set the "closest" to the first available
+			if (inRange.Count >= 1)
+			{
+				closest = inRange[0];
+				closestDistance = DistanceSquared(position, inRange[0]);
+			}
+
+			//loop through the rest and see if there are any closer
+			if (inRange.Count >= 2)
+			{
+				for (int i = 1; i < inRange.Count; i++)
+				{
+					var distance = DistanceSquared(position, inRange[i]);
+					if (distance < closestDistance)
+					{
+						closest = inRange[i];
+						closestDistance = distance;
+					}
+				}
+			}
+
+			return closest;
+		}
+
 		/// <summary>
 		/// check if a dude is in range
 		/// </summary>
@@ -529,9 +595,29 @@ namespace FlockBuddy
 			return ((DistanceSquared(boid, dude) < (range * range)) && (dude != boid));
 		}
 
+		private bool CheckIfObjectAtPosition(Vector2 position, IBaseEntity dude)
+		{
+			if (null == dude)
+			{
+				return false;
+			}
+
+			//the bounding radius of the other is taken into account by adding it to the range
+			double range = dude.Radius;
+
+			//if entity within range, tag for further consideration. 
+			//(working in distance-squared space to avoid sqrts)
+			return ((DistanceSquared(position, dude) < (range * range)));
+		}
+
 		private float DistanceSquared(IBoid boid, IBaseEntity dude)
 		{
 			return (dude.Position - boid.Position).LengthSquared();
+		}
+
+		private float DistanceSquared(Vector2 position, IBaseEntity dude)
+		{
+			return (dude.Position - position).LengthSquared();
 		}
 
 		#endregion //Find Methods

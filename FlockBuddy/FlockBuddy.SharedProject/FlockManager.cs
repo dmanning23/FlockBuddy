@@ -621,7 +621,10 @@ namespace FlockBuddy
 					BoidMaxTurnRate,
 					BoidMaxForce,
 					BoidRetargetTime,
-					SummingMethod);
+					SummingMethod)
+			{
+				NeighborsQueryRadius = this.BoidNeighborQueryRadius,
+			};
 
 			//add all the behaviors
 			foreach (var behavior in Behaviors)

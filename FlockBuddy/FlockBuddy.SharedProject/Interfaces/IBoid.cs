@@ -38,7 +38,7 @@ namespace FlockBuddy
 
 		float RetargetTime { set; }
 
-		void AddBehavior(EBehaviorType behaviorType, float weight);
+		IBehavior AddBehavior(EBehaviorType behaviorType, float weight);
 
 		void AddBehavior(IBehavior behavior);
 

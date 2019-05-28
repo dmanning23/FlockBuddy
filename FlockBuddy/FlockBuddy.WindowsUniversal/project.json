@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "CellSpacePartition": "2.0.0",
+    "CellSpacePartition": "2.0.2",
     "CollisionBuddy": "2.0.1",
     "GameTimer": "2.0.0",
     "MatrixExtensions": "2.0.0",

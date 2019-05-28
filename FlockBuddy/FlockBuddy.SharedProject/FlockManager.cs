@@ -1,17 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using RandomExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vector2Extensions;
 
 namespace FlockBuddy
 {
 	public class FlockManager : IFlockManager
 	{
 		#region Fields
-
-		Random _random = new Random();
 
 		private static int _debugColorIndex = 0;
 
@@ -606,12 +602,12 @@ namespace FlockBuddy
 			}
 		}
 
-		public void AddBoid()
+		public virtual Boid AddBoid(Vector2 position, Vector2 heading, float walkSpeed)
 		{
 			var boid = new Boid(Flock,
-					_random.NextVector2(0f, 1280f, 0f, 720f),
-					_random.NextVector2(-1f, 1f, -1f, 1f).Normalized(),
-					_random.NextFloat(BoidWalkSpeed, BoidMaxSpeed),
+					position, //_random.NextVector2(0f, 1280f, 0f, 720f),
+					heading, //_random.NextVector2(-1f, 1f, -1f, 1f).Normalized(),
+					walkSpeed, //_random.NextFloat(BoidWalkSpeed, BoidMaxSpeed),
 					BoidRadius,
 					BoidMass,
 					BoidMinSpeed,
@@ -631,6 +627,7 @@ namespace FlockBuddy
 			{
 				boid.AddBehavior(behavior.BehaviorType, behavior.Weight);
 			}
+			return boid;
 		}
 
 		public void RemoveBoid()

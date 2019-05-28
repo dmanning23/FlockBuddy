@@ -184,12 +184,13 @@ namespace FlockBuddy
 			RetargetTimer.Start(RetargetTime);
 		}
 
-		public void AddBehavior(EBehaviorType behaviorType, float weight)
+		public IBehavior AddBehavior(EBehaviorType behaviorType, float weight)
 		{
+			IBehavior behavior;
+
 			//first check if we alreadu have that behavior
 			if (!Behaviors.Exists(x => x.BehaviorType == behaviorType))
 			{
-				IBehavior behavior;
 				switch (behaviorType)
 				{
 					case EBehaviorType.wall_avoidance: { behavior = new WallAvoidance(this); } break;
@@ -215,13 +216,16 @@ namespace FlockBuddy
 
 				behavior.Weight = weight;
 				AddBehavior(behavior);
+				
 			}
 			else
 			{
 				//we already have that behavior, just update the weight
-				var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
+				behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
 				behavior.Weight = weight;
 			}
+
+			return behavior;
 		}
 
 		public void AddBehavior(IBehavior behavior)

@@ -3,10 +3,9 @@ using CollisionBuddy;
 using GameTimer;
 using Microsoft.Xna.Framework;
 using PrimitiveBuddy;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FlockBuddy
 {
@@ -25,9 +24,7 @@ namespace FlockBuddy
 		/// crappy lock object for list access
 		/// </summary>
 		private object _listLock = new object();
-
-		private bool _useCellSpace = false;
-
+		
 		#endregion //Fields
 
 		#region Properties
@@ -54,7 +51,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// break up the game world into cells to make it easier to update the flock
 		/// </summary>
-		private CellSpacePartition<IMover> CellSpace { get; set; }
+		public CellSpacePartition<IMover> CellSpace { get; set; }
 
 		public List<IFlock> Predators { get; private set; }
 
@@ -80,33 +77,17 @@ namespace FlockBuddy
 		/// <summary>
 		/// whether or not to use the cell space partitioning
 		/// </summary>
-		public bool UseCellSpace
-		{
-			get
-			{
-				return _useCellSpace;
-			}
-			set
-			{
-				_useCellSpace = value;
-
-				//Clear out the cell space if we arent using it
-				if (false == _useCellSpace)
-				{
-					CellSpace.Clear();
-				}
-			}
-		}
+		public bool UseCellSpace => null != CellSpace;
 
 		/// <summary>
 		/// Whether or not to constrian  boids to within toroid world
 		/// </summary>
-		private bool UseWorldWrap { get; set; }
+		public bool UseWorldWrap { get; set; }
 
 		/// <summary>
 		/// The size of the world!
 		/// </summary>
-		private Vector2 WorldSize = new Vector2(1024.0f, 768.0f);
+		public Vector2 WorldSize { get; private set; } = new Vector2(1024.0f, 768.0f);
 
 		#endregion //Members
 
@@ -121,29 +102,11 @@ namespace FlockBuddy
 
 			Boids = new List<IMover>();
 			FlockTimer = new GameClock();
-			CellSpace = new CellSpacePartition<IMover>(WorldSize, 20, 20);
 
 			Predators = new List<IFlock>();
 			Prey = new List<IFlock>();
 			Vips = new List<IFlock>();
 			Waypoints = new List<Vector2>();
-		}
-
-		/// <summary>
-		/// Setup the world for this flock
-		/// Do this BEFORE adding any boids, or you will fuck it up!!!
-		/// </summary>
-		/// <param name="worldSize"></param>
-		/// <param name="useWorldWrap"></param>
-		/// <param name="useCellSpace"></param>
-		/// <param name="cellsX"></param>
-		/// <param name="cellsY"></param>
-		public void SetWorldSize(Vector2 worldSize, bool useWorldWrap = true, bool useCellSpace = true, int cellsX = 20, int cellsY = 20)
-		{
-			this.WorldSize = worldSize;
-			this.UseWorldWrap = useWorldWrap;
-			this.UseCellSpace = useCellSpace;
-			CellSpace = new CellSpacePartition<IMover>(WorldSize, cellsX, cellsY);
 		}
 
 		/// <summary>
@@ -183,7 +146,11 @@ namespace FlockBuddy
 		public virtual void Clear()
 		{
 			Boids.Clear();
-			CellSpace.Clear();
+
+			if (UseCellSpace)
+			{
+				CellSpace.Clear();
+			}
 		}
 
 		public void AddDefaultWalls(DefaultWalls wallsType, Rectangle rect)
@@ -376,7 +343,7 @@ namespace FlockBuddy
 			if (UseCellSpace)
 			{
 				//Update the cell space to find all the boids neighbors
-				return CellSpace.CalculateNeighbors(boid.Position, queryRadius);
+				return CellSpace.CalculateNeighbors(boid.Position, queryRadius, true);
 			}
 			else
 			{
@@ -639,7 +606,10 @@ namespace FlockBuddy
 		/// <param name="prim"></param>
 		public void DrawCells(IPrimitive prim)
 		{
-			CellSpace.RenderCells(prim);
+			if (UseCellSpace)
+			{
+				CellSpace.RenderCells(prim);
+			}
 		}
 
 		/// <summary>

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using CellSpacePartitionLib;
 using CollisionBuddy;
 using GameTimer;
 using Microsoft.Xna.Framework;
 using PrimitiveBuddy;
+using System.Collections.Generic;
 
 namespace FlockBuddy
 {
@@ -45,7 +46,14 @@ namespace FlockBuddy
 		/// </summary>
 		List<Vector2> Waypoints { get; set; }
 
-		void SetWorldSize(Vector2 worldSize, bool useWorldWrap = true, bool useCellSpace = true, int cellsX = 20, int cellsY = 20);
+		CellSpacePartition<IMover> CellSpace { get; set; }
+
+		bool UseWorldWrap { get; set; }
+
+		Vector2 WorldSize
+		{
+			get;
+		}
 
 		void AddBoid(IMover boid);
 

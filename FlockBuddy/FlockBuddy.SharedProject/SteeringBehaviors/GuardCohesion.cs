@@ -6,7 +6,7 @@ namespace FlockBuddy
 	{
 		#region Properties
 
-		public IMover Vip { private get; set; }
+		public virtual IMover Vip { protected get; set; }
 
 		private Seek SeekBehavior { get; set; }
 
@@ -33,10 +33,10 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
-		public GuardCohesion(IBoid dude)
-			: base(dude, EBehaviorType.guard_cohesion, BoidDefaults.CohesionWeight)
+		public GuardCohesion(IBoid owner)
+			: base(owner, EBehaviorType.guard_cohesion, BoidDefaults.CohesionWeight)
 		{
-			SeekBehavior = new Seek(dude)
+			SeekBehavior = new Seek(owner)
 			{
 				Weight = 1f
 			};

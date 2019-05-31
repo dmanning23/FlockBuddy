@@ -21,6 +21,7 @@ namespace FlockBuddy
 		public const float ArriveWeight = 1f;
 		public const float CohesionWeight = 1f;
 		public const float EvadeWeight = 1f;
+		public const float DirectionWeight = 1f;
 		public const float FleeWeight = 1f;
 		public const float FollowPathWeight = 1f;
 		public const float HideWeight = 1f;

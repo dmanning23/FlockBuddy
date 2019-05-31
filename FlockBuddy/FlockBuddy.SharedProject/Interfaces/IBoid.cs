@@ -42,6 +42,8 @@ namespace FlockBuddy
 
 		void AddBehavior(IBehavior behavior);
 
+		void RemoveBehavior(IBehavior behavior);
+
 		void RemoveBehavior(EBehaviorType behaviorType);
 	}
 }

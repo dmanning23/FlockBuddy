@@ -602,9 +602,21 @@ namespace FlockBuddy
 			}
 		}
 
-		public virtual Boid AddBoid(Vector2 position, Vector2 heading, float walkSpeed)
+		public virtual IBoid AddBoid(Vector2 position, Vector2 heading, float walkSpeed)
 		{
-			var boid = new Boid(Flock,
+			var boid = BoidFactory(position, heading, walkSpeed);
+
+			//add all the behaviors
+			foreach (var behavior in Behaviors)
+			{
+				boid.AddBehavior(behavior.BehaviorType, behavior.Weight);
+			}
+			return boid;
+		}
+
+		public virtual IBoid BoidFactory(Vector2 position, Vector2 heading, float walkSpeed)
+		{
+			return new Boid(Flock,
 					position, //_random.NextVector2(0f, 1280f, 0f, 720f),
 					heading, //_random.NextVector2(-1f, 1f, -1f, 1f).Normalized(),
 					walkSpeed, //_random.NextFloat(BoidWalkSpeed, BoidMaxSpeed),
@@ -621,13 +633,6 @@ namespace FlockBuddy
 			{
 				NeighborsQueryRadius = this.BoidNeighborQueryRadius,
 			};
-
-			//add all the behaviors
-			foreach (var behavior in Behaviors)
-			{
-				boid.AddBehavior(behavior.BehaviorType, behavior.Weight);
-			}
-			return boid;
 		}
 
 		public void RemoveBoid()

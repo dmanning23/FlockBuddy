@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Alignment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Arrive.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Cohesion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Direction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Evade.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\Flee.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SteeringBehaviors\FollowPath.cs" />

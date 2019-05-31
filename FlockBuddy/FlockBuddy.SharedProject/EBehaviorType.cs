@@ -11,6 +11,7 @@ namespace FlockBuddy
 		obstacle_avoidance,
 		evade,
 		flee,
+		direction,
 		separation,
 		alignment,
 		cohesion,

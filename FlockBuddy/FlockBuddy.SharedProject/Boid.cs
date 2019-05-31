@@ -234,6 +234,11 @@ namespace FlockBuddy
 			Behaviors.Sort((x, y) => x.BehaviorType.CompareTo(y.BehaviorType));
 		}
 
+		public void RemoveBehavior(IBehavior behavior)
+		{
+			Behaviors.Remove(behavior);
+		}
+
 		public void RemoveBehavior(EBehaviorType behaviorType)
 		{
 			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).FirstOrDefault();
@@ -399,17 +404,10 @@ namespace FlockBuddy
 			{
 				//restart the timer
 				RetargetTimer.Start(RetargetTime);
-
-				//Update the flock
-				var neighbors = MyFlock.FindBoidsInRange(this, NeighborsQueryRadius);
-
-				//update the enemies
-				var predator = MyFlock.FindClosestPredatorInRange(this, PredatorsQueryRadius);
-
-				//update the target dudes
-				var prey = MyFlock.FindClosestPreyInRange(this, PreyQueryRadius);
-
-				var vip = MyFlock.FindClosestVipInRange(this, VipQueryRadius);
+				var neighbors = FindNeighbors();
+				var predator = FindPredator();
+				var prey = FindPrey();
+				var vip = FindVip();
 
 				//update the obstacles: the detection box length is proportional to the agent's velocity
 				float boxLength = ObstacleQueryRadius + (Speed / MaxSpeed) * ObstacleQueryRadius;
@@ -470,6 +468,26 @@ namespace FlockBuddy
 			Calculate();
 		}
 
+		protected virtual IMover FindVip()
+		{
+			return MyFlock.FindClosestVipInRange(this, VipQueryRadius);
+		}
+
+		protected virtual IMover FindPrey()
+		{
+			return MyFlock.FindClosestPreyInRange(this, PreyQueryRadius);
+		}
+
+		protected virtual IMover FindPredator()
+		{
+			return MyFlock.FindClosestPredatorInRange(this, PredatorsQueryRadius);
+		}
+
+		protected virtual List<IMover> FindNeighbors()
+		{
+			return MyFlock.FindBoidsInRange(this, NeighborsQueryRadius);
+		}
+
 		/// <summary>
 		/// calculates and sums the steering forces from any active behaviors
 		/// </summary>
@@ -502,6 +520,11 @@ namespace FlockBuddy
 				_totalForce += steeringForce;
 				_directionForce += steeringForce * Behaviors[i].DirectionChange;
 				_speedForce += steeringForce * Behaviors[i].SpeedChange;
+
+				if (Behaviors[i].BehaviorType == EBehaviorType.direction)
+				{
+					Debug.WriteLine(steeringForce.ToString());
+				}
 			}
 
 			//divide all forces by mass

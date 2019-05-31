@@ -35,10 +35,10 @@ namespace FlockBuddy
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FlockBuddy.BaseBehavior"/> class.
 		/// </summary>
-		public BaseBehavior(IBoid dude, EBehaviorType behaviorType, float weight)
+		public BaseBehavior(IBoid owner, EBehaviorType behaviorType, float weight)
 		{
 			BehaviorType = behaviorType;
-			Owner = dude;
+			Owner = owner;
 			Weight = weight;
 		}
 

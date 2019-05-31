@@ -6,7 +6,7 @@ namespace FlockBuddy
 	{
 		#region Properties
 
-		public IMover Vip { private get; set; }
+		public virtual IMover Vip { protected get; set; }
 
 		public override float DirectionChange
 		{

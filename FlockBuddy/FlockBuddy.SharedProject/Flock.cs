@@ -23,7 +23,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// crappy lock object for list access
 		/// </summary>
-		private object _listLock = new object();
+		protected object _listLock = new object();
 		
 		#endregion //Fields
 

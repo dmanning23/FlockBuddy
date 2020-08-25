@@ -67,6 +67,8 @@ namespace FlockBuddy
 
 		List<IMover> FindBoidsInRange(IBoid boid, float queryRadius);
 
+		List<IMover> FindBoidsAtPosition(Vector2 position, float boidRadius);
+
 		List<IBaseEntity> FindObstaclesInRange(IBoid boid, float queryRadius);
 
 		IMover FindClosestPredatorInRange(IBoid boid, float queryRadius);

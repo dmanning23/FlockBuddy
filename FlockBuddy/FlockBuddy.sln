@@ -21,6 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlockBuddy.WindowsDX", "Flo
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		FlockBuddy.SharedProject\FlockBuddy.SharedProject.projitems*{113113f6-5cee-4fb0-abf0-d1a2a7d91f3e}*SharedItemsImports = 4
 		FlockBuddy.SharedProject\FlockBuddy.SharedProject.projitems*{15efb6ec-d461-4f4e-9d35-6fd2fa364c33}*SharedItemsImports = 4
 		FlockBuddy.SharedProject\FlockBuddy.SharedProject.projitems*{168aafe3-af48-4159-8eb1-09138531a94f}*SharedItemsImports = 4
 		FlockBuddy.SharedProject\FlockBuddy.SharedProject.projitems*{932de7a2-c12e-4d94-89ce-247b762c7ee8}*SharedItemsImports = 13

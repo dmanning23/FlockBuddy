@@ -43,14 +43,14 @@ namespace FlockBuddy
 		/// <summary>
 		/// How to add up all the steering behaviors
 		/// </summary>
-		public ESummingMethod SummingMethod { private get; set; }
+		public ESummingMethod SummingMethod { get; set; }
 
 		/// <summary>
 		/// the flock that owns this dude
 		/// </summary>
 		private IFlock MyFlock { get; set; }
 
-		public float RetargetTime { private get; set; }
+		public float RetargetTime { get; set; }
 
 		private CountdownTimer RetargetTimer { get; set; }
 
@@ -141,16 +141,7 @@ namespace FlockBuddy
 			Vector2 position,
 			Vector2 heading,
 			float speed,
-			float radius = BoidDefaults.BoidRadius,
-			float mass = BoidDefaults.BoidMass,
-			float minSpeed = BoidDefaults.BoidMinSpeed,
-			float walkSpeed = BoidDefaults.BoidWalkSpeed,
-			float laziness = BoidDefaults.BoidLaziness,
-			float maxSpeed = BoidDefaults.BoidMaxSpeed,
-			float maxTurnRate = BoidDefaults.BoidMaxTurnRate,
-			float maxForce = BoidDefaults.BoidMaxForce,
-			float retargetTime = BoidDefaults.BoidRetargetTime,
-			ESummingMethod summingMethod = BoidDefaults.SummingMethod)
+			float radius = BoidDefaults.BoidRadius)
 				: base(position,
 				radius,
 				heading,
@@ -167,19 +158,19 @@ namespace FlockBuddy
 			WallQueryRadius = BoidDefaults.BoidQueryRadius;
 			WaypointQueryRadius = BoidDefaults.BoidQueryRadius;
 
-			Mass = mass;
-			MinSpeed = minSpeed;
-			WalkSpeed = walkSpeed;
-			Laziness = laziness;
-			MaxSpeed = maxSpeed;
-			MaxTurnRate = maxTurnRate;
-			MaxForce = maxForce;
+			Mass = BoidDefaults.BoidMass;
+			MinSpeed = BoidDefaults.BoidMinSpeed;
+			WalkSpeed = BoidDefaults.BoidWalkSpeed;
+			Laziness = BoidDefaults.BoidLaziness;
+			MaxSpeed = BoidDefaults.BoidMaxSpeed;
+			MaxTurnRate = BoidDefaults.BoidMaxTurnRate;
+			MaxForce = BoidDefaults.BoidMaxForce;
 
 			Behaviors = new List<IBehavior>();
 
-			SummingMethod = summingMethod;
+			SummingMethod = BoidDefaults.SummingMethod;
 
-			RetargetTime = retargetTime;
+			RetargetTime = BoidDefaults.BoidRetargetTime;
 			RetargetTimer = new CountdownTimer();
 			RetargetTimer.Start(RetargetTime);
 		}
@@ -326,15 +317,20 @@ namespace FlockBuddy
 					return maxForceDelta *= -1f;
 				}
 			}
-			else if ((0 < dotHeading) && (_totalForce.LengthSquared() > (Laziness * Laziness)))
+			else if ((0 < dotHeading) && (_totalForce.LengthSquared() >= (Laziness * Laziness)))
 			{
 				//if the dot product is greater than zero, we want to got the current direction
 				return maxForceDelta;
 			}
-			else
+			else if ((0 > dotHeading) && (_totalForce.LengthSquared() >= (Laziness * Laziness)))
 			{
 				//if the dot product is less than zero, we want to got the other direction
 				return maxForceDelta *= -1f;
+			}
+			else
+			{
+				//Don't go anywhere!
+				return 0f;
 			}
 		}
 

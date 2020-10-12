@@ -323,9 +323,31 @@ namespace FlockBuddy.Tests
 				}
 			}
 
-			public TestBoid(IFlock flock, Vector2 position, float radius, Vector2 heading, float speed, float mass, float minSpeed, float walkSpeed, float maxSpeed, float maxTurnRate, float maxForce) : base(flock, position, heading, speed, radius, mass, minSpeed, walkSpeed, maxSpeed, maxTurnRate, maxForce)
+			public TestBoid(IFlock flock, 
+				Vector2 position, 
+				float radius, 
+				Vector2 heading, 
+				float speed, 
+				float mass, 
+				float minSpeed, 
+				float walkSpeed, 
+				float maxSpeed, 
+				float maxTurnRate, 
+				float maxForce) : 
+					base(flock, 
+						position, 
+						heading, 
+						speed, 
+						radius)
 			{
 				BoidTimer.TimeDelta = 1f;
+				Mass = mass;
+				MinSpeed = minSpeed;
+				WalkSpeed = walkSpeed;
+				MaxSpeed = maxSpeed;
+				MaxTurnRate = maxTurnRate;
+				MaxForce = maxForce;
+				Laziness = 0f;
 			}
 
 			public new void RotateHeading(float angle)

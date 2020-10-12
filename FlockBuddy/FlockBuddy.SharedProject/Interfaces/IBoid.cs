@@ -20,7 +20,7 @@ namespace FlockBuddy
 
 		float MaxTurnRate { get; set; }
 
-		ESummingMethod SummingMethod { set; }
+		ESummingMethod SummingMethod { get; set; }
 
 		float NeighborsQueryRadius { get; set; }
 
@@ -36,7 +36,7 @@ namespace FlockBuddy
 
 		float WaypointQueryRadius { get; set; }
 
-		float RetargetTime { set; }
+		float RetargetTime { get; set; }
 
 		IBehavior AddBehavior(EBehaviorType behaviorType, float weight);
 

@@ -448,6 +448,11 @@ namespace FlockBuddy
 
 		#region Methods
 
+		static FlockManager()
+		{
+			_debugColorIndex = 0;
+		}
+
 		protected FlockManager()
 		{
 			SetDebugColor();
@@ -616,23 +621,33 @@ namespace FlockBuddy
 
 		public virtual IBoid BoidFactory(Vector2 position, Vector2 heading, float walkSpeed)
 		{
-			return new Boid(Flock,
+			var boid = new Boid(Flock,
 					position, //_random.NextVector2(0f, 1280f, 0f, 720f),
 					heading, //_random.NextVector2(-1f, 1f, -1f, 1f).Normalized(),
 					walkSpeed, //_random.NextFloat(BoidWalkSpeed, BoidMaxSpeed),
-					BoidRadius,
-					BoidMass,
-					BoidMinSpeed,
-					BoidWalkSpeed,
-					BoidLaziness,
-					BoidMaxSpeed,
-					BoidMaxTurnRate,
-					BoidMaxForce,
-					BoidRetargetTime,
-					SummingMethod)
-			{
-				NeighborsQueryRadius = this.BoidNeighborQueryRadius,
-			};
+					BoidRadius);
+			InitializeBoid(boid);
+			return boid;
+		}
+
+		protected void InitializeBoid(IBoid boid)
+		{
+			boid.Mass = this.BoidMass;
+			boid.MinSpeed = this.BoidMinSpeed;
+			boid.WalkSpeed = this.BoidWalkSpeed;
+			boid.Laziness = this.BoidLaziness;
+			boid.MaxSpeed = this.BoidMaxSpeed;
+			boid.MaxTurnRate = this.BoidMaxTurnRate;
+			boid.MaxForce = this.BoidMaxForce;
+			boid.RetargetTime = this.BoidRetargetTime;
+			boid.SummingMethod = this.SummingMethod;
+			boid.NeighborsQueryRadius = this.BoidNeighborQueryRadius;
+			boid.ObstacleQueryRadius = this.BoidObstacleQueryRadius;
+			boid.PredatorsQueryRadius = this.BoidPredatorQueryRadius;
+			boid.PreyQueryRadius = this.BoidPreyQueryRadius;
+			boid.VipQueryRadius = this.BoidVipQueryRadius;
+			boid.WallQueryRadius = this.BoidWallQueryRadius;
+			boid.WaypointQueryRadius = this.BoidWaypointQueryRadius;
 		}
 
 		public void RemoveBoid()

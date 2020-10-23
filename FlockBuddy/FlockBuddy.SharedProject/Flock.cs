@@ -329,9 +329,18 @@ namespace FlockBuddy
 
 		public IMover FindBoidAtPosition(Vector2 position, float boidRadius)
 		{
-			//get all the dudes in range
-			var inRange = FindBoidsAtPosition(position, boidRadius);
-			return FindClosestFromList(position, inRange);
+			if (UseCellSpace)
+			{
+				return CellSpace.NearestNeighbor(position, boidRadius);
+			}
+			else
+			{
+				//get all the dudes in range
+				var inRange = FindBoidsAtPosition(position, boidRadius);
+
+				//find the closest out of all of those
+				return FindClosestFromList(position, inRange);
+			}
 		}
 
 		/// <summary>

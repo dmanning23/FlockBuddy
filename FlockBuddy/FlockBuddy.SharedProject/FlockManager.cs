@@ -610,12 +610,7 @@ namespace FlockBuddy
 		public virtual IBoid AddBoid(Vector2 position, Vector2 heading, float walkSpeed)
 		{
 			var boid = BoidFactory(position, heading, walkSpeed);
-
-			//add all the behaviors
-			foreach (var behavior in Behaviors)
-			{
-				boid.AddBehavior(behavior.BehaviorType, behavior.Weight);
-			}
+			InitializeBoidBehaviors(boid);
 			return boid;
 		}
 
@@ -648,6 +643,15 @@ namespace FlockBuddy
 			boid.VipQueryRadius = this.BoidVipQueryRadius;
 			boid.WallQueryRadius = this.BoidWallQueryRadius;
 			boid.WaypointQueryRadius = this.BoidWaypointQueryRadius;
+		}
+
+		protected void InitializeBoidBehaviors(IBoid boid)
+		{
+			//add all the behaviors
+			foreach (var behavior in Behaviors)
+			{
+				boid.AddBehavior(behavior.BehaviorType, behavior.Weight);
+			}
 		}
 
 		public void RemoveBoid()

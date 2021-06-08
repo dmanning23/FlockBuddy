@@ -486,7 +486,11 @@ namespace FlockBuddy
 			var close = new List<IMover>();
 			foreach (var flock in flocks)
 			{
-				close.Add(flock.FindClosestBoidInRange(boid, queryRadius));
+				var closest = flock.FindClosestBoidInRange(boid, queryRadius);
+				if (null != closest)
+				{
+					close.Add(closest);
+				}
 			}
 
 			return FindClosestFromList(boid, close);

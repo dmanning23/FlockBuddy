@@ -12,7 +12,7 @@ namespace FlockBuddy
 		/// <summary>
 		/// A dude we are chasing
 		/// </summary>
-		public IMover Prey { private get; set; }
+		public IMover Prey { get; set; }
 
 		/// <summary>
 		/// Used to chase dudes

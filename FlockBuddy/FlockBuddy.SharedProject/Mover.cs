@@ -126,7 +126,11 @@ namespace FlockBuddy
 		/// Draw the detection circle and point out all the neighbors
 		/// </summary>
 		/// <param name="curTime"></param>
-		public virtual void DrawNeigbors(IPrimitive prim)
+		public virtual void DrawNeigborQuery(IPrimitive prim, Color color)
+		{
+		}
+
+		public virtual void DrawPursuitQuery(IPrimitive prim)
 		{
 		}
 

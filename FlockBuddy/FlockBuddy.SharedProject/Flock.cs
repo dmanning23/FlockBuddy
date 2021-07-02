@@ -126,6 +126,21 @@ namespace FlockBuddy
 			}
 		}
 
+		public void AddBoids(IEnumerable<IMover> boids)
+		{
+			lock (_listLock)
+			{
+				Boids.AddRange(boids);
+				if (UseCellSpace)
+				{
+					foreach (var boid in boids)
+					{
+						CellSpace.Add(boid);
+					}
+				}
+			}
+		}
+
 		/// <summary>
 		/// Remove a boid from the list
 		/// </summary>

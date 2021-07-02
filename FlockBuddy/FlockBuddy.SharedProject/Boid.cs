@@ -788,7 +788,7 @@ namespace FlockBuddy
 		/// Draw the detection circle and point out all the neighbors
 		/// </summary>
 		/// <param name="curTime"></param>
-		public override void DrawNeigbors(IPrimitive prim)
+		public override void DrawNeigborQuery(IPrimitive prim, Color color)
 		{
 			////draw the query cells
 			//MyFlock.CellSpace.RenderCellIntersections(prim, Position, QueryRadius, Color.Green);
@@ -797,8 +797,8 @@ namespace FlockBuddy
 			//var queryRect = CellSpacePartition<Boid>.CreateQueryBox(Position, QueryRadius);
 			//prim.Rectangle(queryRect, Color.White);
 
-			////get the query circle
-			//prim.Circle(Position, QueryRadius, Color.White);
+			//get the query circle
+			prim.Circle(Position, NeighborsQueryRadius, color);
 
 			////draw the neighbor dudes
 			//List<IMover> neighbors = MyFlock.FindNeighbors(this, QueryRadius);
@@ -806,6 +806,20 @@ namespace FlockBuddy
 			//{
 			//	prim.Circle(neighbor.Position, neighbor.Radius, Color.Red);
 			//}
+		}
+
+		public override void DrawPursuitQuery(IPrimitive prim)
+		{
+			var pursuit = Behaviors.FirstOrDefault(x => x.BehaviorType == EBehaviorType.pursuit) as Pursuit;
+
+			if (null != pursuit && pursuit.Prey != null)
+			{
+				prim.Circle(Position, PreyQueryRadius, Color.Red);
+			}
+			else
+			{
+				prim.Circle(Position, PreyQueryRadius, Color.White);
+			}
 		}
 
 		public void DrawTotalForce(IPrimitive prim, Color color)

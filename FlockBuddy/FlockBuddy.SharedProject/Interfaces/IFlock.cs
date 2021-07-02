@@ -57,7 +57,11 @@ namespace FlockBuddy
 
 		void AddBoid(IMover boid);
 
+		void AddBoids(IEnumerable<IMover> boids);
+
 		void RemoveBoid(IMover boid);
+
+		void Clear();
 
 		void Update(GameClock time);
 

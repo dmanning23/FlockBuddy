@@ -24,8 +24,6 @@ namespace FlockBuddy
 
 		private Vector2 _speedForce = Vector2.Zero;
 
-		private Random _rand = new Random();
-
 		/// <summary>
 		/// a vector perpendicular to the heading vector
 		/// </summary>

@@ -50,7 +50,7 @@
       <HintPath>..\packages\CollisionBuddy.2.0.2\lib\net451\CollisionBuddy.WindowsDX.dll</HintPath>
     </Reference>
     <Reference Include="DiffEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c7a34512ecd69090, processorArchitecture=MSIL">
-      <HintPath>..\packages\DiffEngine.6.8.2\lib\net461\DiffEngine.dll</HintPath>
+      <HintPath>..\packages\DiffEngine.6.9.2\lib\net461\DiffEngine.dll</HintPath>
     </Reference>
     <Reference Include="EmptyFiles, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c7a34512ecd69090, processorArchitecture=MSIL">
       <HintPath>..\packages\EmptyFiles.2.7.0\lib\net461\EmptyFiles.dll</HintPath>

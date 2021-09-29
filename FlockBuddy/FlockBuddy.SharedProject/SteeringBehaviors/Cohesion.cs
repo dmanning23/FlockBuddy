@@ -1,8 +1,9 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Diagnostics;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// Group behavior to move boids together
@@ -42,7 +43,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Cohesion(IBoid dude)
-			: base(dude, EBehaviorType.cohesion, BoidDefaults.CohesionWeight)
+			: base(dude, BehaviorType.Cohesion, BoidDefaults.CohesionWeight)
 		{
 			Buddies = new List<IMover>();
 			SeekBehavior = new Seek(dude)

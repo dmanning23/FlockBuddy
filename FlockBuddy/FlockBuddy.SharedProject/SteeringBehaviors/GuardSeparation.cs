@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
+using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	public class GuardSeparation : BaseBehavior, IGuardBehavior
 	{
@@ -32,7 +34,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public GuardSeparation(IBoid dude)
-			: base(dude, EBehaviorType.guard_separation, BoidDefaults.SeparationWeight)
+			: base(dude, BehaviorType.GuardSeparation, BoidDefaults.SeparationWeight)
 		{
 		}
 

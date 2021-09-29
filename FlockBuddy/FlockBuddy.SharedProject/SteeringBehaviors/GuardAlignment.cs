@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
+using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// Flocking behavior for guarding another guy
@@ -35,7 +37,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Alignment"/> class.
 		/// </summary>
 		public GuardAlignment(IBoid dude)
-			: base(dude, EBehaviorType.guard_alignment, BoidDefaults.AlignmentWeight)
+			: base(dude, BehaviorType.GuardAlignment, BoidDefaults.AlignmentWeight)
 		{
 		}
 

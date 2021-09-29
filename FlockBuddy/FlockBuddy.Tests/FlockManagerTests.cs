@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using Microsoft.Xna.Framework;
 using Moq;
 using NUnit.Framework;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,13 @@ namespace FlockBuddy.Tests
 	[TestFixture]
 	public class FlockManagerTests
 	{
+		#region Properties
+
 		IFlockManager test;
+
+		#endregion //Properties
+
+		#region Setup
 
 		[SetUp]
 		public void Setup()
@@ -36,10 +44,14 @@ namespace FlockBuddy.Tests
 			manager.Setup(x => x.BoidRadius).Returns(16);
 			manager.Setup(x => x.BoidRetargetTime).Returns(17);
 			manager.Setup(x => x.BoidLaziness).Returns(18);
-			manager.Setup(x => x.SummingMethod).Returns(ESummingMethod.dithered);
+			manager.Setup(x => x.SummingMethod).Returns(SummingMethod.Dithered);
 			manager.Setup(x => x.Walls).Returns(DefaultWalls.All);
 			test = manager.Object;
 		}
+
+		#endregion //Setup
+
+		#region Construction Tests
 
 		[Test]
 		public void Constructor_Id()
@@ -181,6 +193,10 @@ namespace FlockBuddy.Tests
 			Assert.AreEqual(test.Walls, manager.Walls);
 		}
 
+		#endregion //Construction Tests
+
+		#region Color Tests
+
 		[Ignore("Static variable breaks this test")]
 		[Test]
 		public void DebugColors()
@@ -210,5 +226,155 @@ namespace FlockBuddy.Tests
 			Assert.AreEqual(Color.Red, manager.DebugColor);
 			Assert.AreEqual(Color.Orange, manager2.DebugColor);
 		}
+
+		#endregion //Color Tests
+
+		#region Boid Tests
+
+		public void Boid_BoidMass()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.Mass, manager.BoidMass);
+		}
+
+		[Test]
+		public void Boid_BoidMaxForce()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.MaxForce, manager.BoidMaxForce);
+		}
+
+		[Test]
+		public void Boid_BoidMinSpeed()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.MinSpeed, manager.BoidMinSpeed);
+		}
+
+		[Test]
+		public void Boid_BoidWalkSpeed()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.WalkSpeed, manager.BoidWalkSpeed);
+		}
+
+
+		[Test]
+		public void Boid_BoidMaxSpeed()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.MaxSpeed, manager.BoidMaxSpeed);
+		}
+
+		[Test]
+		public void Boid_BoidMaxTurnRate()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.MaxTurnRate, manager.BoidMaxTurnRate);
+		}
+
+		[Test]
+		public void Boid_BoidNeighborQueryRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.NeighborsQueryRadius, manager.BoidNeighborQueryRadius);
+		}
+
+		[Test]
+		public void Boid_BoidPredatorQueryRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.PredatorsQueryRadius, manager.BoidPredatorQueryRadius);
+		}
+
+		[Test]
+		public void Boid_BoidPreyQueryRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.PreyQueryRadius, manager.BoidPreyQueryRadius);
+		}
+
+		[Test]
+		public void Boid_BoidVipQueryRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.VipQueryRadius, manager.BoidVipQueryRadius);
+		}
+
+		[Test]
+		public void Boid_BoidWallQueryRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.WallQueryRadius, manager.BoidWallQueryRadius);
+		}
+
+		[Test]
+		public void Boid_BoidObstacleQueryRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.ObstacleQueryRadius, manager.BoidObstacleQueryRadius);
+		}
+
+		[Test]
+		public void Boid_BoidWaypointQueryRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.WaypointQueryRadius, manager.BoidWaypointQueryRadius);
+		}
+
+		[Test]
+		public void Boid_BoidRadius()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.Radius, manager.BoidRadius);
+		}
+
+		[Test]
+		public void Boid_BoidRetargetTime()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.RetargetTime, manager.BoidRetargetTime);
+		}
+
+		[Test]
+		public void Boid_BoidRetargetTimer()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY) as Boid;
+			boid.RetargetTimer.RemainingTime.ShouldBe(manager.BoidRetargetTime);
+		}
+
+		[Test]
+		public void Boid_BoidLaziness()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.Laziness, manager.BoidLaziness);
+		}
+
+		[Test]
+		public void Boid_SummingMethod()
+		{
+			var manager = new FlockManager(test);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitY);
+			Assert.AreEqual(boid.SummingMethod, manager.SummingMethod);
+		}
+
+		#endregion //Boid Tests
 	}
 }

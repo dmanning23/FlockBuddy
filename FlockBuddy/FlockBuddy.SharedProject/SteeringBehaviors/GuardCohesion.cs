@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
+using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	public class GuardCohesion : BaseBehavior, IGuardBehavior
 	{
@@ -34,7 +36,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public GuardCohesion(IBoid owner)
-			: base(owner, EBehaviorType.guard_cohesion, BoidDefaults.CohesionWeight)
+			: base(owner, BehaviorType.GuardCohesion, BoidDefaults.CohesionWeight)
 		{
 			SeekBehavior = new Seek(owner)
 			{

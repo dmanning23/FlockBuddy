@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlockBuddy
+﻿
+namespace FlockBuddy.Interfaces
 {
 	public interface IFlockManager
 	{
@@ -27,7 +24,7 @@ namespace FlockBuddy
 		float BoidRadius { get; set; }
 		float BoidRetargetTime { get; set; }
 
-		ESummingMethod SummingMethod { get; set; }
+		SummingMethod SummingMethod { get; set; }
 
 		DefaultWalls Walls { get; set; }
 	}

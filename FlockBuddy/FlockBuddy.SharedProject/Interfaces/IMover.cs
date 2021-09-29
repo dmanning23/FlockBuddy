@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
-using PrimitiveBuddy;
 
-namespace FlockBuddy
+namespace FlockBuddy.Interfaces
 {
 	/// <summary>
 	/// An interface defining an entity that moves.

@@ -1,11 +1,11 @@
 using CellSpacePartitionLib;
 using CollisionBuddy;
+using FlockBuddy.Interfaces;
 using GameTimer;
 using Microsoft.Xna.Framework;
 using PrimitiveBuddy;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FlockBuddy
 {
@@ -217,18 +217,14 @@ namespace FlockBuddy
 			//update the time
 			FlockTimer.Update(curTime);
 
-			//create a list of all our tasks
-			List<Task> taskList = new List<Task>();
-
 			//Update all the flock boids
 			for (int i = 0; i < Boids.Count; i++)
 			{
-				Boid boid = Boids[i] as Boid;
-				taskList.Add(boid.UpdateAsync(FlockTimer));
+				if (Boids[i] is Boid boid)
+				{
+					boid.Update(FlockTimer);
+				}
 			}
-
-			//wait for all the updates to finish
-			Task.WaitAll(taskList.ToArray());
 
 			//update the vehicle's current cell if space partitioning is turned on
 			if (UseCellSpace)

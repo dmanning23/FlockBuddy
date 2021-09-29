@@ -1,6 +1,8 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// Tthis behavior predicts where an agent will be in time T and seeks towards that point to intercept it.
@@ -48,7 +50,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Pursuit"/> class.
 		/// </summary>
 		public Pursuit(IBoid dude)
-			: base(dude, EBehaviorType.pursuit, BoidDefaults.PursuitWeight)
+			: base(dude, BehaviorType.Pursuit, BoidDefaults.PursuitWeight)
 		{
 			SeekAction = new Seek(dude)
 			{

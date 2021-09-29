@@ -1,6 +1,8 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this behavior attempts to evade a pursuer
@@ -43,7 +45,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Evade(IBoid dude)
-			: base(dude, EBehaviorType.evade, BoidDefaults.EvadeWeight)
+			: base(dude, BehaviorType.Evade, BoidDefaults.EvadeWeight)
 		{
 			FleeAction = new Flee(dude)
 			{

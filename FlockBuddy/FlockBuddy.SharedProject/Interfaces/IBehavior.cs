@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.Interfaces
 {
 	public interface IBehavior
 	{
-		EBehaviorType BehaviorType { get; }
+		BehaviorType BehaviorType { get; }
 		IBoid Owner { get; set; }
 		float Weight { get; set; }
 

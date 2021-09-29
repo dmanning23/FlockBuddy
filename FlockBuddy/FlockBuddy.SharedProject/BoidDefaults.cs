@@ -14,7 +14,7 @@ namespace FlockBuddy
 		public const float BoidMaxForce = 200f;
 		public const float BoidQueryRadius = 100f;
 		public const float BoidRetargetTime = 0.1f;
-		public const ESummingMethod SummingMethod = ESummingMethod.weighted_average;
+		public const SummingMethod DefaultSummingMethod = SummingMethod.WeightedAverage;
 		public const DefaultWalls Walls = DefaultWalls.None;
 
 		public const float AlignmentWeight = 10f;

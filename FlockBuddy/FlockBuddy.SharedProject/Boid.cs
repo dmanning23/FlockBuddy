@@ -1,4 +1,7 @@
 using CellSpacePartitionLib;
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
+using FlockBuddy.SteeringBehaviors;
 using GameTimer;
 using Microsoft.Xna.Framework;
 using PrimitiveBuddy;
@@ -36,12 +39,12 @@ namespace FlockBuddy
 		/// <summary>
 		/// The list of behaviors this boid will use
 		/// </summary>
-		private List<IBehavior> Behaviors { get; set; }
+		protected List<IBehavior> Behaviors { get; set; }
 
 		/// <summary>
 		/// How to add up all the steering behaviors
 		/// </summary>
-		public ESummingMethod SummingMethod { get; set; }
+		public SummingMethod SummingMethod { get; set; }
 
 		/// <summary>
 		/// the flock that owns this dude
@@ -50,7 +53,7 @@ namespace FlockBuddy
 
 		public float RetargetTime { get; set; }
 
-		private CountdownTimer RetargetTimer { get; set; }
+		public CountdownTimer RetargetTimer { get; set; }
 
 		/// <summary>
 		/// how far out to check for neighbors
@@ -148,64 +151,59 @@ namespace FlockBuddy
 			MyFlock = owner;
 			MyFlock.AddBoid(this);
 
-			NeighborsQueryRadius = BoidDefaults.BoidQueryRadius;
-			PredatorsQueryRadius = BoidDefaults.BoidQueryRadius;
-			PreyQueryRadius = BoidDefaults.BoidQueryRadius;
-			VipQueryRadius = BoidDefaults.BoidQueryRadius;
-			ObstacleQueryRadius = BoidDefaults.BoidQueryRadius;
-			WallQueryRadius = BoidDefaults.BoidQueryRadius;
-			WaypointQueryRadius = BoidDefaults.BoidQueryRadius;
-
-			Mass = BoidDefaults.BoidMass;
-			MinSpeed = BoidDefaults.BoidMinSpeed;
-			WalkSpeed = BoidDefaults.BoidWalkSpeed;
-			Laziness = BoidDefaults.BoidLaziness;
-			MaxSpeed = BoidDefaults.BoidMaxSpeed;
-			MaxTurnRate = BoidDefaults.BoidMaxTurnRate;
-			MaxForce = BoidDefaults.BoidMaxForce;
-
 			Behaviors = new List<IBehavior>();
-
-			SummingMethod = BoidDefaults.SummingMethod;
-
-			RetargetTime = BoidDefaults.BoidRetargetTime;
 			RetargetTimer = new CountdownTimer();
+
+			Initialize();
+		}
+
+		public void Initialize(float mass = BoidDefaults.BoidMass,
+			float minSpeed = BoidDefaults.BoidMinSpeed,
+			float walkSpeed = BoidDefaults.BoidWalkSpeed,
+			float laziness = BoidDefaults.BoidLaziness,
+			float maxSpeed = BoidDefaults.BoidMaxSpeed,
+			float maxForce = BoidDefaults.BoidMaxForce,
+			float maxTurnRate = BoidDefaults.BoidMaxTurnRate,
+			SummingMethod summingMethod = BoidDefaults.DefaultSummingMethod,
+			float neighborsQueryRadius = BoidDefaults.BoidQueryRadius,
+			float predatorsQueryRadius = BoidDefaults.BoidQueryRadius,
+			float preyQueryRadius = BoidDefaults.BoidQueryRadius,
+			float vipQueryRadius = BoidDefaults.BoidQueryRadius,
+			float wallQueryRadius = BoidDefaults.BoidQueryRadius,
+			float obstacleQueryRadius = BoidDefaults.BoidQueryRadius,
+			float waypointQueryRadius = BoidDefaults.BoidQueryRadius,
+			float retargetTime = BoidDefaults.BoidRetargetTime)
+		{
+			Mass = mass;
+			MinSpeed = minSpeed;
+			WalkSpeed = walkSpeed;
+			Laziness = laziness;
+			MaxSpeed = maxSpeed;
+			MaxForce = maxForce;
+			MaxTurnRate = maxTurnRate;
+			SummingMethod = summingMethod;
+			NeighborsQueryRadius = neighborsQueryRadius;
+			PredatorsQueryRadius = predatorsQueryRadius;
+			PreyQueryRadius = preyQueryRadius;
+			VipQueryRadius = vipQueryRadius;
+			WallQueryRadius = wallQueryRadius;
+			ObstacleQueryRadius = obstacleQueryRadius;
+			WaypointQueryRadius = waypointQueryRadius;
+			RetargetTime = retargetTime;
+
 			RetargetTimer.Start(RetargetTime);
 		}
 
-		public IBehavior AddBehavior(EBehaviorType behaviorType, float weight)
+		public IBehavior AddBehavior(BehaviorType behaviorType, float weight)
 		{
 			IBehavior behavior;
 
 			//first check if we alreadu have that behavior
 			if (!Behaviors.Exists(x => x.BehaviorType == behaviorType))
 			{
-				switch (behaviorType)
-				{
-					case EBehaviorType.wall_avoidance: { behavior = new WallAvoidance(this); } break;
-					case EBehaviorType.obstacle_avoidance: { behavior = new ObstacleAvoidance(this); } break;
-					case EBehaviorType.evade: { behavior = new Evade(this); } break;
-					case EBehaviorType.flee: { behavior = new Flee(this); } break;
-					case EBehaviorType.separation: { behavior = new Separation(this); } break;
-					case EBehaviorType.alignment: { behavior = new Alignment(this); } break;
-					case EBehaviorType.cohesion: { behavior = new Cohesion(this); } break;
-					case EBehaviorType.seek: { behavior = new Seek(this); } break;
-					case EBehaviorType.arrive: { behavior = new Arrive(this); } break;
-					case EBehaviorType.wander: { behavior = new Wander(this); } break;
-					case EBehaviorType.pursuit: { behavior = new Pursuit(this); } break;
-					case EBehaviorType.offset_pursuit: { behavior = new OffsetPursuit(this); } break;
-					case EBehaviorType.interpose: { behavior = new Interpose(this); } break;
-					case EBehaviorType.hide: { behavior = new Hide(this); } break;
-					case EBehaviorType.follow_path: { behavior = new FollowPath(this); } break;
-					case EBehaviorType.guard_alignment: { behavior = new GuardAlignment(this); } break;
-					case EBehaviorType.guard_cohesion: { behavior = new GuardCohesion(this); } break;
-					case EBehaviorType.guard_separation: { behavior = new GuardSeparation(this); } break;
-					default: { throw new NotImplementedException(string.Format("Unhandled EBehaviorType: {0}", behaviorType)); }
-				}
-
+				behavior = BaseBehavior.BehaviorFactory(behaviorType, this);
 				behavior.Weight = weight;
 				AddBehavior(behavior);
-				
 			}
 			else
 			{
@@ -219,8 +217,17 @@ namespace FlockBuddy
 
 		public void AddBehavior(IBehavior behavior)
 		{
-			Behaviors.Add(behavior);
-			Behaviors.Sort((x, y) => x.BehaviorType.CompareTo(y.BehaviorType));
+			if (!Behaviors.Exists(x => x.BehaviorType == behavior.BehaviorType))
+			{
+				Behaviors.Add(behavior);
+				Behaviors.Sort((x, y) => x.BehaviorType.CompareTo(y.BehaviorType));
+			}
+			else
+			{
+				//we already have that behavior, just update the weight
+				var currentbehavior = Behaviors.Where(x => x.BehaviorType == behavior.BehaviorType).First();
+				currentbehavior.Weight = behavior.Weight;
+			}
 		}
 
 		public void RemoveBehavior(IBehavior behavior)
@@ -228,24 +235,13 @@ namespace FlockBuddy
 			Behaviors.Remove(behavior);
 		}
 
-		public void RemoveBehavior(EBehaviorType behaviorType)
+		public void RemoveBehavior(BehaviorType behaviorType)
 		{
 			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).FirstOrDefault();
 			if (behavior != null)
 			{
 				Behaviors.Remove(behavior);
 			}
-		}
-
-		/// <summary>
-		/// Asynchronous update method
-		/// </summary>
-		/// <param name="time"></param>
-		/// <returns></returns>
-		public Task UpdateAsync(GameClock time)
-		{
-			//run the update method on a different thread
-			return Task.Factory.StartNew(() => { Update(time); });
 		}
 
 		/// <summary>
@@ -490,8 +486,8 @@ namespace FlockBuddy
 		{
 			switch (SummingMethod)
 			{
-				case ESummingMethod.weighted_average: { CalculateWeightedSum(); } break;
-				case ESummingMethod.prioritized: { CalculatePrioritized(); } break;
+				case SummingMethod.WeightedAverage: { CalculateWeightedSum(); } break;
+				case SummingMethod.Prioritized: { CalculatePrioritized(); } break;
 				default: { CalculateDithered(); } break;
 			}
 		}
@@ -515,7 +511,7 @@ namespace FlockBuddy
 				_directionForce += steeringForce * Behaviors[i].DirectionChange;
 				_speedForce += steeringForce * Behaviors[i].SpeedChange;
 
-				if (Behaviors[i].BehaviorType == EBehaviorType.direction)
+				if (Behaviors[i].BehaviorType == BehaviorType.Direction)
 				{
 					Debug.WriteLine(steeringForce.ToString());
 				}
@@ -587,7 +583,7 @@ namespace FlockBuddy
 			_directionForce = Vector2.Zero;
 			_speedForce = Vector2.Zero;
 
-			//if (IsActive(EBehaviorType.wall_avoidance) && RandFloat() < Prm.prWallAvoidance)
+			//if (IsActive(BehaviorType.wall_avoidance) && RandFloat() < Prm.prWallAvoidance)
 			//{
 			//	steeringForce = WallAvoidance(m_pVehicle->World()->Walls()) *
 			//						 m_dWeightWallAvoidance / Prm.prWallAvoidance;
@@ -600,7 +596,7 @@ namespace FlockBuddy
 			//	}
 			//}
 
-			//if (IsActive(EBehaviorType.obstacle_avoidance) && RandFloat() < Prm.prObstacleAvoidance)
+			//if (IsActive(BehaviorType.obstacle_avoidance) && RandFloat() < Prm.prObstacleAvoidance)
 			//{
 			//	steeringForce += ObstacleAvoidance(m_pVehicle->World()->Obstacles()) *
 			//			m_dWeightObstacleAvoidance / Prm.prObstacleAvoidance;
@@ -614,7 +610,7 @@ namespace FlockBuddy
 			//}
 
 
-			//if (IsActive(EBehaviorType.separation) && RandFloat() < Prm.prSeparation)
+			//if (IsActive(BehaviorType.separation) && RandFloat() < Prm.prSeparation)
 			//{
 			//	steeringForce += SeparationPlus(m_pVehicle->World()->Agents()) *
 			//						m_dWeightSeparation / Prm.prSeparation;
@@ -629,7 +625,7 @@ namespace FlockBuddy
 
 
 
-			//if (IsActive(EBehaviorType.flee) && RandFloat() < Prm.prFlee)
+			//if (IsActive(BehaviorType.flee) && RandFloat() < Prm.prFlee)
 			//{
 			//	steeringForce += Flee(m_pVehicle->World()->Crosshair()) * m_dWeightFlee / Prm.prFlee;
 
@@ -641,7 +637,7 @@ namespace FlockBuddy
 			//	}
 			//}
 
-			//if (IsActive(EBehaviorType.evade) && RandFloat() < Prm.prEvade)
+			//if (IsActive(BehaviorType.evade) && RandFloat() < Prm.prEvade)
 			//{
 			//	assert(m_pTargetAgent1 && "Evade target not assigned");
 
@@ -657,7 +653,7 @@ namespace FlockBuddy
 
 
 
-			//if (IsActive(EBehaviorType.allignment) && RandFloat() < Prm.prAlignment)
+			//if (IsActive(BehaviorType.allignment) && RandFloat() < Prm.prAlignment)
 			//{
 			//	steeringForce += AlignmentPlus(m_pVehicle->World()->Agents()) *
 			//						m_dWeightAlignment / Prm.prAlignment;
@@ -670,7 +666,7 @@ namespace FlockBuddy
 			//	}
 			//}
 
-			//if (IsActive(EBehaviorType.cohesion) && RandFloat() < Prm.prCohesion)
+			//if (IsActive(BehaviorType.cohesion) && RandFloat() < Prm.prCohesion)
 			//{
 			//	steeringForce += CohesionPlus(m_pVehicle->World()->Agents()) *
 			//						m_dWeightCohesion / Prm.prCohesion;
@@ -684,7 +680,7 @@ namespace FlockBuddy
 			//}
 
 
-			//if (IsActive(EBehaviorType.wander) && RandFloat() < Prm.prWander)
+			//if (IsActive(BehaviorType.Wander) && RandFloat() < Prm.prWander)
 			//{
 			//	steeringForce += Wander() * m_dWeightWander / Prm.prWander;
 
@@ -696,7 +692,7 @@ namespace FlockBuddy
 			//	}
 			//}
 
-			//if (IsActive(EBehaviorType.seek) && RandFloat() < Prm.prSeek)
+			//if (IsActive(BehaviorType.seek) && RandFloat() < Prm.prSeek)
 			//{
 			//	steeringForce += Seek(m_pVehicle->World()->Crosshair()) * m_dWeightSeek / Prm.prSeek;
 
@@ -708,7 +704,7 @@ namespace FlockBuddy
 			//	}
 			//}
 
-			//if (IsActive(EBehaviorType.arrive) && RandFloat() < Prm.prArrive)
+			//if (IsActive(BehaviorType.arrive) && RandFloat() < Prm.prArrive)
 			//{
 			//	steeringForce += Arrive(m_pVehicle->World()->Crosshair(), m_Deceleration) *
 			//						m_dWeightArrive / Prm.prArrive;
@@ -808,7 +804,7 @@ namespace FlockBuddy
 
 		public override void DrawPursuitQuery(IPrimitive prim)
 		{
-			var pursuit = Behaviors.FirstOrDefault(x => x.BehaviorType == EBehaviorType.pursuit) as Pursuit;
+			var pursuit = Behaviors.FirstOrDefault(x => x.BehaviorType == BehaviorType.Pursuit) as Pursuit;
 
 			if (null != pursuit && pursuit.Prey != null)
 			{

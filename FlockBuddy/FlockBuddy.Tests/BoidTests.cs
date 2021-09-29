@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework;
 using NUnit.Framework;
 using System;
 using FlockBuddy;
+using FlockBuddy.Interfaces;
+using Shouldly;
+using FlockBuddy.SteeringBehaviors;
 
 namespace FlockBuddy.Tests
 {
@@ -79,12 +82,424 @@ namespace FlockBuddy.Tests
 			Assert.AreEqual(6f, mover.MaxForce);
 		}
 
+		[Test]
+		public void Constructor_NeighborsQueryRadius()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidQueryRadius, boid.NeighborsQueryRadius);
+		}
+
+		[Test]
+		public void Constructor_PredatorsQueryRadius()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidQueryRadius, boid.PredatorsQueryRadius);
+		}
+
+		[Test]
+		public void Constructor_PreyQueryRadius()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidQueryRadius, boid.PreyQueryRadius);
+		}
+
+		[Test]
+		public void Constructor_VipQueryRadius()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidQueryRadius, boid.VipQueryRadius);
+		}
+
+		[Test]
+		public void Constructor_ObstacleQueryRadius()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidQueryRadius, boid.ObstacleQueryRadius);
+		}
+
+		[Test]
+		public void Constructor_WallQueryRadius()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidQueryRadius, boid.WallQueryRadius);
+		}
+
+		[Test]
+		public void Constructor_WaypointQueryRadius()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidQueryRadius, boid.WaypointQueryRadius);
+		}
+
+		[Test]
+		public void Constructor_Mass()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidMass, boid.Mass);
+		}
+
+		[Test]
+		public void Constructor_MinSpeed()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidMinSpeed, boid.MinSpeed);
+		}
+
+		[Test]
+		public void Constructor_WalkSpeed()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidWalkSpeed, boid.WalkSpeed);
+		}
+
+		[Test]
+		public void Constructor_Laziness()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidLaziness, boid.Laziness);
+		}
+
+		[Test]
+		public void Constructor_MaxSpeed()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidMaxSpeed, boid.MaxSpeed);
+		}
+
+		[Test]
+		public void Constructor_MaxTurnRate()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidMaxTurnRate, boid.MaxTurnRate);
+		}
+
+		[Test]
+		public void Constructor_MaxForce()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidMaxForce, boid.MaxForce);
+		}
+
+		[Test]
+		public void Constructor_RetargetTime()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.BoidRetargetTime, boid.RetargetTime);
+		}
+
+		[Test]
+		public void Constructor_RetargetTimer()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			boid.RetargetTimer.RemainingTime.ShouldBe(BoidDefaults.BoidRetargetTime);
+		}
+
+		[Test]
+		public void Constructor_SummingMethod()
+		{
+			var boid = new Boid(_flock, Vector2.Zero, Vector2.UnitY, -1f);
+			Assert.AreEqual(BoidDefaults.DefaultSummingMethod, boid.SummingMethod);
+		}
+
 		#endregion //construction tests
 
-		#region method tests
+		#region Add Behavior
 
+		public void DefaultBehaviors()
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+			boid.GetBehaviors().ShouldBeEmpty();
+		}
 
-		#endregion method tests
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void AddBehavior(BehaviorType behavior)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+			boid.AddBehavior(behavior, -100f);
+
+			boid.GetBehaviors().Count.ShouldBe(1);
+			boid.GetBehaviors()[0].BehaviorType.ShouldBe(behavior);
+			boid.GetBehaviors()[0].Weight.ShouldBe(-100f);
+		}
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void AddTwoBehaviors(BehaviorType behavior)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+			boid.AddBehavior(behavior, -100f);
+
+			boid.AddBehavior(behavior, -200f);
+
+			boid.GetBehaviors().Count.ShouldBe(1);
+			boid.GetBehaviors()[0].BehaviorType.ShouldBe(behavior);
+			boid.GetBehaviors()[0].Weight.ShouldBe(-200f);
+		}
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void AddBehavior_ReturnValue(BehaviorType behavior)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+			var value = boid.AddBehavior(behavior, -100f);
+
+			value.BehaviorType.ShouldBe(behavior);
+			value.Weight.ShouldBe(-100f);
+		}
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void AddBehaviorObject(BehaviorType behaviorType)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+
+			IBehavior behavior = BaseBehavior.BehaviorFactory(behaviorType, boid);
+			behavior.Weight = -100f;
+			boid.AddBehavior(behavior);
+
+			boid.GetBehaviors().Count.ShouldBe(1);
+			boid.GetBehaviors()[0].BehaviorType.ShouldBe(behaviorType);
+			boid.GetBehaviors()[0].Weight.ShouldBe(-100f);
+		}
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void AddTwoBehaviorObject(BehaviorType behaviorType)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+
+			IBehavior behavior = BaseBehavior.BehaviorFactory(behaviorType, boid);
+			behavior.Weight = -100f;
+			boid.AddBehavior(behavior);
+
+			IBehavior behavior2 = BaseBehavior.BehaviorFactory(behaviorType, boid);
+			behavior2.Weight = -200f;
+			boid.AddBehavior(behavior2);
+
+			boid.GetBehaviors().Count.ShouldBe(1);
+			boid.GetBehaviors()[0].BehaviorType.ShouldBe(behaviorType);
+			boid.GetBehaviors()[0].Weight.ShouldBe(-200f);
+		}
+
+		#endregion //Add Behavior
+
+		#region Remove Behavior
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void RemoveBehavior(BehaviorType behavior)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+			boid.AddBehavior(behavior, -100f);
+
+			boid.RemoveBehavior(behavior);
+
+			boid.GetBehaviors().Count.ShouldBe(0);
+		}
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void RemoveTwoBehaviors(BehaviorType behavior)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+			boid.AddBehavior(behavior, -100f);
+
+			boid.AddBehavior(behavior, -200f);
+
+			boid.RemoveBehavior(behavior);
+
+			boid.GetBehaviors().Count.ShouldBe(0);
+		}
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void RemoveBehaviorObject(BehaviorType behaviorType)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+
+			IBehavior behavior = BaseBehavior.BehaviorFactory(behaviorType, boid);
+			behavior.Weight = -100f;
+			boid.AddBehavior(behavior);
+
+			boid.RemoveBehavior(behavior);
+
+			boid.GetBehaviors().Count.ShouldBe(0);
+		}
+
+		[TestCase(BehaviorType.WallAvoidance)]
+		[TestCase(BehaviorType.ObstacleAvoidance)]
+		[TestCase(BehaviorType.Evade)]
+		[TestCase(BehaviorType.Flee)]
+		[TestCase(BehaviorType.Direction)]
+		[TestCase(BehaviorType.Separation)]
+		[TestCase(BehaviorType.Alignment)]
+		[TestCase(BehaviorType.Cohesion)]
+		[TestCase(BehaviorType.Seek)]
+		[TestCase(BehaviorType.Arrive)]
+		[TestCase(BehaviorType.Wander)]
+		[TestCase(BehaviorType.Pursuit)]
+		[TestCase(BehaviorType.OffsetPursuit)]
+		[TestCase(BehaviorType.Interpose)]
+		[TestCase(BehaviorType.GuardSeparation)]
+		[TestCase(BehaviorType.GuardAlignment)]
+		[TestCase(BehaviorType.GuardCohesion)]
+		[TestCase(BehaviorType.Hide)]
+		[TestCase(BehaviorType.FollowPath)]
+		public void RemoveTwoBehaviorObject(BehaviorType behaviorType)
+		{
+			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);
+
+			IBehavior behavior = BaseBehavior.BehaviorFactory(behaviorType, boid);
+			behavior.Weight = -100f;
+			boid.AddBehavior(behavior);
+
+			IBehavior behavior2 = BaseBehavior.BehaviorFactory(behaviorType, boid);
+			behavior2.Weight = -200f;
+			boid.AddBehavior(behavior2);
+
+			boid.RemoveBehavior(behavior);
+
+			boid.GetBehaviors().Count.ShouldBe(0);
+		}
+
+		#endregion //Add Behavior
 
 		#region update speed tests
 
@@ -298,79 +713,5 @@ namespace FlockBuddy.Tests
 		}
 
 		#endregion //update heading tests
-
-		#region test class 
-
-		class TestBoid : Boid
-		{
-			public new float Speed
-			{
-				get
-				{
-					return base.Speed;
-				}
-				set
-				{
-					base.Speed = value;
-				}
-			}
-
-			public GameClock Timer
-			{
-				get
-				{
-					return BoidTimer;
-				}
-			}
-
-			public TestBoid(IFlock flock, 
-				Vector2 position, 
-				float radius, 
-				Vector2 heading, 
-				float speed, 
-				float mass, 
-				float minSpeed, 
-				float walkSpeed, 
-				float maxSpeed, 
-				float maxTurnRate, 
-				float maxForce) : 
-					base(flock, 
-						position, 
-						heading, 
-						speed, 
-						radius)
-			{
-				BoidTimer.TimeDelta = 1f;
-				Mass = mass;
-				MinSpeed = minSpeed;
-				WalkSpeed = walkSpeed;
-				MaxSpeed = maxSpeed;
-				MaxTurnRate = maxTurnRate;
-				MaxForce = maxForce;
-				Laziness = 0f;
-			}
-
-			public new void RotateHeading(float angle)
-			{
-				base.RotateHeading(angle);
-			}
-
-			public new void UpdateSpeed(Vector2 targetHeading)
-			{
-				base.UpdateSpeed(targetHeading);
-			}
-
-			public new bool GetAmountToTurn(Vector2 targetHeading, ref float angle)
-			{
-				return base.GetAmountToTurn(targetHeading, ref angle);
-			}
-
-			public new float GetSpeedChange(Vector2 targetHeading)
-			{
-				return base.GetSpeedChange(targetHeading);
-			}
-		}
-
-		#endregion //test class 
 	}
 }

@@ -1,6 +1,8 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this behavior moves the agent towards a target position
@@ -38,7 +40,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Seek"/> class.
 		/// </summary>
 		public Seek(IBoid dude)
-			: base(dude, EBehaviorType.seek, BoidDefaults.SeekWeight)
+			: base(dude, BehaviorType.Seek, BoidDefaults.SeekWeight)
 		{
 		}
 

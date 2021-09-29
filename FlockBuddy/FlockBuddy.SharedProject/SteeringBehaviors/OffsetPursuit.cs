@@ -1,6 +1,8 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this behavior maintains a position, in the direction of offset from the target vehicle
@@ -35,7 +37,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public OffsetPursuit(IBoid dude)
-			: base(dude, EBehaviorType.obstacle_avoidance, BoidDefaults.OffsetPursuitWeight)
+			: base(dude, BehaviorType.OffsetPursuit, BoidDefaults.OffsetPursuitWeight)
 		{
 		}
 

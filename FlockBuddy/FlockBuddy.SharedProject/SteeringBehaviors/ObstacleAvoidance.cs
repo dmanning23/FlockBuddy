@@ -1,9 +1,11 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this returns a steering force which will attempt to keep the agent away from any obstacles it may encounter
@@ -38,7 +40,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.ObstacleAvoidance"/> class.
 		/// </summary>
 		public ObstacleAvoidance(IBoid dude)
-			: base(dude, EBehaviorType.obstacle_avoidance, BoidDefaults.ObstacleAvoidanceWeight)
+			: base(dude, BehaviorType.ObstacleAvoidance, BoidDefaults.ObstacleAvoidanceWeight)
 		{
 		}
 

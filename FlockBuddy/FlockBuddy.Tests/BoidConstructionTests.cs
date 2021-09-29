@@ -1,12 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using Microsoft.Xna.Framework;
 using Moq;
 using NUnit.Framework;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlockBuddy.Tests
 {
@@ -38,7 +34,7 @@ namespace FlockBuddy.Tests
 			testFlock.Setup(x => x.BoidRadius).Returns(16);
 			testFlock.Setup(x => x.BoidRetargetTime).Returns(17);
 			testFlock.Setup(x => x.BoidLaziness).Returns(18);
-			testFlock.Setup(x => x.SummingMethod).Returns(ESummingMethod.dithered);
+			testFlock.Setup(x => x.SummingMethod).Returns(SummingMethod.Dithered);
 			testFlock.Setup(x => x.Walls).Returns(DefaultWalls.All);
 			test = testFlock.Object;
 
@@ -48,77 +44,77 @@ namespace FlockBuddy.Tests
 		[Test]
 		public void Constructor_BoidMass()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.Mass.ShouldBe(test.BoidMass);
 		}
 
 		[Test]
 		public void Constructor_BoidMaxForce()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.MaxForce.ShouldBe(test.BoidMaxForce);
 		}
 
 		[Test]
 		public void Constructor_BoidMinSpeed()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.Mass.ShouldBe(test.BoidMass);
 		}
 
 		[Test]
 		public void Constructor_BoidWalkSpeed()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.WalkSpeed.ShouldBe(test.BoidWalkSpeed);
 		}
 
 		[Test]
 		public void Constructor_BoidMaxSpeed()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.MaxSpeed.ShouldBe(test.BoidMaxSpeed);
 		}
 
 		[Test]
 		public void Constructor_BoidMaxTurnRate()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.MaxTurnRate.ShouldBe(test.BoidMaxTurnRate);
 		}
 
 		[Test]
 		public void Constructor_BoidNeighborQueryRadius()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.NeighborsQueryRadius.ShouldBe(test.BoidNeighborQueryRadius);
 		}
 
 		[Test]
 		public void Constructor_BoidPredatorQueryRadius()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.PredatorsQueryRadius.ShouldBe(test.BoidPredatorQueryRadius);
 		}
 
 		[Test]
 		public void Constructor_BoidPreyQueryRadius()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.PreyQueryRadius.ShouldBe(test.BoidPreyQueryRadius);
 		}
 
 		[Test]
 		public void Constructor_BoidVipQueryRadius()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.VipQueryRadius.ShouldBe(test.BoidVipQueryRadius);
 		}
 
 		[Test]
 		public void Constructor_BoidWallQueryRadius()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.WallQueryRadius.ShouldBe(test.BoidWallQueryRadius);
 		}
 
@@ -126,42 +122,42 @@ namespace FlockBuddy.Tests
 		public void Constructor_BoidObstacleQueryRadius()
 		{
 			
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.ObstacleQueryRadius.ShouldBe(test.BoidObstacleQueryRadius);
 		}
 
 		[Test]
 		public void Constructor_BoidWaypointQueryRadius()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.WaypointQueryRadius.ShouldBe(test.BoidWaypointQueryRadius);
 		}
 
 		[Test]
 		public void Constructor_BoidRadius()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.Radius.ShouldBe(test.BoidRadius);
 		}
 
 		[Test]
 		public void Constructor_BoidRetargetTime()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.RetargetTime.ShouldBe(test.BoidRetargetTime);
 		}
 
 		[Test]
 		public void Constructor_BoidLaziness()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.Laziness.ShouldBe(test.BoidLaziness);
 		}
 
 		[Test]
 		public void Constructor_SummingMethod()
 		{
-			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX, 0f);
+			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
 			boid.SummingMethod.ShouldBe(test.SummingMethod);
 		}
 	}

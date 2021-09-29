@@ -1,9 +1,9 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System;
-using System.Diagnostics;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// Group behavior to move boids in the same direction as each other
@@ -41,7 +41,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Alignment"/> class.
 		/// </summary>
 		public Alignment(IBoid dude)
-			: base(dude, EBehaviorType.alignment, BoidDefaults.AlignmentWeight)
+			: base(dude, BehaviorType.Alignment, BoidDefaults.AlignmentWeight)
 		{
 		}
 

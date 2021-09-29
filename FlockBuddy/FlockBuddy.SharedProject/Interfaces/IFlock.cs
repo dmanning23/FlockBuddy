@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using PrimitiveBuddy;
 using System.Collections.Generic;
 
-namespace FlockBuddy
+namespace FlockBuddy.Interfaces
 {
 	public interface IFlock
 	{

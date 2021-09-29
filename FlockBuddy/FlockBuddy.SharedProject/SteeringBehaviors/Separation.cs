@@ -1,8 +1,9 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Diagnostics;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// Group behavior to move boids away from each other
@@ -40,7 +41,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Separation(IBoid dude)
-			: base(dude, EBehaviorType.separation, BoidDefaults.SeparationWeight)
+			: base(dude, BehaviorType.Separation, BoidDefaults.SeparationWeight)
 		{
 		}
 

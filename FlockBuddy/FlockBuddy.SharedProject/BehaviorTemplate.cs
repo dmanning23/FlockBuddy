@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace FlockBuddy
 {
 	public class BehaviorTemplate : IBehavior
 	{
-		public EBehaviorType BehaviorType { get; set; }
+		public BehaviorType BehaviorType { get; set; }
 
 		public float Weight { get; set; }
 

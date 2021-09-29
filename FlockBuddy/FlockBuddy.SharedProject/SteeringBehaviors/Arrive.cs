@@ -1,6 +1,8 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this behavior is similar to seek but it attempts to arrive at the target position with a zero velocity
@@ -38,7 +40,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Arrive(IBoid dude)
-			: base(dude, EBehaviorType.arrive, BoidDefaults.ArriveWeight)
+			: base(dude, BehaviorType.Arrive, BoidDefaults.ArriveWeight)
 		{
 		}
 

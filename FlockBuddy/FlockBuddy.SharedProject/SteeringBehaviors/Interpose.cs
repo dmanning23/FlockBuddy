@@ -1,6 +1,8 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this results in a steering force that attempts to steer the vehicle to the center
@@ -40,7 +42,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Interpose(IBoid dude)
-			: base(dude, EBehaviorType.interpose, BoidDefaults.InterposeWeight)
+			: base(dude, BehaviorType.Interpose, BoidDefaults.InterposeWeight)
 		{
 			_seek = new Seek(dude)
 			{
@@ -69,7 +71,7 @@ namespace FlockBuddy
 
 			//get the position of pred and prey after timeToMid
 			var predPos = Pursuer.Position + (Pursuer.Velocity * timeToMidPoint);
-			var preyPos = Vip.Position + (Vip.Velocity * timeToMidPoint);
+			//var preyPos = Vip.Position + (Vip.Velocity * timeToMidPoint);
 
 			//calc the midpoint of those preditced positions
 			_seek.TargetPosition = (predPos + predPos) / 2f;

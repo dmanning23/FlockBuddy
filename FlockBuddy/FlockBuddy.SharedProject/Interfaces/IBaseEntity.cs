@@ -1,6 +1,6 @@
 using CellSpacePartitionLib;
 
-namespace FlockBuddy
+namespace FlockBuddy.Interfaces
 {
 	/// <summary>
 	/// Base class to define a common interface for all game entities

@@ -1,8 +1,9 @@
-using System;
-using System.Collections.Generic;
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// given another agent position to hide from and a list of BaseGameEntitys this
@@ -40,7 +41,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Hide"/> class.
 		/// </summary>
 		public Hide(IBoid dude)
-			: base(dude, EBehaviorType.hide, BoidDefaults.HideWeight)
+			: base(dude, BehaviorType.Hide, BoidDefaults.HideWeight)
 		{
 		}
 

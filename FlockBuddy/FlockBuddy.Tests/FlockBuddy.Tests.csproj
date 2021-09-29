@@ -55,6 +55,9 @@
     <Reference Include="EmptyFiles, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c7a34512ecd69090, processorArchitecture=MSIL">
       <HintPath>..\packages\EmptyFiles.2.7.0\lib\net461\EmptyFiles.dll</HintPath>
     </Reference>
+    <Reference Include="FakeItEasy, Version=7.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.7.2.0\lib\net45\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="GameTimer.WindowsDX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GameTimer.2.2.0\lib\net452\GameTimer.WindowsDX.dll</HintPath>
     </Reference>
@@ -152,9 +155,13 @@
     <Compile Include="BaseEntityTests.cs" />
     <Compile Include="BoidConstructionTests.cs" />
     <Compile Include="BoidTests.cs" />
+    <Compile Include="BehaviorTests.cs" />
     <Compile Include="FlockManagerTests.cs" />
     <Compile Include="MoverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBehavior.cs" />
+    <Compile Include="TestBoid.cs" />
+    <Compile Include="TestMover.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

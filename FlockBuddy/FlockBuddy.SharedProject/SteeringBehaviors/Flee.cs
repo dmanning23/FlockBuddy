@@ -1,6 +1,8 @@
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this behavior returns a vector that moves the agent away from a target position
@@ -38,7 +40,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Flee"/> class.
 		/// </summary>
 		public Flee(IBoid dude)
-			: base(dude, EBehaviorType.flee, BoidDefaults.FleeWeight)
+			: base(dude, BehaviorType.Flee, BoidDefaults.FleeWeight)
 		{
 		}
 

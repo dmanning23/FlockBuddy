@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// This is the simplest possible behavior: Just go in this direction.
@@ -19,7 +20,7 @@ namespace FlockBuddy
 
 		#region Methods
 
-		public Direction(IBoid owner) : base(owner, EBehaviorType.direction, BoidDefaults.DirectionWeight)
+		public Direction(IBoid owner) : base(owner,BehaviorType.Direction, BoidDefaults.DirectionWeight)
 		{
 		}
 

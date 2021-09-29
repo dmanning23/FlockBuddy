@@ -1,11 +1,12 @@
 using CollisionBuddy;
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using MatrixExtensions;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Vector2Extensions;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this returns a steering force which will keep the agent away from any walls it may encounter
@@ -48,7 +49,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public WallAvoidance(IBoid dude)
-			: base(dude, EBehaviorType.wall_avoidance, BoidDefaults.WallAvoidanceWeight)
+			: base(dude, BehaviorType.WallAvoidance, BoidDefaults.WallAvoidanceWeight)
 		{
 			Feelers = new List<Vector2>();
 		}

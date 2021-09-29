@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace FlockBuddy
 
 		public Color DebugColor { get; private set; }
 
-		private float _boidMass;
+		private float _boidMass = BoidDefaults.BoidMass;
 		public virtual float BoidMass
 		{
 			get
@@ -43,22 +44,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidMass != value)
+				_boidMass = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidMass = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.Mass = BoidMass;
-						}
+						boid.Mass = BoidMass;
 					}
 				}
 			}
 		}
 
-		private float _boidMaxForce;
+		private float _boidMaxForce = BoidDefaults.BoidMaxForce;
 		public virtual float BoidMaxForce
 		{
 			get
@@ -67,22 +64,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidMaxForce != value)
+				_boidMaxForce = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidMaxForce = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.MaxForce = BoidMaxForce;
-						}
+						boid.MaxForce = BoidMaxForce;
 					}
 				}
 			}
 		}
 
-		private float _boidMinSpeed;
+		private float _boidMinSpeed = BoidDefaults.BoidMinSpeed;
 		public virtual float BoidMinSpeed
 		{
 			get
@@ -91,22 +84,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidMinSpeed != value)
+				_boidMinSpeed = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidMinSpeed = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.MinSpeed = BoidMinSpeed;
-						}
+						boid.MinSpeed = BoidMinSpeed;
 					}
 				}
 			}
 		}
 
-		private float _boidWalkSpeed;
+		private float _boidWalkSpeed = BoidDefaults.BoidWalkSpeed;
 		public virtual float BoidWalkSpeed
 		{
 			get
@@ -115,22 +104,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidWalkSpeed != value)
+				_boidWalkSpeed = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidWalkSpeed = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.WalkSpeed = BoidWalkSpeed;
-						}
+						boid.WalkSpeed = BoidWalkSpeed;
 					}
 				}
 			}
 		}
 
-		private float _boidLaziness;
+		private float _boidLaziness = BoidDefaults.BoidLaziness;
 		public virtual float BoidLaziness
 		{
 			get
@@ -139,22 +124,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidLaziness != value)
+				_boidLaziness = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidLaziness = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.Laziness = BoidLaziness;
-						}
+						boid.Laziness = BoidLaziness;
 					}
 				}
 			}
 		}
 
-		private float _boidMaxSpeed;
+		private float _boidMaxSpeed = BoidDefaults.BoidMaxSpeed;
 		public virtual float BoidMaxSpeed
 		{
 			get
@@ -163,22 +144,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidMaxSpeed != value)
+				_boidMaxSpeed = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidMaxSpeed = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.MaxSpeed = BoidMaxSpeed;
-						}
+						boid.MaxSpeed = BoidMaxSpeed;
 					}
 				}
 			}
 		}
 
-		private float _boidMaxTurnRate;
+		private float _boidMaxTurnRate = BoidDefaults.BoidMaxTurnRate;
 		public virtual float BoidMaxTurnRate
 		{
 			get
@@ -187,22 +164,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidMaxTurnRate != value)
+				_boidMaxTurnRate = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidMaxTurnRate = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.MaxTurnRate = BoidMaxTurnRate;
-						}
+						boid.MaxTurnRate = BoidMaxTurnRate;
 					}
 				}
 			}
 		}
 
-		private float _boidNeighborQueryRadius;
+		private float _boidNeighborQueryRadius = BoidDefaults.BoidQueryRadius;
 		public virtual float BoidNeighborQueryRadius
 		{
 			get
@@ -211,22 +184,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidNeighborQueryRadius != value)
+				_boidNeighborQueryRadius = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidNeighborQueryRadius = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.NeighborsQueryRadius = BoidNeighborQueryRadius;
-						}
+						boid.NeighborsQueryRadius = BoidNeighborQueryRadius;
 					}
 				}
 			}
 		}
 
-		private float _boidPredatorQueryRadius;
+		private float _boidPredatorQueryRadius = BoidDefaults.BoidQueryRadius;
 		public virtual float BoidPredatorQueryRadius
 		{
 			get
@@ -235,22 +204,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidPredatorQueryRadius != value)
+				_boidPredatorQueryRadius = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidPredatorQueryRadius = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.PredatorsQueryRadius = BoidPredatorQueryRadius;
-						}
+						boid.PredatorsQueryRadius = BoidPredatorQueryRadius;
 					}
 				}
 			}
 		}
 
-		private float _boidPreyQueryRadius;
+		private float _boidPreyQueryRadius = BoidDefaults.BoidQueryRadius;
 		public virtual float BoidPreyQueryRadius
 		{
 			get
@@ -259,22 +224,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidPreyQueryRadius != value)
+				_boidPreyQueryRadius = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidPreyQueryRadius = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.PreyQueryRadius = BoidPreyQueryRadius;
-						}
+						boid.PreyQueryRadius = BoidPreyQueryRadius;
 					}
 				}
 			}
 		}
 
-		private float _boidVipQueryRadius;
+		private float _boidVipQueryRadius = BoidDefaults.BoidQueryRadius;
 		public virtual float BoidVipQueryRadius
 		{
 			get
@@ -283,22 +244,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidVipQueryRadius != value)
+				_boidVipQueryRadius = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidVipQueryRadius = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.VipQueryRadius = BoidVipQueryRadius;
-						}
+						boid.VipQueryRadius = BoidVipQueryRadius;
 					}
 				}
 			}
 		}
 
-		private float _boidWallQueryRadius;
+		private float _boidWallQueryRadius = BoidDefaults.BoidQueryRadius;
 		public virtual float BoidWallQueryRadius
 		{
 			get
@@ -307,22 +264,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidWallQueryRadius != value)
+				_boidWallQueryRadius = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidWallQueryRadius = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.WallQueryRadius = BoidWallQueryRadius;
-						}
+						boid.WallQueryRadius = BoidWallQueryRadius;
 					}
 				}
 			}
 		}
 
-		private float _boidObstacleQueryRadius;
+		private float _boidObstacleQueryRadius = BoidDefaults.BoidQueryRadius;
 		public virtual float BoidObstacleQueryRadius
 		{
 			get
@@ -331,22 +284,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidObstacleQueryRadius != value)
+				_boidObstacleQueryRadius = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidObstacleQueryRadius = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.ObstacleQueryRadius = BoidObstacleQueryRadius;
-						}
+						boid.ObstacleQueryRadius = BoidObstacleQueryRadius;
 					}
 				}
 			}
 		}
 
-		private float _boidWaypointQueryRadius;
+		private float _boidWaypointQueryRadius = BoidDefaults.BoidQueryRadius;
 		public virtual float BoidWaypointQueryRadius
 		{
 			get
@@ -355,22 +304,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidWaypointQueryRadius != value)
+				_boidWaypointQueryRadius = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidWaypointQueryRadius = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.WaypointQueryRadius = BoidWaypointQueryRadius;
-						}
+						boid.WaypointQueryRadius = BoidWaypointQueryRadius;
 					}
 				}
 			}
 		}
 
-		private float _boidRadius;
+		private float _boidRadius = BoidDefaults.BoidRadius;
 		public virtual float BoidRadius
 		{
 			get
@@ -379,18 +324,15 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidRadius != value)
+				_boidRadius = value;
+				foreach (var boid in Flock.Boids)
 				{
-					_boidRadius = value;
-					foreach (var boid in Flock.Boids)
-					{
-						boid.Radius = BoidRadius;
-					}
+					boid.Radius = BoidRadius;
 				}
 			}
 		}
 
-		private float _boidRetargetTime;
+		private float _boidRetargetTime = BoidDefaults.BoidRetargetTime;
 		public virtual float BoidRetargetTime
 		{
 			get
@@ -399,16 +341,12 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (BoidRetargetTime != value)
+				_boidRetargetTime = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_boidRetargetTime = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.RetargetTime = BoidRetargetTime;
-						}
+						boid.RetargetTime = BoidRetargetTime;
 					}
 				}
 			}
@@ -416,8 +354,8 @@ namespace FlockBuddy
 
 		public virtual IFlock Flock { get; set; }
 
-		private ESummingMethod _summingMethod;
-		public virtual ESummingMethod SummingMethod
+		private SummingMethod _summingMethod = BoidDefaults.DefaultSummingMethod;
+		public virtual SummingMethod SummingMethod
 		{
 			get
 			{
@@ -425,22 +363,18 @@ namespace FlockBuddy
 			}
 			set
 			{
-				if (SummingMethod != value)
+				_summingMethod = value;
+				foreach (var mover in Flock.Boids)
 				{
-					_summingMethod = value;
-					foreach (var mover in Flock.Boids)
+					if (mover is Boid boid)
 					{
-						var boid = mover as IBoid;
-						if (null != boid)
-						{
-							boid.SummingMethod = SummingMethod;
-						}
+						boid.SummingMethod = SummingMethod;
 					}
 				}
 			}
 		}
 
-		public virtual DefaultWalls Walls { get; set; }
+		public virtual DefaultWalls Walls { get; set; } = BoidDefaults.Walls;
 
 		public List<BehaviorTemplate> Behaviors { get; private set; }
 
@@ -461,24 +395,8 @@ namespace FlockBuddy
 
 		public FlockManager(IFlock flock) : this()
 		{
-			Flock = flock;
 			Behaviors = new List<BehaviorTemplate>();
-
-			BoidRadius = BoidDefaults.BoidRadius;
-			BoidMass = BoidDefaults.BoidMass;
-			BoidMinSpeed = BoidDefaults.BoidMinSpeed;
-			BoidWalkSpeed = BoidDefaults.BoidWalkSpeed;
-			BoidLaziness = BoidDefaults.BoidLaziness;
-			BoidMaxSpeed = BoidDefaults.BoidMaxSpeed;
-			BoidMaxTurnRate = BoidDefaults.BoidMaxTurnRate;
-			BoidMaxForce = BoidDefaults.BoidMaxForce;
-			BoidNeighborQueryRadius = BoidDefaults.BoidQueryRadius;
-			BoidPredatorQueryRadius = BoidDefaults.BoidQueryRadius;
-			BoidPreyQueryRadius = BoidDefaults.BoidQueryRadius;
-			BoidVipQueryRadius = BoidDefaults.BoidQueryRadius;
-			BoidRetargetTime = BoidDefaults.BoidRetargetTime;
-			SummingMethod = BoidDefaults.SummingMethod;
-			Walls = BoidDefaults.Walls;
+			Flock = flock;
 		}
 
 		public FlockManager(IFlockManager flockManager) : this()
@@ -530,37 +448,37 @@ namespace FlockBuddy
 			}
 		}
 
-		public IBehavior AddBehavior(EBehaviorType behaviorType)
+		public IBehavior AddBehavior(BehaviorType behaviorType)
 		{
 			float weight = 0f;
 
 			switch (behaviorType)
 			{
-				case EBehaviorType.wall_avoidance: { weight = BoidDefaults.WallAvoidanceWeight; } break;
-				case EBehaviorType.obstacle_avoidance: { weight = BoidDefaults.ObstacleAvoidanceWeight; } break;
-				case EBehaviorType.evade: { weight = BoidDefaults.EvadeWeight; } break;
-				case EBehaviorType.flee: { weight = BoidDefaults.FleeWeight; } break;
-				case EBehaviorType.separation: { weight = BoidDefaults.SeparationWeight; } break;
-				case EBehaviorType.alignment: { weight = BoidDefaults.AlignmentWeight; } break;
-				case EBehaviorType.cohesion: { weight = BoidDefaults.CohesionWeight; } break;
-				case EBehaviorType.seek: { weight = BoidDefaults.SeekWeight; } break;
-				case EBehaviorType.arrive: { weight = BoidDefaults.ArriveWeight; } break;
-				case EBehaviorType.wander: { weight = BoidDefaults.WanderWeight; } break;
-				case EBehaviorType.pursuit: { weight = BoidDefaults.PursuitWeight; } break;
-				case EBehaviorType.offset_pursuit: { weight = BoidDefaults.OffsetPursuitWeight; } break;
-				case EBehaviorType.interpose: { weight = BoidDefaults.InterposeWeight; } break;
-				case EBehaviorType.hide: { weight = BoidDefaults.HideWeight; } break;
-				case EBehaviorType.follow_path: { weight = BoidDefaults.FollowPathWeight; } break;
-				case EBehaviorType.guard_alignment: { weight = BoidDefaults.AlignmentWeight; } break;
-				case EBehaviorType.guard_cohesion: { weight = BoidDefaults.CohesionWeight; } break;
-				case EBehaviorType.guard_separation: { weight = BoidDefaults.SeparationWeight; } break;
-				default: { throw new NotImplementedException(string.Format("Unhandled EBehaviorType: {0}", behaviorType)); }
+				case BehaviorType.WallAvoidance: { weight = BoidDefaults.WallAvoidanceWeight; } break;
+				case BehaviorType.ObstacleAvoidance: { weight = BoidDefaults.ObstacleAvoidanceWeight; } break;
+				case BehaviorType.Evade: { weight = BoidDefaults.EvadeWeight; } break;
+				case BehaviorType.Flee: { weight = BoidDefaults.FleeWeight; } break;
+				case BehaviorType.Separation: { weight = BoidDefaults.SeparationWeight; } break;
+				case BehaviorType.Alignment: { weight = BoidDefaults.AlignmentWeight; } break;
+				case BehaviorType.Cohesion: { weight = BoidDefaults.CohesionWeight; } break;
+				case BehaviorType.Seek: { weight = BoidDefaults.SeekWeight; } break;
+				case BehaviorType.Arrive: { weight = BoidDefaults.ArriveWeight; } break;
+				case BehaviorType.Wander: { weight = BoidDefaults.WanderWeight; } break;
+				case BehaviorType.Pursuit: { weight = BoidDefaults.PursuitWeight; } break;
+				case BehaviorType.OffsetPursuit: { weight = BoidDefaults.OffsetPursuitWeight; } break;
+				case BehaviorType.Interpose: { weight = BoidDefaults.InterposeWeight; } break;
+				case BehaviorType.Hide: { weight = BoidDefaults.HideWeight; } break;
+				case BehaviorType.FollowPath: { weight = BoidDefaults.FollowPathWeight; } break;
+				case BehaviorType.GuardAlignment: { weight = BoidDefaults.AlignmentWeight; } break;
+				case BehaviorType.GuardCohesion: { weight = BoidDefaults.CohesionWeight; } break;
+				case BehaviorType.GuardSeparation: { weight = BoidDefaults.SeparationWeight; } break;
+				default: { throw new NotImplementedException(string.Format("Unhandled BehaviorType: {0}", behaviorType)); }
 			}
 
 			return AddBehavior(behaviorType, weight);
 		}
 
-		public IBehavior AddBehavior(EBehaviorType behaviorType, float weight)
+		public IBehavior AddBehavior(BehaviorType behaviorType, float weight)
 		{
 			var behavior = new BehaviorTemplate()
 			{
@@ -579,7 +497,7 @@ namespace FlockBuddy
 			return behavior;
 		}
 
-		public void SetBehaviorWeight(EBehaviorType behaviorType, float weight)
+		public void SetBehaviorWeight(BehaviorType behaviorType, float weight)
 		{
 			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
 			behavior.Weight = weight;
@@ -592,7 +510,7 @@ namespace FlockBuddy
 			}
 		}
 
-		public void RemoveBehavior(EBehaviorType behaviorType)
+		public void RemoveBehavior(BehaviorType behaviorType)
 		{
 			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
 			if (behavior != null)
@@ -607,19 +525,19 @@ namespace FlockBuddy
 			}
 		}
 
-		public virtual IBoid AddBoid(Vector2 position, Vector2 heading, float walkSpeed)
+		public virtual IBoid AddBoid(Vector2 position, Vector2 heading)
 		{
-			var boid = BoidFactory(position, heading, walkSpeed);
+			var boid = BoidFactory(position, heading);
 			InitializeBoidBehaviors(boid);
 			return boid;
 		}
 
-		public virtual IBoid BoidFactory(Vector2 position, Vector2 heading, float walkSpeed)
+		public virtual IBoid BoidFactory(Vector2 position, Vector2 heading)
 		{
 			var boid = new Boid(Flock,
 					position, //_random.NextVector2(0f, 1280f, 0f, 720f),
 					heading, //_random.NextVector2(-1f, 1f, -1f, 1f).Normalized(),
-					walkSpeed, //_random.NextFloat(BoidWalkSpeed, BoidMaxSpeed),
+					0,
 					BoidRadius);
 			InitializeBoid(boid);
 			return boid;
@@ -627,22 +545,22 @@ namespace FlockBuddy
 
 		protected void InitializeBoid(IBoid boid)
 		{
-			boid.Mass = this.BoidMass;
-			boid.MinSpeed = this.BoidMinSpeed;
-			boid.WalkSpeed = this.BoidWalkSpeed;
-			boid.Laziness = this.BoidLaziness;
-			boid.MaxSpeed = this.BoidMaxSpeed;
-			boid.MaxTurnRate = this.BoidMaxTurnRate;
-			boid.MaxForce = this.BoidMaxForce;
-			boid.RetargetTime = this.BoidRetargetTime;
-			boid.SummingMethod = this.SummingMethod;
-			boid.NeighborsQueryRadius = this.BoidNeighborQueryRadius;
-			boid.ObstacleQueryRadius = this.BoidObstacleQueryRadius;
-			boid.PredatorsQueryRadius = this.BoidPredatorQueryRadius;
-			boid.PreyQueryRadius = this.BoidPreyQueryRadius;
-			boid.VipQueryRadius = this.BoidVipQueryRadius;
-			boid.WallQueryRadius = this.BoidWallQueryRadius;
-			boid.WaypointQueryRadius = this.BoidWaypointQueryRadius;
+			boid.Initialize(this.BoidMass,
+				this.BoidMinSpeed,
+				this.BoidWalkSpeed,
+				this.BoidLaziness,
+				this.BoidMaxSpeed,
+				this.BoidMaxForce,
+				this.BoidMaxTurnRate,
+				this.SummingMethod,
+				this.BoidNeighborQueryRadius,
+				this.BoidPredatorQueryRadius,
+				this.BoidPreyQueryRadius,
+				this.BoidVipQueryRadius,
+				this.BoidWallQueryRadius,
+				this.BoidObstacleQueryRadius,
+				this.BoidWaypointQueryRadius,
+				this.BoidRetargetTime);
 		}
 
 		protected void InitializeBoidBehaviors(IBoid boid)
@@ -668,17 +586,17 @@ namespace FlockBuddy
 			Flock.AddDefaultWalls(Walls, rect);
 		}
 
-		public bool HasBehavior(EBehaviorType behavior)
+		public bool HasBehavior(BehaviorType behavior)
 		{
 			return Behaviors.Exists(x => x.BehaviorType == behavior);
 		}
 
-		public IEnumerable<EBehaviorType> GetAllBehaviors()
+		public IEnumerable<BehaviorType> GetAllBehaviors()
 		{
 			return Behaviors.Select(x => x.BehaviorType);
 		}
 
-		public float GetBehaviorWeight(EBehaviorType behavior)
+		public float GetBehaviorWeight(BehaviorType behavior)
 		{
 			return Behaviors
 				.Where(x => x.BehaviorType == behavior)

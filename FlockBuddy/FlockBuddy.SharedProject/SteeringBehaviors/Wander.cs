@@ -1,6 +1,7 @@
+using FlockBuddy.Interfaces;
 using Microsoft.Xna.Framework;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// this behavior makes the agent wander about randomly
@@ -33,7 +34,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public Wander(IBoid dude)
-			: base(dude, EBehaviorType.wander, BoidDefaults.WanderWeight)
+			: base(dude, BehaviorType.Wander, BoidDefaults.WanderWeight)
 		{
 		}
 

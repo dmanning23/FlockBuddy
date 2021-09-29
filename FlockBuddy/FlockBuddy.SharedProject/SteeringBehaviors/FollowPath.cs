@@ -1,8 +1,9 @@
-using System;
-using System.Collections.Generic;
+using FlockBuddy.Interfaces;
+using FlockBuddy.Interfaces.Behaviors;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
-namespace FlockBuddy
+namespace FlockBuddy.SteeringBehaviors
 {
 	/// <summary>
 	/// given a series of Vector2Ds, this method produces a force that will move the agent along the waypoints in order
@@ -53,7 +54,7 @@ namespace FlockBuddy
 		/// Initializes a new instance of the <see cref="FlockBuddy.Evade"/> class.
 		/// </summary>
 		public FollowPath(IBoid dude)
-			: base(dude, EBehaviorType.follow_path, BoidDefaults.FollowPathWeight)
+			: base(dude,BehaviorType.FollowPath, BoidDefaults.FollowPathWeight)
 		{
 			Path = new List<Vector2>();
 			SeekBehavior = new Seek(dude)

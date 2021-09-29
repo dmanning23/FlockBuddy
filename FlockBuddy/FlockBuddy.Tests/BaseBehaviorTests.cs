@@ -1,7 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FlockBuddy.Interfaces;
+using Microsoft.Xna.Framework;
 using Moq;
 using NUnit.Framework;
+using Shouldly;
 using System;
+using System.Linq;
 
 namespace FlockBuddy.Tests
 {
@@ -12,7 +15,7 @@ namespace FlockBuddy.Tests
 		public void SetDude()
 		{
 			var boid = new Mock<IBoid>();
-			var behavior = new TestBehavior(boid.Object, EBehaviorType.wall_avoidance, 10f);
+			var behavior = new TestBehavior(boid.Object, BehaviorType.WallAvoidance, 10f);
 
 			Assert.AreEqual(boid.Object, behavior.Owner);
 		}
@@ -21,46 +24,32 @@ namespace FlockBuddy.Tests
 		public void SetBehaviorType()
 		{
 			var boid = new Mock<IBoid>();
-			var behavior = new TestBehavior(boid.Object, EBehaviorType.wall_avoidance, 10f);
+			var behavior = new TestBehavior(boid.Object, BehaviorType.WallAvoidance, 10f);
 
-			Assert.AreEqual(EBehaviorType.wall_avoidance, behavior.BehaviorType);
+			Assert.AreEqual(BehaviorType.WallAvoidance, behavior.BehaviorType);
 		}
 
 		[Test]
 		public void Setweight()
 		{
 			var boid = new Mock<IBoid>();
-			var behavior = new TestBehavior(boid.Object, EBehaviorType.wall_avoidance, 10f);
+			var behavior = new TestBehavior(boid.Object, BehaviorType.WallAvoidance, 10f);
 
 			Assert.AreEqual(10f, behavior.Weight);
 		}
 
-
-		class TestBehavior : BaseBehavior
+		[Test]
+		public void FactoryTest()
 		{
-			public TestBehavior(IBoid dude, EBehaviorType behaviorType, float weight) : base(dude, behaviorType, weight)
+			var flock = new Flock();
+			var boid = new TestBoid(flock, Vector2.Zero, 1f, Vector2.UnitX, -1f);
+			foreach (var behaviorType in Enum.GetValues(typeof(BehaviorType)).OfType<BehaviorType>())
 			{
-			}
-
-			public override float DirectionChange
-			{
-				get
+				var behavior = BaseBehavior.BehaviorFactory(behaviorType, boid);
+				if (null == behavior)
 				{
-					throw new NotImplementedException();
+					throw new NotImplementedException($"{behaviorType.ToString()}");
 				}
-			}
-
-			public override float SpeedChange
-			{
-				get
-				{
-					throw new NotImplementedException();
-				}
-			}
-
-			public override Vector2 GetSteering()
-			{
-				throw new NotImplementedException();
 			}
 		}
 	}

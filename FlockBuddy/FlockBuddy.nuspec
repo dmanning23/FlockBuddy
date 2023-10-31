@@ -2,55 +2,51 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
 	<metadata>
 		<id>FlockBuddy</id>
-		<version>2.0.18</version>
+		<version>4.0.0</version>
 		<title>FlockBuddy</title>
 		<authors>dmanning23</authors>
-		<owners>dmanning23</owners>
 		<projectUrl>https://github.com/dmanning23/FlockBuddy</projectUrl>
 		<licenseUrl>https://github.com/dmanning23/FlockBuddy/blob/master/LICENSE.txt</licenseUrl>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>A flocking AI for MonoGame projects</description>
-		<releaseNotes />
-		<copyright>Copyright 2016</copyright>
 		<tags>pcl, windows phone, winphone, android, ios, windows universal, monogame</tags>
 		<dependencies>
 
 			<!--Xamarin.Android-->
 			<group targetFramework="MonoAndroid10">
 				<dependency id="MonoGame.Framework.Android" version="3.7"/>
-				<dependency id="CellSpacePartition" version="2.0"/>
-				<dependency id="CollisionBuddy" version="2.0"/>
-				<dependency id="GameTimer" version="2.0"/>
-				<dependency id="MatrixExtensions" version="2.0"/>
-				<dependency id="PrimitiveBuddy" version="2.0"/>
-				<dependency id="RandomExtensions.dmanning23" version="2.0"/>
-				<dependency id="RectangleF" version="2.0"/>
-				<dependency id="Vector2Extensions" version="2.0"/>
+				<dependency id="CellSpacePartition" version="4.0"/>
+				<dependency id="CollisionBuddy" version="4.0"/>
+				<dependency id="GameTimer" version="4.0"/>
+				<dependency id="MatrixExtensions" version="4.0"/>
+				<dependency id="PrimitiveBuddy" version="4.0"/>
+				<dependency id="RandomExtensions.dmanning23" version="4.0"/>
+				<dependency id="RectangleF" version="4.0"/>
+				<dependency id="Vector2Extensions" version="4.0"/>
 			</group>
 
 			<!--Xamarin.iOS Unified-->
 			<group targetFramework="Xamarin.iOS10">
 				<dependency id="MonoGame.Framework.iOS" version="3.7"/>
-				<dependency id="CellSpacePartition" version="2.0"/>
-				<dependency id="CollisionBuddy" version="2.0"/>
-				<dependency id="GameTimer" version="2.0"/>
-				<dependency id="MatrixExtensions" version="2.0"/>
-				<dependency id="PrimitiveBuddy" version="2.0"/>
-				<dependency id="RandomExtensions.dmanning23" version="2.0"/>
-				<dependency id="RectangleF" version="2.0"/>
-				<dependency id="Vector2Extensions" version="2.0"/>
+				<dependency id="CellSpacePartition" version="4.0"/>
+				<dependency id="CollisionBuddy" version="4.0"/>
+				<dependency id="GameTimer" version="4.0"/>
+				<dependency id="MatrixExtensions" version="4.0"/>
+				<dependency id="PrimitiveBuddy" version="4.0"/>
+				<dependency id="RandomExtensions.dmanning23" version="4.0"/>
+				<dependency id="RectangleF" version="4.0"/>
+				<dependency id="Vector2Extensions" version="4.0"/>
 			</group>
 
-			<group targetFramework="net451">
+			<group targetFramework="net452">
 				<dependency id="MonoGame.Framework.WindowsDX" version="3.7"/>
-				<dependency id="CellSpacePartition" version="2.0"/>
-				<dependency id="CollisionBuddy" version="2.0"/>
-				<dependency id="GameTimer" version="2.0"/>
-				<dependency id="MatrixExtensions" version="2.0"/>
-				<dependency id="PrimitiveBuddy" version="2.0"/>
-				<dependency id="RandomExtensions.dmanning23" version="2.0"/>
-				<dependency id="RectangleF" version="2.0"/>
-				<dependency id="Vector2Extensions" version="2.0"/>
+				<dependency id="CellSpacePartition" version="4.0"/>
+				<dependency id="CollisionBuddy" version="4.0"/>
+				<dependency id="GameTimer" version="4.0"/>
+				<dependency id="MatrixExtensions" version="4.0"/>
+				<dependency id="PrimitiveBuddy" version="4.0"/>
+				<dependency id="RandomExtensions.dmanning23" version="4.0"/>
+				<dependency id="RectangleF" version="4.0"/>
+				<dependency id="Vector2Extensions" version="4.0"/>
 			</group>
 
 		</dependencies>
@@ -66,8 +62,8 @@
 		<file src="FlockBuddy.iOS\bin\Release\FlockBuddy.iOS.dll" target="lib\Xamarin.iOS10\FlockBuddy.iOS.dll" />
 
 		<!--WindowsDX-->
-		<file src="FlockBuddy.WindowsDX\bin\Release\FlockBuddy.WindowsDX.pdb" target="lib\net451\FlockBuddy.WindowsDX.pdb" />
-		<file src="FlockBuddy.WindowsDX\bin\Release\FlockBuddy.WindowsDX.dll" target="lib\net451\FlockBuddy.WindowsDX.dll" />
+		<file src="FlockBuddy.WindowsDX\bin\Release\FlockBuddy.WindowsDX.pdb" target="lib\net452\FlockBuddy.WindowsDX.pdb" />
+		<file src="FlockBuddy.WindowsDX\bin\Release\FlockBuddy.WindowsDX.dll" target="lib\net452\FlockBuddy.WindowsDX.dll" />
 
 	</files>
 </package>

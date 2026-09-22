@@ -376,7 +376,12 @@ namespace FlockBuddy
 
 		public virtual DefaultWalls Walls { get; set; } = BoidDefaults.Walls;
 
-		public List<BehaviorTemplate> Behaviors { get; private set; }
+		/// <summary>
+		/// The behaviors this manager applies to every boid it creates, keyed by type - a flock
+		/// only ever has one active template per BehaviorType, so calling AddBehavior twice for
+		/// the same type retunes it instead of leaving two tracked entries.
+		/// </summary>
+		public Dictionary<BehaviorType, BehaviorTemplate> Behaviors { get; private set; }
 
 		#endregion //Properties
 
@@ -395,14 +400,14 @@ namespace FlockBuddy
 
 		public FlockManager(IFlock flock) : this()
 		{
-			Behaviors = new List<BehaviorTemplate>();
+			Behaviors = new Dictionary<BehaviorType, BehaviorTemplate>();
 			Flock = flock;
 		}
 
 		public FlockManager(IFlockManager flockManager) : this()
 		{
 			Flock = new Flock();
-			Behaviors = new List<BehaviorTemplate>();
+			Behaviors = new Dictionary<BehaviorType, BehaviorTemplate>();
 
 			Id = flockManager.Id;
 			Name = flockManager.Name;
@@ -485,7 +490,9 @@ namespace FlockBuddy
 				BehaviorType = behaviorType,
 				Weight = weight
 			};
-			Behaviors.Add(behavior);
+			//upserts by type, so calling this twice for the same type retunes it instead of
+			//leaving two tracked entries
+			Behaviors[behaviorType] = behavior;
 
 			//go through the existing boids and add the behavior
 			foreach (var mover in Flock.Boids)
@@ -499,7 +506,10 @@ namespace FlockBuddy
 
 		public void SetBehaviorWeight(BehaviorType behaviorType, float weight)
 		{
-			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
+			if (!Behaviors.TryGetValue(behaviorType, out var behavior))
+			{
+				return;
+			}
 			behavior.Weight = weight;
 
 			//go through the existing boids and update the weight
@@ -512,16 +522,15 @@ namespace FlockBuddy
 
 		public void RemoveBehavior(BehaviorType behaviorType)
 		{
-			var behavior = Behaviors.Where(x => x.BehaviorType == behaviorType).First();
-			if (behavior != null)
+			if (!Behaviors.Remove(behaviorType))
 			{
-				Behaviors.Remove(behavior);
+				return;
 			}
 
 			foreach (var mover in Flock.Boids)
 			{
 				var boid = mover as IBoid;
-				boid.RemoveBehavior(behavior.BehaviorType);
+				boid.RemoveBehavior(behaviorType);
 			}
 		}
 
@@ -566,7 +575,7 @@ namespace FlockBuddy
 		protected void InitializeBoidBehaviors(IBoid boid)
 		{
 			//add all the behaviors
-			foreach (var behavior in Behaviors)
+			foreach (var behavior in Behaviors.Values)
 			{
 				boid.AddBehavior(behavior.BehaviorType, behavior.Weight);
 			}
@@ -588,20 +597,17 @@ namespace FlockBuddy
 
 		public bool HasBehavior(BehaviorType behavior)
 		{
-			return Behaviors.Exists(x => x.BehaviorType == behavior);
+			return Behaviors.ContainsKey(behavior);
 		}
 
 		public IEnumerable<BehaviorType> GetAllBehaviors()
 		{
-			return Behaviors.Select(x => x.BehaviorType);
+			return Behaviors.Keys;
 		}
 
 		public float GetBehaviorWeight(BehaviorType behavior)
 		{
-			return Behaviors
-				.Where(x => x.BehaviorType == behavior)
-				.Select(x => x.Weight)
-				.First();
+			return Behaviors[behavior].Weight;
 		}
 
 		#endregion //Methods

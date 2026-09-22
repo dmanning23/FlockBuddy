@@ -33,7 +33,7 @@ any force yet.
 | [GuardAlignment](#guardalignment) | 10 | a VIP | Implemented |
 | [GuardCohesion](#guardcohesion) | 1 | a VIP | Implemented |
 | [Hide](#hide) | 1 | a pursuer + obstacles | **Stub** |
-| [FollowPath](#followpath) | 1 | `Flock.Waypoints` | Implemented, but buggy — see below |
+| [FollowPath](#followpath) | 1 | `Flock.Waypoints` | Implemented |
 
 Defaults live in `FlockBuddy/BoidDefaults.cs` and can always be overridden
 per-behavior: `flockManager.AddBehavior(BehaviorType.Separation, 80f)`.
@@ -161,19 +161,11 @@ and weighted, but currently returns zero force.
 
 ### Interpose
 
-Intended to steer to the midpoint between a `Pursuer` and a `Vip`, so a
-guard/escort boid places itself between an attacker and whoever it's
-protecting: it computes the midpoint of pursuer and VIP, works out how long
-it would take the guard to reach it, and predicts the pursuer's position at
-that time. **Known bug:** the final seek target is computed as
-`(predPos + predPos) / 2`, i.e. the predicted pursuer position averaged
-with itself — the predicted VIP position (`preyPos`) is calculated in a
-commented-out line and never actually used. In practice this makes the
-behavior seek straight at the pursuer's predicted position rather than the
-true pursuer/VIP midpoint. It still pulls a guard toward the threat, just
-not exactly "interpose" as named — worth fixing in
-`FlockBuddy/SteeringBehaviors/Interpose.cs` if you need the real midpoint
-behavior.
+Steers to the midpoint between a `Pursuer` and a `Vip`, so a guard/escort
+boid places itself between an attacker and whoever it's protecting: it
+computes the midpoint of pursuer and VIP, works out how long it would take
+the guard to reach it, predicts both the pursuer's and the VIP's position at
+that time, and seeks the midpoint of those two predicted positions.
 
 ### Hide — **stub**
 
@@ -216,9 +208,10 @@ a guard flock along with its VIP as it moves.
 
 Casts three "feelers" (whiskers) from the boid — one straight ahead, one
 angled left, one angled right, all scaled by `WallQueryRadius` — and tests
-each against every line segment in `Flock.Walls`. If a feeler crosses a
-wall, it adds a force in the wall's normal direction, scaled by how far the
-feeler overshoots the wall. This is the highest-priority behavior by
+each against every line segment in `Flock.Walls`. If a feeler crosses one or
+more walls, it reacts only to the closest intersection on that feeler,
+adding a force in that wall's normal direction, scaled by how far the
+feeler overshoots it. This is the highest-priority behavior by
 default (`WallAvoidanceWeight = 50`, and first in `Prioritized` order) so
 boids reliably stay inside bounds even while flocking. See
 [Advanced Topics](advanced-topics.md#walls) for how to create walls.
@@ -238,22 +231,13 @@ have to be boids.
 
 ### FollowPath
 
-Intended to walk a boid through `Flock.Waypoints` in order: seek the
-current waypoint until it's within `WaypointQueryRadius`, then advance to
-the next one. **Known bug:** the advance check is inverted — it moves to
-the next waypoint whenever it is **not** yet within `WaypointQueryRadius`
-of the current one (`FlockBuddy/SteeringBehaviors/FollowPath.cs`, the `>=`
-should be `<`), and this check runs every frame, not just on the retarget
-cycle. In practice that means a boid starting more than
-`WaypointQueryRadius` away from waypoint 0 (the normal case) advances its
-target waypoint on essentially every frame regardless of whether it's
-actually gotten there, racing through the whole list in a handful of
-frames and then producing zero force — it does not reliably visit any
-waypoint in the middle of the path. Until this is fixed upstream, don't
-rely on `FollowPath` to visit intermediate waypoints; a single-target
-`Seek` you re-aim yourself once each leg is reached is a safer substitute.
-See [Advanced Topics](advanced-topics.md#waypoint-paths) for how paths are
-wired up regardless.
+Walks a boid through `Flock.Waypoints` in order: seeks the current waypoint
+until it's within `WaypointQueryRadius`, then advances to the next one. Note
+that the arrival check runs every frame, not just on the retarget cycle, so
+a boid can advance mid-frame the instant it enters range rather than waiting
+for the next retarget tick. See
+[Advanced Topics](advanced-topics.md#waypoint-paths) for how paths are wired
+up.
 
 ---
 

@@ -59,7 +59,7 @@ namespace FlockBuddy.Tests
 		public void Constructor_BoidMinSpeed()
 		{
 			var boid = manager.AddBoid(Vector2.Zero, Vector2.UnitX);
-			boid.Mass.ShouldBe(test.BoidMass);
+			boid.MinSpeed.ShouldBe(test.BoidMinSpeed);
 		}
 
 		[Test]

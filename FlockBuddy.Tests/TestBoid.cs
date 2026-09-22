@@ -2,6 +2,7 @@
 using GameTimer;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FlockBuddy.Tests
 {
@@ -76,7 +77,18 @@ namespace FlockBuddy.Tests
 
 		public List<IBehavior> GetBehaviors()
 		{
-			return Behaviors;
+			return Behaviors.Values.ToList();
 		}
+
+		public void CallGetForces()
+		{
+			GetForces();
+		}
+
+		public Vector2 TotalForce => _totalForce;
+
+		public Vector2 DirectionForce => _directionForce;
+
+		public Vector2 SpeedForce => _speedForce;
 	}
 }

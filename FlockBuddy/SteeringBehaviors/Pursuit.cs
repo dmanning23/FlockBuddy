@@ -80,14 +80,15 @@ namespace FlockBuddy.SteeringBehaviors
 				 (relativeHeading < -0.95f)))  //acos(0.95)=18 degs
 			{
 				SeekAction.TargetPosition = Prey.Position;
-				return SeekAction.GetSteering();
+				return SeekAction.GetSteering() * Weight;
 			}
 
 			//Not considered ahead so we predict where the evader will be.
 
-			//the lookahead time is propotional to the distance between the evader and the pursuer; 
+			//the lookahead time is propotional to the distance between the evader and the pursuer;
 			//and is inversely proportional to the sum of the agent's velocities
-			float lookAheadTime = toEvader.Length() / (Owner.MaxSpeed + Prey.Speed);
+			float combinedSpeed = Owner.MaxSpeed + Prey.Speed;
+			float lookAheadTime = (combinedSpeed > 0.0f) ? (toEvader.Length() / combinedSpeed) : 0.0f;
 
 			//now seek to the predicted future position of the evader
 			SeekAction.TargetPosition = Prey.Position + (Prey.Velocity * lookAheadTime);

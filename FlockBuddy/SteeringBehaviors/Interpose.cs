@@ -71,10 +71,10 @@ namespace FlockBuddy.SteeringBehaviors
 
 			//get the position of pred and prey after timeToMid
 			var predPos = Pursuer.Position + (Pursuer.Velocity * timeToMidPoint);
-			//var preyPos = Vip.Position + (Vip.Velocity * timeToMidPoint);
+			var preyPos = Vip.Position + (Vip.Velocity * timeToMidPoint);
 
 			//calc the midpoint of those preditced positions
-			_seek.TargetPosition = (predPos + predPos) / 2f;
+			_seek.TargetPosition = (predPos + preyPos) / 2f;
 
 			return _seek.GetSteering() * Weight;
 		}

@@ -197,40 +197,32 @@ namespace FlockBuddy.Tests
 
 		#region Color Tests
 
-		[Ignore("Static variable breaks this test")]
+		/// <summary>
+		/// DebugColor is assigned round-robin from a fixed ten-color palette via a *static* counter
+		/// shared by every FlockManager in the process, so its absolute starting color depends on how
+		/// many managers other tests happened to construct first - not something a single test can
+		/// pin down (hence the previous three tests here being permanently [Ignore]d). What IS
+		/// order-independent: any ten FlockManagers constructed back-to-back get ten distinct colors
+		/// (one full trip around the palette), and the eleventh always matches the first.
+		/// </summary>
 		[Test]
-		public void DebugColors()
+		public void DebugColor_CyclesThroughTenDistinctColors_ThenRepeats()
 		{
-			var manager = new FlockManager(new Flock());
+			var colors = new List<Color>();
+			for (int i = 0; i < 11; i++)
+			{
+				colors.Add(new FlockManager(new Flock()).DebugColor);
+			}
 
-			Assert.AreEqual(Color.Red, manager.DebugColor);
-		}
-
-		[Ignore("Static variable breaks this test")]
-		[Test]
-		public void DebugColors2()
-		{
-			var manager = new FlockManager(new Flock());
-			var manager2 = new FlockManager(new Flock());
-			
-			Assert.AreEqual(Color.Orange, manager2.DebugColor);
-		}
-
-		[Ignore("Static variable breaks this test")]
-		[Test]
-		public void DebugColors3()
-		{
-			var manager = new FlockManager(new Flock());
-			var manager2 = new FlockManager(new Flock());
-
-			Assert.AreEqual(Color.Red, manager.DebugColor);
-			Assert.AreEqual(Color.Orange, manager2.DebugColor);
+			colors.Take(10).Distinct().Count().ShouldBe(10);
+			colors[10].ShouldBe(colors[0]);
 		}
 
 		#endregion //Color Tests
 
 		#region Boid Tests
 
+		[Test]
 		public void Boid_BoidMass()
 		{
 			var manager = new FlockManager(test);

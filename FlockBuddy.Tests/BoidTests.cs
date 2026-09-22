@@ -205,6 +205,7 @@ namespace FlockBuddy.Tests
 
 		#region Add Behavior
 
+		[Test]
 		public void DefaultBehaviors()
 		{
 			var boid = new TestBoid(_flock, Vector2.UnitX, 1f, Vector2.UnitY, -1f);

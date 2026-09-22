@@ -69,15 +69,12 @@ that behavior. Pass an explicit weight as a second argument to override it:
 flockManager.AddBehavior(BehaviorType.Separation, 80f);
 ```
 
-> **Gotcha:** call `AddBehavior` for a given `BehaviorType` **once**. Each
-> individual `Boid` dedupes its own behavior list, so calling it again just
-> updates the live weight on every boid — but `FlockManager.AddBehavior`
-> itself does *not* dedupe its own bookkeeping list, so calling it twice for
-> the same type leaves two tracked entries for it. That's mostly harmless
-> day-to-day, but `RemoveBehavior` only removes one entry per call (so
-> you'd need to call it twice to fully clear a doubly-added behavior). To
-> retune an already-added behavior's weight, call
-> `SetBehaviorWeight(BehaviorType, float)` instead of `AddBehavior` again.
+> **Note:** both `FlockManager` and each individual `Boid` keep their
+> behavior lists keyed by `BehaviorType`, so calling `AddBehavior` again for
+> a type you've already added doesn't create a duplicate — it just retunes
+> the live weight on every boid. You can also call
+> `SetBehaviorWeight(BehaviorType, float)` directly if you just want to
+> retune an already-added behavior without going through `AddBehavior`.
 
 Use `RemoveBehavior(BehaviorType)` to turn a behavior off, and
 `HasBehavior` / `GetAllBehaviors` / `GetBehaviorWeight` to inspect the

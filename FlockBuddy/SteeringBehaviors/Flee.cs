@@ -67,7 +67,13 @@ namespace FlockBuddy.SteeringBehaviors
 				return Vector2.Zero;
 			}
 
-			Vector2 desiredVelocity = Vector2.Normalize(Owner.Position - AvoidPosition) * Owner.MaxSpeed;
+			Vector2 desiredVelocity = Owner.Position - AvoidPosition;
+			if (desiredVelocity.LengthSquared() > 0.0f)
+			{
+				desiredVelocity.Normalize();
+				desiredVelocity *= Owner.MaxSpeed;
+			}
+
 			return (desiredVelocity - Owner.Velocity) * Weight;
 		}
 

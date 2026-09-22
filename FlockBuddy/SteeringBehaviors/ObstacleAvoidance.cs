@@ -115,13 +115,18 @@ namespace FlockBuddy.SteeringBehaviors
 			if (null != closestIntersectingObstacle)
 			{
 				Vector2 toAgent = Owner.Position - closestIntersectingObstacle.Position;
-				toAgent.Normalize();
+				if (toAgent.LengthSquared() > 0.0f)
+				{
+					toAgent.Normalize();
+				}
 
 				//get the distance to the edge of the obstacle
 				Vector2 dist = (toAgent * closestIntersectingObstacle.Radius) - localPosOfClosestObstacle;
 
 				//scale the force inversely proportional to the agents distance from the collision point
-				float multiplier = 1.0f + (Owner.ObstacleQueryRadius - dist.X) / Owner.ObstacleQueryRadius;
+				float multiplier = (Owner.ObstacleQueryRadius > 0.0f)
+					? 1.0f + (Owner.ObstacleQueryRadius - dist.X) / Owner.ObstacleQueryRadius
+					: 1.0f;
 				steeringForce = toAgent * multiplier;
 			}
 

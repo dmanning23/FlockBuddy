@@ -76,6 +76,13 @@ namespace FlockBuddy.SteeringBehaviors
 			//examine each feeler in turn
 			for (int i = 0; i < Feelers.Count; i++)
 			{
+				//find only the closest wall this feeler intersects - a feeler that crosses
+				//more than one wall (e.g. a corner) should react to the nearest one, not all of them
+				bool foundIntersection = false;
+				float closestDist = float.MaxValue;
+				Vector2 closestPoint = Vector2.Zero;
+				int closestWall = -1;
+
 				//run through each wall checking for any intersection points
 				for (int j = 0; j < Walls.Count; j++)
 				{
@@ -84,14 +91,23 @@ namespace FlockBuddy.SteeringBehaviors
 										   Walls[j].Start,
 										   Walls[j].End,
 										   ref distToThisIP,
-										   ref point))
+										   ref point) &&
+						(distToThisIP < closestDist))
 					{
-						//calculate by what distance the projected position of the agent will overshoot the wall
-						var overShoot = Feelers[i] - point;
-
-						//create a force in the direction of the wall normal, with a magnitude of the overshoot
-						steeringForce += Walls[j].Normal * overShoot.Length();
+						foundIntersection = true;
+						closestDist = distToThisIP;
+						closestPoint = point;
+						closestWall = j;
 					}
+				}
+
+				if (foundIntersection)
+				{
+					//calculate by what distance the projected position of the agent will overshoot the wall
+					var overShoot = Feelers[i] - closestPoint;
+
+					//create a force in the direction of the wall normal, with a magnitude of the overshoot
+					steeringForce += Walls[closestWall].Normal * overShoot.Length();
 				}
 			}
 

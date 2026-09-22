@@ -74,14 +74,6 @@ boid passes the last waypoint, `FollowPath` contributes no further force
 `flock.Waypoints` again, or append the first point to the end of the list,
 if you want a loop).
 
-> **Known bug:** as shipped, the waypoint-advance check in
-> `FollowPath.GetSteering()` is inverted, so a boid advances to the next
-> waypoint on essentially every frame it *hasn't yet reached* the current
-> one, rather than after it has. In practice this makes a boid race through
-> the whole waypoint list in a few frames instead of actually following it.
-> See [Steering Behaviors → FollowPath](behaviors.md#followpath) for
-> details and a workaround.
-
 ## Predator, prey, and VIP relationships
 
 Pursuit/evasion/guard behaviors operate *between flocks*, not within one.
@@ -156,7 +148,7 @@ non-null:
 using CellSpacePartitionLib;
 
 flock.CellSpace = new CellSpacePartition<IMover>(
-    worldWidth, worldHeight, numCellsX, numCellsY, maxEntitiesPerQuery);
+    new Vector2(worldWidth, worldHeight), numCellsX, numCellsY, maxEntitiesPerQuery);
 ```
 
 Once assigned, `Flock.Update` keeps each boid's cell membership current

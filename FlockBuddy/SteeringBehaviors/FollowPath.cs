@@ -79,7 +79,7 @@ namespace FlockBuddy.SteeringBehaviors
 			var targetVect = Path[CurrentWaypoint] - Owner.Position;
 
 			//move at the next target if we've reached this one
-			if (targetVect.LengthSquared() >= (Owner.WaypointQueryRadius * Owner.WaypointQueryRadius))
+			if (targetVect.LengthSquared() < (Owner.WaypointQueryRadius * Owner.WaypointQueryRadius))
 			{
 				CurrentWaypoint++;
 			}

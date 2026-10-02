@@ -13,19 +13,5 @@ namespace FlockBuddy.Interfaces
         float Speed { get; }
 
         Vector2 Velocity { get; }
-
-        void Draw(IPrimitive prim, Color color);
-
-        void DrawVelocity(IPrimitive prim, Color color);
-
-        void DrawSpeedForce(IPrimitive prim, Color color);
-
-        void DrawTotalForce(IPrimitive prim, Color color);
-
-        void DrawWallFeelers(IPrimitive prim, Color color);
-
-        void DrawNeigborQuery(IPrimitive prim, Color color);
-
-        void DrawPursuitQuery(IPrimitive prim);
     }
 }

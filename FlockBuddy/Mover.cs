@@ -110,55 +110,6 @@ namespace FlockBuddy
             Heading = rotationMatrix.Multiply(Heading);
         }
 
-        #region drawing
-
-        /// <summary>
-        /// Draw the bounding circle and heading of this boid
-        /// </summary>
-        /// <param name="prim"></param>
-        /// <param name="color"></param>
-        public virtual void Draw(IPrimitive prim, Color color)
-        {
-            DrawPhysics(prim, color);
-            prim.Line(Position, Position + (Radius * Heading), color);
-        }
-
-        /// <summary>
-        /// draw the current velocity
-        /// </summary>
-        /// <param name="prim"></param>
-        /// <param name="color"></param>
-        public virtual void DrawVelocity(IPrimitive prim, Color color)
-        {
-            prim.Line(Position, Position + Velocity, color);
-        }
-
-        public virtual void DrawSpeedForce(IPrimitive prim, Color color)
-        {
-        }
-
-        public virtual void DrawTotalForce(IPrimitive prim, Color color)
-        {
-        }
-
-        public virtual void DrawWallFeelers(IPrimitive prim, Color color)
-        {
-        }
-
-        /// <summary>
-        /// Draw the detection circle and point out all the neighbors
-        /// </summary>
-        /// <param name="curTime"></param>
-        public virtual void DrawNeigborQuery(IPrimitive prim, Color color)
-        {
-        }
-
-        public virtual void DrawPursuitQuery(IPrimitive prim)
-        {
-        }
-
-        #endregion //drawing
-
         #endregion //Methods
     }
 }

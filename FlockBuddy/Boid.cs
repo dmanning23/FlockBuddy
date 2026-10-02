@@ -19,13 +19,28 @@ namespace FlockBuddy
     {
         #region Members
 
+        protected Vector2 _totalForce = Vector2.Zero;
         //protected (rather than private) so TestBoid can inspect the combined steering force after
         //a GetForces() call, the same way RotateHeading/UpdateSpeed/GetSpeedChange are exposed below
-        protected Vector2 _totalForce = Vector2.Zero;
+        public Vector2 TotalForce
+        {
+            get { return _totalForce; }
+            private set { _totalForce = value; }
+        }
 
         protected Vector2 _directionForce = Vector2.Zero;
+        public Vector2 DirectionForce
+        {
+            get { return _directionForce; }
+            private set { _directionForce = value; }
+        }
 
         protected Vector2 _speedForce = Vector2.Zero;
+        public Vector2 SpeedForce
+        {
+            get { return _speedForce; }
+            private set { _speedForce = value; }
+        }
 
         /// <summary>
         /// a vector perpendicular to the heading vector
@@ -41,7 +56,7 @@ namespace FlockBuddy
         /// given BehaviorType active at a time, and SortedDictionary keeps them in BehaviorType's
         /// declared (priority) order for free, which SummingMethod.Prioritized depends on.
         /// </summary>
-        protected SortedDictionary<BehaviorType, IBehavior> Behaviors { get; set; }
+        public SortedDictionary<BehaviorType, IBehavior> Behaviors { get; protected set; }
 
         /// <summary>
         /// How to add up all the steering behaviors
@@ -752,79 +767,5 @@ namespace FlockBuddy
         }
 
         #endregion //Methods
-
-        #region Drawing
-
-        /// <summary>
-        /// Draw the detection circle and point out all the neighbors
-        /// </summary>
-        /// <param name="curTime"></param>
-        public override void DrawNeigborQuery(IPrimitive prim, Color color)
-        {
-            ////draw the query cells
-            //MyFlock.CellSpace.RenderCellIntersections(prim, Position, QueryRadius, Color.Green);
-
-            ////get the query rectangle
-            //var queryRect = CellSpacePartition<Boid>.CreateQueryBox(Position, QueryRadius);
-            //prim.Rectangle(queryRect, Color.White);
-
-            //get the query circle
-            prim.Circle(Position, NeighborsQueryRadius, color);
-
-            ////draw the neighbor dudes
-            //List<IMover> neighbors = MyFlock.FindNeighbors(this, QueryRadius);
-            //foreach (var neighbor in neighbors)
-            //{
-            //	prim.Circle(neighbor.Position, neighbor.Radius, Color.Red);
-            //}
-        }
-
-        public override void DrawPursuitQuery(IPrimitive prim)
-        {
-            Behaviors.TryGetValue(BehaviorType.Pursuit, out var pursuitBehavior);
-            var pursuit = pursuitBehavior as Pursuit;
-
-            if (null != pursuit && pursuit.Prey != null)
-            {
-                prim.Circle(Position, PreyQueryRadius, Color.Red);
-            }
-            else
-            {
-                prim.Circle(Position, PreyQueryRadius, Color.White);
-            }
-        }
-
-        public override void DrawTotalForce(IPrimitive prim, Color color)
-        {
-            //draw the force being applied
-            prim.Line(Position, Position + _totalForce, color);
-        }
-
-        public override void DrawWallFeelers(IPrimitive prim, Color color)
-        {
-            //get the wall avoidance steering behavior
-            Behaviors.TryGetValue(BehaviorType.WallAvoidance, out var behav);
-
-            //draw all the whiskers
-            var wallAvoidance = behav as IWallBehavior;
-            if (null != wallAvoidance)
-            {
-                foreach (var whisker in wallAvoidance.Feelers)
-                {
-                    prim.Line(Position, whisker, color);
-                }
-            }
-        }
-
-        public override void DrawSpeedForce(IPrimitive prim, Color color)
-        {
-            //draw a circle at the MaxForce line
-            //prim.Circle(Position, MaxForce, color);
-
-            //draw the speed force being applied
-            prim.Line(Position, Position + _speedForce, color);
-        }
-
-        #endregion //Drawing
     }
 }

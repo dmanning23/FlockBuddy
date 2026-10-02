@@ -1,15 +1,17 @@
 using CellSpacePartitionLib;
+using PrimitiveBuddy;
+using Microsoft.Xna.Framework;
 
 namespace FlockBuddy.Interfaces
 {
-	/// <summary>
-	/// Base class to define a common interface for all game entities
-	/// </summary>
-	public interface IBaseEntity : IMovingEntity
-	{
-		/// <summary>
-		/// the length of this object's bounding radius
-		/// </summary>
-		float Radius { get; set; }
-	}
+    /// <summary>
+    /// Base class to define a common interface for all game entities
+    /// </summary>
+    public interface IBaseEntity : IMovingEntity
+    {
+        /// <summary>
+        /// the length of this object's bounding radius
+        /// </summary>
+        float Radius { get; set; }
+    }
 }
